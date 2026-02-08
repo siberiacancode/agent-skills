@@ -1,7 +1,7 @@
 ---
 name: Utils Name Here
 category: State
-impact: AUTO
+usage: high | medium | low
 ---
 
 ## Utils name
@@ -12,7 +12,7 @@ A short, one-line description of what the hook does.
 
 Describe the basic import and the minimal usage example. If the utils supports alternative inputs or overloads (like tuple values or options), show a second short example.
 
-## Example in a Component
+## Example
 
 Provide a concise component example that demonstrates a real UI use case and how the hook’s return values are used in JSX.
 

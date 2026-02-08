@@ -1,7 +1,7 @@
 ---
 name: useToggle
 category: State
-impact: AUTO
+usage: high
 ---
 
 # useToggle
@@ -53,5 +53,5 @@ export const UserTypeToggle = () => {
 ```ts
 export type ToggleFn = (value?: boolean) => void;
 export type UseToggleReturn = [boolean, ToggleFn];
-export declare function useToggle(initialValue?: boolean): UseToggleReturn;
+export declare const useToggle: (initialValue?: boolean): UseToggleReturn;
 ```
