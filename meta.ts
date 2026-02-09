@@ -8,8 +8,8 @@ export interface VendorSkillMeta {
  * Repositories to clone as submodules and generate skills from source
  */
 export const submodules = {
-  react: "https://github.com/facebook/react",
-  next: "https://github.com/vercel/next.js",
+  react: "https://github.com/facebook/react/tree/main/packages/react",
+  next: "https://github.com/vercel/next.js/tree/canary/packages/next",
   vite: "https://github.com/vitejs/vite",
   reactuse: "https://github.com/siberiacancode/reactuse",
   pnpm: "https://github.com/pnpm/pnpm.io",

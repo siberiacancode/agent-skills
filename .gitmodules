@@ -1,18 +1,15 @@
 [submodule "sources/react"]
 	path = sources/react
-	url = https://github.com/facebook/react
-[submodule "sources/next"]
-	path = sources/next
-	url = https://github.com/vercel/next.js
-[submodule "sources/pnpm"]
-	path = sources/pnpm
-	url = https://github.com/pnpm/pnpm.io
+	url = https://github.com/facebook/react/tree/main/packages/react
 [submodule "sources/vite"]
 	path = sources/vite
 	url = https://github.com/vitejs/vite
 [submodule "sources/reactuse"]
 	path = sources/reactuse
 	url = https://github.com/siberiacancode/reactuse
+[submodule "sources/pnpm"]
+	path = sources/pnpm
+	url = https://github.com/pnpm/pnpm.io
 [submodule "sources/tsdown"]
 	path = sources/tsdown
 	url = https://github.com/rolldown/tsdown
