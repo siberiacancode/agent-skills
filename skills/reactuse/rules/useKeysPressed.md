@@ -13,9 +13,9 @@ Tracks all currently pressed keys.
 ```ts
 import { useKeysPressed } from "@siberiacancode/reactuse";
 
-const keys = useKeysPressed<HTMLDivElement>();
+const keysPressed = useKeysPressed<HTMLDivElement>();
 // or
-const keys = useKeysPressed(ref, { enabled: true });
+const keysPressed = useKeysPressed(ref, { enabled: true });
 ```
 
 ## Example
@@ -24,11 +24,11 @@ const keys = useKeysPressed(ref, { enabled: true });
 import { useKeysPressed } from "@siberiacancode/reactuse";
 
 export const KeysPanel = () => {
-  const keys = useKeysPressed<HTMLDivElement>();
+  const keysPressed = useKeysPressed<HTMLDivElement>();
 
   return (
-    <div ref={keys.ref}>
-      {keys.map((item) => item.key).join(", ") || "None"}
+    <div ref={keysPressed.ref}>
+      {keysPressed.map((item) => item.key).join(", ") || "None"}
     </div>
   );
 };
@@ -39,7 +39,7 @@ export const KeysPanel = () => {
 Toggle tracking.
 
 ```tsx
-const keys = useKeysPressed<HTMLDivElement>({ enabled: false });
+const keysPressed = useKeysPressed<HTMLDivElement>({ enabled: false });
 ```
 
 ## Type Declarations
@@ -51,15 +51,17 @@ import type { StateRef } from "@siberiacancode/reactuse";
 export interface UseKeysPressedOptions {
   enabled?: boolean;
 }
+export interface UseKeysPressedReturn {
+  value: Array<{ key: string; code: string }>;
+}
 export interface UseKeysPressed {
-  (target: HookTarget | Window, options?: UseKeysPressedOptions): Array<{
-    key: string;
-    code: string;
-  }>;
+  (
+    target: HookTarget | Window,
+    options?: UseKeysPressedOptions
+  ): UseKeysPressedReturn;
   <Target extends Element>(options?: UseKeysPressedOptions): {
-    value: Array<{ key: string; code: string }>;
     ref: StateRef<Target>;
-  };
+  } & UseKeysPressedReturn;
 }
 export declare const useKeysPressed: UseKeysPressed;
 ```

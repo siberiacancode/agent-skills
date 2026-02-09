@@ -1,0 +1,18 @@
+{
+  "private": true,
+  "scripts": {
+    "lint": "eslint .",
+    "start": "node --experimental-strip-types scripts/cli.ts",
+    "prepare": "git submodule update --init --recursive"
+  },
+  "devDependencies": {
+    "@clack/prompts": "^0.11.0",
+    "@types/node": "^25.0.10",
+    "eslint": "^9.39.2",
+    "lint-staged": "^15.5.1",
+    "typescript": "^5.9.3"
+  },
+  "lint-staged": {
+    "*.{js,ts,mjs,mts}": "eslint --fix"
+  }
+}

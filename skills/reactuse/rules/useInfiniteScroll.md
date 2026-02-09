@@ -70,17 +70,20 @@ export interface UseInfiniteScrollOptions {
   direction?: "bottom" | "left" | "right" | "top";
   distance?: number;
 }
+export interface UseInfiniteScrollReturn {
+  loading: boolean;
+}
 export interface UseInfiniteScroll {
   (
     target: HookTarget,
     callback: (event: Event) => void,
     options?: UseInfiniteScrollOptions
-  ): boolean;
+  ): UseInfiniteScrollReturn;
   <Target extends Element>(
     callback: (event: Event) => void,
     options?: UseInfiniteScrollOptions,
     target?: never
-  ): { ref: StateRef<Target>; loading: boolean };
+  ): { ref: StateRef<Target> } & UseInfiniteScrollReturn;
 }
 export declare const useInfiniteScroll: UseInfiniteScroll;
 ```

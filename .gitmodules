@@ -1,0 +1,27 @@
+[submodule "sources/react"]
+	path = sources/react
+	url = https://github.com/facebook/react
+[submodule "sources/next"]
+	path = sources/next
+	url = https://github.com/vercel/next.js
+[submodule "sources/pnpm"]
+	path = sources/pnpm
+	url = https://github.com/pnpm/pnpm.io
+[submodule "sources/vite"]
+	path = sources/vite
+	url = https://github.com/vitejs/vite
+[submodule "sources/reactuse"]
+	path = sources/reactuse
+	url = https://github.com/siberiacancode/reactuse
+[submodule "sources/tsdown"]
+	path = sources/tsdown
+	url = https://github.com/rolldown/tsdown
+[submodule "sources/vitest"]
+	path = sources/vitest
+	url = https://github.com/vitest-dev/vitest
+[submodule "vendor/react-best-practices"]
+	path = vendor/react-best-practices
+	url = https://github.com/vercel-labs/agent-skills
+[submodule "vendor/web-design-guidelines"]
+	path = vendor/web-design-guidelines
+	url = https://github.com/vercel-labs/agent-skills

@@ -45,14 +45,16 @@ import type { StateRef } from "@siberiacancode/reactuse";
 export type UseActiveElementReturn<
   ActiveElement extends HTMLElement = HTMLElement
 > = ActiveElement | null;
+export interface UseActiveElementReturn {
+  value: ActiveElement | null;
+}
 export interface UseActiveElement {
   (): UseActiveElementReturn;
   <Target extends Element, ActiveElement extends HTMLElement = HTMLElement>(
     target?: never
   ): {
     ref: StateRef<Target>;
-    value: UseActiveElementReturn<ActiveElement>;
-  };
+  } & UseActiveElementReturn<ActiveElement>;
   <ActiveElement extends HTMLElement = HTMLElement>(
     target: HookTarget
   ): UseActiveElementReturn<ActiveElement>;

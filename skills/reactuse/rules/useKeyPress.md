@@ -13,7 +13,7 @@ Tracks whether specific keys are pressed.
 ```ts
 import { useKeyPress } from "@siberiacancode/reactuse";
 
-const pressed = useKeyPress<HTMLDivElement>("a");
+const keyPress = useKeyPress<HTMLDivElement>("a");
 // or
 const keyPress = useKeyPress(ref, "a");
 ```
@@ -49,17 +49,20 @@ export type UseKeyPressCallback = (
   pressed: boolean,
   event: KeyboardEvent
 ) => void;
+export interface UseKeyPressReturn {
+  pressed: boolean;
+}
 export interface UseKeyPress {
   (
     target: HookTarget | Window,
     key: UseKeyPressKey,
     callback?: UseKeyPressCallback
-  ): boolean;
+  ): UseKeyPressReturn;
   <Target extends Element>(
     key: UseKeyPressKey,
     callback?: UseKeyPressCallback,
     target?: never
-  ): { pressed: boolean; ref: StateRef<Target> };
+  ): { ref: StateRef<Target> } & UseKeyPressReturn;
 }
 export declare const useKeyPress: UseKeyPress;
 ```

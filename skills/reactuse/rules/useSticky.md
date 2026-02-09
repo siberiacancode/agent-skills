@@ -15,7 +15,7 @@ import { useSticky } from "@siberiacancode/reactuse";
 
 const sticky = useSticky<HTMLDivElement>();
 // or
-useSticky(ref, { axis: "vertical" });
+const sticky = useSticky(ref, { axis: "vertical" });
 ```
 
 ## Example

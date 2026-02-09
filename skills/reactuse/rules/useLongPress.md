@@ -13,11 +13,11 @@ Detects long press interactions.
 ```ts
 import { useLongPress } from "@siberiacancode/reactuse";
 
-const pressed = useLongPress<HTMLButtonElement>(() =>
+const longPress = useLongPress<HTMLButtonElement>(() =>
   console.log("long press")
 );
 // or
-const pressed = useLongPress(ref, () => console.log("long press"));
+const longPress = useLongPress(ref, () => console.log("long press"));
 ```
 
 ## Example
@@ -26,11 +26,11 @@ const pressed = useLongPress(ref, () => console.log("long press"));
 import { useLongPress } from "@siberiacancode/reactuse";
 
 export const HoldButton = () => {
-  const press = useLongPress<HTMLButtonElement>(() =>
+  const longPress = useLongPress<HTMLButtonElement>(() =>
     console.log("long press")
   );
 
-  return <button ref={press.ref}>Hold</button>;
+  return <button ref={longPress.ref}>Hold</button>;
 };
 ```
 
@@ -39,7 +39,7 @@ export const HoldButton = () => {
 Press duration.
 
 ```tsx
-const ref = useLongPress<HTMLButtonElement>(() => {}, { threshold: 600 });
+const longPress = useLongPress<HTMLButtonElement>(() => {}, { threshold: 600 });
 ```
 
 `onStart`:
@@ -47,7 +47,7 @@ const ref = useLongPress<HTMLButtonElement>(() => {}, { threshold: 600 });
 Press start.
 
 ```tsx
-const ref = useLongPress<HTMLButtonElement>(() => {}, {
+const longPress = useLongPress<HTMLButtonElement>(() => {}, {
   onStart: () => console.log("start"),
 });
 ```
@@ -57,7 +57,7 @@ const ref = useLongPress<HTMLButtonElement>(() => {}, {
 Press finish.
 
 ```tsx
-const ref = useLongPress<HTMLButtonElement>(() => {}, {
+const longPress = useLongPress<HTMLButtonElement>(() => {}, {
   onFinish: () => console.log("finish"),
 });
 ```
@@ -67,7 +67,7 @@ const ref = useLongPress<HTMLButtonElement>(() => {}, {
 Press cancel.
 
 ```tsx
-const ref = useLongPress<HTMLButtonElement>(() => {}, {
+const longPress = useLongPress<HTMLButtonElement>(() => {}, {
   onCancel: () => console.log("cancel"),
 });
 ```
@@ -85,17 +85,20 @@ export interface UseLongPressOptions {
   onFinish?: (event: LongPressEvents) => void;
   onStart?: (event: LongPressEvents) => void;
 }
+export interface UseLongPressReturn {
+  pressed: boolean;
+}
 export interface UseLongPress {
   (
     target: HookTarget,
     callback: (event: LongPressEvents) => void,
     options?: UseLongPressOptions
-  ): boolean;
+  ): UseLongPressReturn;
   <Target extends Element>(
     callback: (event: LongPressEvents) => void,
     options?: UseLongPressOptions,
     target?: never
-  ): { ref: StateRef<Target>; pressed: boolean };
+  ): { ref: StateRef<Target> } & UseLongPressReturn;
 }
 export declare const useLongPress: UseLongPress;
 ```

@@ -13,7 +13,9 @@ Calls a callback when clicking outside the target element.
 ```ts
 import { useClickOutside } from "@siberiacancode/reactuse";
 
-const ref = useClickOutside<HTMLDivElement>(() => console.log("outside"));
+const clickOutside = useClickOutside<HTMLDivElement>(() =>
+  console.log("outside")
+);
 // or
 useClickOutside(ref, () => console.log("outside"));
 ```
@@ -22,11 +24,11 @@ useClickOutside(ref, () => console.log("outside"));
 
 ```tsx
 const [open, setOpen] = useState(true);
-const ref = useClickOutside<HTMLDivElement>(() => setOpen(false));
+const clickOutside = useClickOutside<HTMLDivElement>(() => setOpen(false));
 
 if (!open) return <button onClick={() => setOpen(true)}>Open</button>;
 
-return <div ref={ref}>Modal</div>;
+return <div ref={clickOutside.ref}>Modal</div>;
 ```
 
 ## Type Declarations
@@ -37,10 +39,9 @@ import type { StateRef } from "@siberiacancode/reactuse";
 
 export interface UseClickOutside {
   (target: HookTarget, callback: (event: Event) => void): void;
-  <Target extends Element>(
-    callback: (event: Event) => void,
-    target?: never
-  ): StateRef<Target>;
+  <Target extends Element>(callback: (event: Event) => void, target?: never): {
+    ref: StateRef<Target>;
+  };
 }
 export declare const useClickOutside: UseClickOutside;
 ```

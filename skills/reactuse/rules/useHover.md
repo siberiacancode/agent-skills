@@ -65,9 +65,12 @@ export interface UseHoverOptions {
 export interface UseHoverReturn {
   value: boolean;
 }
+export interface UseHoverReturn {
+  value: boolean;
+}
 export interface UseHover {
-  (target: HookTarget, callback?: (event: Event) => void): boolean;
-  (target: HookTarget, options?: UseHoverOptions): boolean;
+  (target: HookTarget, callback?: (event: Event) => void): UseHoverReturn;
+  (target: HookTarget, options?: UseHoverOptions): UseHoverReturn;
   <Target extends Element>(callback?: (event: Event) => void, target?: never): {
     ref: StateRef<Target>;
   } & UseHoverReturn;

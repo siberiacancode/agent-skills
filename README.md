@@ -27,7 +27,7 @@ Reactuse delivers production-ready hooks that solve real-world problems. Built w
 ## Installation
 
 ```bash
-npx add-skill siberiacancode/agent-skills
+npx skills add siberiacancode/agent-skills
 ```
 
 ## Usage

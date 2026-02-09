@@ -13,7 +13,9 @@ Detects double-clicks with optional single-click handler.
 ```ts
 import { useDoubleClick } from "@siberiacancode/reactuse";
 
-const ref = useDoubleClick<HTMLButtonElement>(() => console.log("double"));
+const doubleClick = useDoubleClick<HTMLButtonElement>(() =>
+  console.log("double")
+);
 // or
 useDoubleClick(ref, () => console.log("double"));
 ```
@@ -24,11 +26,14 @@ useDoubleClick(ref, () => console.log("double"));
 import { useDoubleClick } from "@siberiacancode/reactuse";
 
 export const LikeButton = () => {
-  const ref = useDoubleClick<HTMLButtonElement>(() => console.log("double"), {
-    onSingleClick: () => console.log("single"),
-  });
+  const doubleClick = useDoubleClick<HTMLButtonElement>(
+    () => console.log("double"),
+    {
+      onSingleClick: () => console.log("single"),
+    }
+  );
 
-  return <button ref={ref}>Like</button>;
+  return <button ref={doubleClick.ref}>Like</button>;
 };
 ```
 
@@ -37,7 +42,9 @@ export const LikeButton = () => {
 Max time between clicks.
 
 ```tsx
-const ref = useDoubleClick<HTMLButtonElement>(() => {}, { threshold: 400 });
+const doubleClick = useDoubleClick<HTMLButtonElement>(() => {}, {
+  threshold: 400,
+});
 ```
 
 `onSingleClick`:
@@ -45,7 +52,7 @@ const ref = useDoubleClick<HTMLButtonElement>(() => {}, { threshold: 400 });
 Single-click handler.
 
 ```tsx
-const ref = useDoubleClick<HTMLButtonElement>(() => {}, {
+const doubleClick = useDoubleClick<HTMLButtonElement>(() => {}, {
   onSingleClick: () => console.log("single"),
 });
 ```
@@ -66,12 +73,12 @@ export interface UseDoubleClick {
     target: HookTarget,
     callback: (event: DoubleClickEvents) => void,
     options?: UseDoubleClickOptions
-  ): boolean;
+  ): void;
   <Target extends Element>(
     callback: (event: DoubleClickEvents) => void,
     options?: UseDoubleClickOptions,
     target?: never
-  ): StateRef<Target>;
+  ): { ref: StateRef<Target> };
 }
 export declare const useDoubleClick: UseDoubleClick;
 ```
