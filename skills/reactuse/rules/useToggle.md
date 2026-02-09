@@ -24,16 +24,8 @@ import { useToggle } from "@siberiacancode/reactuse";
 export const Toggle = () => {
   const [value, toggle] = useToggle();
 
-  return <button onClick={toggle}>{String(value)}</button>;
+  return <button onClick={() => toggle()}>{String(value)}</button>;
 };
-```
-
-Note: the toggle function accepts an optional override value. Avoid passing it directly to event handlers, because React will pass the event object as the first argument. Wrap it instead:
-
-```tsx
-<button onClick={toggle} />
-
-<button onClick={() => toggle(false)} />
 ```
 
 Example in a component with array toggle:
@@ -42,9 +34,9 @@ Example in a component with array toggle:
 import { useToggle } from "@siberiacancode/reactuse";
 
 export const UserTypeToggle = () => {
-  const [type, toggleType] = useToggle(["user", "admin"] as const);
+  const [type, toggle] = useToggle(["user", "admin"] as const);
 
-  return <button onClick={() => toggleType()}>Current: {userType}</button>;
+  return <button onClick={() => toggle()}>Current: {userType}</button>;
 };
 ```
 

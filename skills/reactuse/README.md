@@ -1,57 +1,72 @@
-# Reactuse Best Practices
+# Reactuse
 
-A structured repository for creating and maintaining React and Next.js best practices optimized for agents and LLMs, tailored to SiberiaCanCode projects.
+**Version 1.0.0**  
+Siberiacancode  
+January 2026
 
-## Context: Reactuse Library
+This repository contains Reactuse guidance for agents and LLMs. It is optimized for automated code generation, refactoring, and consistency in React and Next.js projects.
 
-Reactuse is a TypeScript-first hook library with SSR compatibility and tree-shaking optimization. It provides production-ready hooks for modern React apps, and serves as a practical reference for patterns used in this skill. For library usage and installation, see the official introduction. 
+## Abstract
+
+Reactuse is a TypeScript-first hook library with SSR compatibility and tree-shaking optimization. This repository documents hooks and helper utilities for agents and LLMs, with clear usage guidance and practical examples to keep React and Next.js code consistent.
+
+## Sections
+
+The rules are organized into the following sections (as in `_sections.md`):
+
+1. Helpers
+2. Elements
+3. Async
+4. Lifecycle
+5. Browser
+6. Utilities
+7. State
+8. User
+9. Sensors
+10. Time
+11. Debug
 
 ## Structure
 
-- `rules/` - Individual rule files (one per rule)
+- `rules/` - Individual rule files (one per hook/helper)
   - `_sections.md` - Section metadata (titles, impacts, descriptions)
   - `_template.md` - Template for creating new rules
-  - `area-description.md` - Individual rule files
-- `src/` - Build scripts and utilities
+  - `useSomething.md` - Individual rule files
 - `metadata.json` - Document metadata (version, organization, abstract)
-- __`AGENTS.md`__ - Compiled output (generated)
-- __`test-cases.json`__ - Test cases for LLM evaluation (generated)
+- **`AGENTS.md`** - Compiled output (generated)
+- **`test-cases.json`** - Test cases for LLM evaluation (generated)
 
 ## Getting Started
 
 1. Install dependencies:
+
    ```bash
    pnpm install
    ```
 
 2. Build AGENTS.md from rules:
+
    ```bash
    pnpm build
    ```
 
 3. Validate rule files:
+
    ```bash
    pnpm validate
    ```
 
 4. Extract test cases:
+
    ```bash
    pnpm extract-tests
    ```
 
 ## Creating a New Rule
 
-1. Copy `rules/_template.md` to `rules/area-description.md`
-2. Choose the appropriate area prefix:
-   - `async-` for Eliminating Waterfalls (Section 1)
-   - `bundle-` for Bundle Size Optimization (Section 2)
-   - `server-` for Server-Side Performance (Section 3)
-   - `client-` for Client-Side Data Fetching (Section 4)
-   - `rerender-` for Re-render Optimization (Section 5)
-   - `rendering-` for Rendering Performance (Section 6)
-   - `js-` for JavaScript Performance (Section 7)
-   - `advanced-` for Advanced Patterns (Section 8)
-3. Fill in the frontmatter and content
+1. Copy `rules/_template.md` to `rules/useSomething.md`
+2. Set `name`, `category`, and `usage` in the frontmatter
+3. Follow the template structure (Usage, Example, Use cases, Notes, Type Declarations)
 4. Ensure you have clear examples with explanations
 5. Run `pnpm build` to regenerate AGENTS.md and test-cases.json
 
@@ -61,48 +76,42 @@ Each rule file should follow this structure:
 
 ```markdown
 ---
-title: Rule Title Here
-impact: MEDIUM
-impactDescription: Optional description
-tags: tag1, tag2, tag3
+name: useSomething
+category: State
+usage: high | medium | low
 ---
 
-## Rule Title Here
+## useSomething
 
-Brief explanation of the rule and why it matters.
+A short, one-line description of what the hook does.
 
-**Incorrect (description of what's wrong):**
+## Usage
 
-```typescript
-// Bad code example
+Describe the basic import and minimal usage example. Show destructured return values even if the hook returns a full object.
+
+## Example
+
+Provide a concise component example that demonstrates a real UI use case.
+
+## Use cases
+
+List 2-4 practical UI scenarios where the hook is useful.
+
+## Notes
+
+List important caveats and edge cases.
+
+## Type Declarations
+
+Summarize key public types and the main function signature.
 ```
-
-**Correct (description of what's right):**
-
-```typescript
-// Good code example
-```
-
-Optional explanatory text after examples.
-
-Reference: [Link](https://example.com)
 
 ## File Naming Convention
 
 - Files starting with `_` are special (excluded from build)
-- Rule files: `area-description.md` (e.g., `async-parallel.md`)
-- Section is automatically inferred from filename prefix
-- Rules are sorted alphabetically by title within each section
-- IDs (e.g., 1.1, 1.2) are auto-generated during build
-
-## Impact Levels
-
-- `CRITICAL` - Highest priority, major performance gains
-- `HIGH` - Significant performance improvements
-- `MEDIUM-HIGH` - Moderate-high gains
-- `MEDIUM` - Moderate performance improvements
-- `LOW-MEDIUM` - Low-medium gains
-- `LOW` - Incremental improvements
+- Rule files: `useSomething.md` (e.g., `use-hover.md`)
+- Section is inferred from the `category` frontmatter
+- Rules are sorted alphabetically by name within each section
 
 ## Scripts
 
@@ -115,13 +124,12 @@ Reference: [Link](https://example.com)
 
 When adding or modifying rules:
 
-1. Use the correct filename prefix for your section
+1. Use a clear hook/helper filename (`useSomething.md`)
 2. Follow the `_template.md` structure
-3. Include clear bad/good examples with explanations
-4. Add appropriate tags
-5. Run `pnpm build` to regenerate AGENTS.md and test-cases.json
-6. Rules are automatically sorted by title - no need to manage numbers!
+3. Include clear examples with explanations
+4. Run `pnpm build` to regenerate AGENTS.md and test-cases.json
+5. Rules are automatically sorted by name - no need to manage numbers!
 
 ## Acknowledgments
 
-Inspired by public React performance guidance and community best practices.
+Inspired by public React hook libraries and community best practices.

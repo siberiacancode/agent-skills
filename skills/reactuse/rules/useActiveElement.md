@@ -13,29 +13,27 @@ Tracks the currently focused element.
 ```ts
 import { useActiveElement } from "@siberiacancode/reactuse";
 
-const { ref, value } = useActiveElement<HTMLDivElement>();
+const activeElement = useActiveElement<HTMLDivElement>();
 // or
 const activeElement = useActiveElement(ref);
 ```
 
-## Example in a Component
+## Example
 
 ```tsx
-import { useActiveElement } from "@siberiacancode/reactuse";
+const activeElement = useActiveElement<HTMLDivElement>();
 
-export const ActiveElementInfo = () => {
-  const activeElement = useActiveElement<HTMLDivElement>();
-
-  return (
-    <>
-      <div ref={activeElement.ref}>
-        <input placeholder="Name" />
-        <input placeholder="Email" />
-      </div>
-      <p>Active element: {activeElement.value?.tagName ?? "none"}</p>
-    </>
-  );
-};
+return (
+  <>
+    <div ref={activeElement.ref}>
+      <input data-id="name" placeholder="Name" />
+      <input data-id="email" placeholder="Email" />
+    </div>
+    <p>
+      Active element: {activeElement.value?.getAttribute("data-id") ?? "none"}
+    </p>
+  </>
+);
 ```
 
 ## Type Declarations

@@ -13,7 +13,7 @@ Tracks loading, error, and data state for a promise-returning callback.
 ```ts
 import { useAsync } from "@siberiacancode/reactuse";
 
-const { data, isLoading, isError, error } = useAsync(
+const userAsync = useAsync(
   () => fetch("/api/user").then((res) => res.json()),
   []
 );
@@ -22,24 +22,15 @@ const { data, isLoading, isError, error } = useAsync(
 ## Example
 
 ```tsx
-import { useAsync } from "@siberiacancode/reactuse";
+const userAsync = useAsync<User>(
+  () => fetch(`/api/me`).then((res) => res.json()),
+  []
+);
 
-interface User {
-  id: number;
-  name: string;
-}
+if (userAsync.isLoading || !userAsync.data) return <p>Loading...</p>;
+if (userAsync.isError) return <p>Failed to load user.</p>;
 
-export const Layout = () => {
-  const { data, isLoading, isError } = useAsync<User>(
-    () => fetch(`/api/me`).then((res) => res.json()),
-    []
-  );
-
-  if (userAsync.isLoading || !userAsync.data) return <p>Loading...</p>;
-  if (userAsync.isError) return <p>Failed to load user.</p>;
-
-  return <div>User: {userAsync.data.name}</div>;
-};
+return <div>User: {userAsync.data.name}</div>;
 ```
 
 ## Type Declarations

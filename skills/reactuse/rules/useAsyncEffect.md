@@ -21,16 +21,12 @@ useAsyncEffect(async () => {
 ## Example
 
 ```tsx
-import { useAsyncEffect } from "@siberiacancode/reactuse";
+useAsyncEffect(async () => {
+  const response = await fetch("/api/me").then((response) => response.json());
+  console.log(response.data);
+}, [message.id]);
 
-export const App = () => {
-  useAsyncEffect(async () => {
-    const response = await fetch("/api/me").then((response) => response.json());
-    console.log(response.data);
-  }, [message.id]);
-
-  //...
-};
+//...
 ```
 
 ## Type Declarations
