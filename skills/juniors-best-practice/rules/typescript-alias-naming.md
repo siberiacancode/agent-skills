@@ -1,3 +1,9 @@
+---
+title: TypeScript path alias naming
+impact: MEDIUM
+tags: typescript, config, imports
+---
+
 # TypeScript path alias naming
 
 When configuring TypeScript path mapping, avoid names that can conflict with existing libraries. Popular names like `@{module}` can collide with npm packages and cause unexpected resolution issues.

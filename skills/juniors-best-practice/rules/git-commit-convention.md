@@ -1,3 +1,9 @@
+---
+title: Commit conventions
+impact: LOW
+tags: git, workflow, commits
+---
+
 # Commit conventions
 
 Commits are a team agreement. A consistent format makes history predictable, reviews faster, and planning easier. When everyone writes commit messages in one style, it is simpler to understand context and communicate changes.

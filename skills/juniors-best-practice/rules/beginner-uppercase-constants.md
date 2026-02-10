@@ -1,3 +1,9 @@
+---
+title: Uppercase constants
+impact: MEDIUM
+tags: beginner, naming, constants
+---
+
 # Uppercase constants
 
 UPPER_CASE helps visually distinguish values that are constant at the application level: configuration, keys, base URLs, timeouts, enum-like dictionaries. For computed values and temporary variables, use lowerCamelCase.

@@ -1,3 +1,9 @@
+---
+title: Children prop
+impact: MEDIUM
+tags: react, props, composition
+---
+
 # Children prop
 
 When building React components, we often need to pass content into them. React provides the `children` prop for this, allowing any content between the opening and closing tags. This makes components more flexible and reusable.

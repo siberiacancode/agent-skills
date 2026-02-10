@@ -1,3 +1,9 @@
+---
+title: CSS selectors for component states
+impact: MEDIUM
+tags: styling, css, accessibility
+---
+
 # CSS selectors for component states
 
 Most component states (disabled, hover, focus, loading) should be handled via CSS selectors. This keeps code simpler, more performant, and accessible. It also avoids extra classes or JavaScript handlers for state styling.

@@ -1,3 +1,9 @@
+---
+title: React string props
+impact: MEDIUM
+tags: react, jsx, props
+---
+
 # React string props
 
 React props are flexible and let us compute values. When passing a plain string, JSX does not need curly braces:

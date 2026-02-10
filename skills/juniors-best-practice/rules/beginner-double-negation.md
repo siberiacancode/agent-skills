@@ -1,3 +1,9 @@
+---
+title: Avoid double negation
+impact: HIGH
+tags: beginner, readability, javascript
+---
+
 # Avoid double negation
 
 Sometimes variables are named with a negative and then negated in conditions. This creates double negation and is hard to read.

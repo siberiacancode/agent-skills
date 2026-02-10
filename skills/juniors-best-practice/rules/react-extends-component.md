@@ -1,3 +1,9 @@
+---
+title: Scalable components
+impact: MEDIUM
+tags: react, props, components
+---
+
 # Scalable components
 
 When building React components, extend HTML element props to inherit all native attributes. This keeps components flexible and easy to scale:

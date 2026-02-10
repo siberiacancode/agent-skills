@@ -1,3 +1,9 @@
+---
+title: Sorting imports
+impact: MEDIUM
+tags: devtools, imports, formatting
+---
+
 # Sorting imports
 
 Consistent import ordering improves navigation and reduces merge conflicts. When imports follow a common structure, it is easier to find dependencies and understand module boundaries.

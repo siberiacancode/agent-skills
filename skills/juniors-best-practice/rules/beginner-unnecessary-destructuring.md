@@ -1,3 +1,9 @@
+---
+title: Avoid unnecessary destructuring
+impact: HIGH
+tags: beginner, readability, javascript
+---
+
 # Avoid unnecessary destructuring
 
 Developers often destructure values when it is not needed. This can create renaming friction and make the code harder to follow.

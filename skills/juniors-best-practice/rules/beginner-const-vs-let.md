@@ -1,3 +1,9 @@
+---
+title: const vs let
+impact: MEDIUM
+tags: beginner, variables, readability
+---
+
 # const vs let
 
 Use `const` by default. It makes immutability explicit, protects against accidental reassignment, and makes code easier to read. Switch to `let` only when the variable actually changes, usually inside loops.

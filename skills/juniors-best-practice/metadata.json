@@ -1,0 +1,11 @@
+{
+  "version": "1.0.0",
+  "organization": "siberiacancode",
+  "date": "February 2026",
+  "abstract": "Juniors-focused best practices for React and TypeScript projects, organized by practical scopes (TypeScript, React, styling, devtools, and more). Each guide includes concise guidance and examples that help early-career developers write clear, consistent, and maintainable code.",
+  "references": [
+    "https://react.dev",
+    "https://nextjs.org",
+    "https://reactuse.org"
+  ]
+}

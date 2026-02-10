@@ -1,3 +1,9 @@
+---
+title: Early return
+impact: HIGH
+tags: beginner, readability, javascript
+---
+
 # Early return
 
 We often need to check several conditions before running the main logic. Deep nesting makes code harder to read:

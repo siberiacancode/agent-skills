@@ -1,3 +1,9 @@
+---
+title: ?? vs ||
+impact: MEDIUM
+tags: beginner, operators, defaults
+---
+
 # ?? vs ||
 
 When setting default values we often use `||`, but it can produce unexpected results. JavaScript provides a more precise operator, `??` (nullish coalescing), which only treats `null` and `undefined` as missing:

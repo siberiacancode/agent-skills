@@ -1,3 +1,9 @@
+---
+title: SVG assets
+impact: LOW-MEDIUM
+tags: assets, svg, icons
+---
+
 # SVG assets
 
 When using SVGs in web apps, treating them as images causes scaling issues and limits CSS control. That often increases the number of SVG variants:

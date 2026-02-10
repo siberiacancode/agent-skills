@@ -1,3 +1,9 @@
+---
+title: Avoid unnecessary return in arrow functions
+impact: MEDIUM
+tags: beginner, functions, readability
+---
+
 # Avoid unnecessary return in arrow functions
 
 Arrow functions with a single expression do not need braces or `return`:

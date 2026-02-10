@@ -1,3 +1,9 @@
+---
+title: Formatter and linter
+impact: MEDIUM
+tags: devtools, linting, formatting
+---
+
 # Formatter and linter
 
 A **formatter** and a **linter** are tools that automatically maintain code quality and consistency. A formatter handles code appearance (indentation, line breaks, quotes). A linter catches logical issues, unused variables, and rule violations.

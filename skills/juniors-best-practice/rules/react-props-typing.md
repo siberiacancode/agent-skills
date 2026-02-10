@@ -1,3 +1,9 @@
+---
+title: Props typing
+impact: MEDIUM
+tags: react, types, props
+---
+
 # Props typing
 
 A simple, readable way to type React props is to define a `Props` type nearby and use it in the component signature: `props: Props`.
