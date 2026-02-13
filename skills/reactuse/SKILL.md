@@ -230,6 +230,7 @@ IMPORTANT: Each hook entry includes a short `Description` and a detailed `Refere
 | Hook         | Description                                                | Invocation |
 | ------------ | ---------------------------------------------------------- | ---------- |
 | useInterval  | Creates an interval with controls to pause and resume it.  | HIGH       |
+| useProgress  | Creates progress state with auto-incrementing controls.    | MEDIUM     |
 | useStopwatch | Creates a stopwatch with start, pause, and reset controls. | HIGH       |
 | useTime      | Provides the current time split into multiple fields.      | MEDIUM     |
 | useTimeout   | Runs a callback after a delay and returns a `ready` flag.  | MEDIUM     |
