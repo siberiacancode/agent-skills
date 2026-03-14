@@ -14,6 +14,8 @@ Manages input state, validation, and helpers.
 import { useField } from "@siberiacancode/reactuse";
 
 const field = useField();
+// or with initial value and options
+const field = useField("", { validateOnBlur: true });
 ```
 
 ## Example
@@ -22,118 +24,67 @@ const field = useField();
 import { useField } from "@siberiacancode/reactuse";
 
 export const EmailField = () => {
-  const inputField = useField({ initialValue: "" });
+  const field = useField("", { validateOnBlur: true });
 
-  return <input {...inputField.register()} />;
+  return (
+    <form
+      onSubmit={(e) => {
+        e.preventDefault();
+        console.log(field.getValue());
+      }}
+    >
+      <input {...field.register({ required: "Required" })} />
+      {field.error && <span>{field.error}</span>}
+      <button type="submit">Submit</button>
+    </form>
+  );
 };
 ```
 
-`initialValue`:
-
-```tsx
-const field = useField({ initialValue: "" });
-```
-
-`initialTouched`:
-
-```tsx
-const field = useField({ initialTouched: true });
-```
-
-`autoFocus`:
-
-```tsx
-const field = useField({ autoFocus: true });
-```
-
-`validateOnChange`:
-
-```tsx
-const field = useField({ validateOnChange: true });
-```
-
-`validateOnBlur`:
-
-```tsx
-const field = useField({ validateOnBlur: true });
-```
-
-`validateOnMount`:
-
-```tsx
-const field = useField({ validateOnMount: true });
-```
-
-`register.required`:
+`initialValue` (first argument):
 
 ```tsx
 const field = useField();
-return <input {...field.register({ required: "Required" })} />;
+const fieldNum = useField(0);
+const fieldChecked = useField(false);
 ```
 
-`register.validate`:
+`initialTouched`, `autoFocus`, `validateOnChange`, `validateOnBlur`, `validateOnMount` (second argument):
+
+```tsx
+const field = useField("", {
+  initialTouched: true,
+  autoFocus: true,
+  validateOnBlur: true,
+});
+```
+
+`register.required`, `register.validate`, `register.max`, `register.maxLength`, `register.min`, `register.minLength`, `register.pattern`:
 
 ```tsx
 const field = useField();
 return (
   <input
     {...field.register({
-      validate: (value) => (value ? true : "Invalid"),
+      required: "Required",
+      minLength: { value: 3, message: "Too short" },
     })}
   />
 );
 ```
 
-`register.max`:
+**Reactivity.** By default the hook does not re-render on input — only internal state and flags like `dirty`/`touched`/`error` update. To render the current value in JSX (e.g. character count), subscribe via `watch()`: call it once per render (e.g. `const value = field.watch()`), then the component will re-render when the field changes. Without `watch()` use `getValue()` for one-off reads (e.g. on submit).
+
+If you do need to show the value in the UI:
 
 ```tsx
 const field = useField();
+const value = field.watch();
 return (
-  <input {...field.register({ max: { value: 10, message: "Too big" } })} />
-);
-```
-
-`register.maxLength`:
-
-```tsx
-const field = useField();
-return (
-  <input
-    {...field.register({ maxLength: { value: 10, message: "Too long" } })}
-  />
-);
-```
-
-`register.min`:
-
-```tsx
-const field = useField();
-return (
-  <input {...field.register({ min: { value: 1, message: "Too small" } })} />
-);
-```
-
-`register.minLength`:
-
-```tsx
-const field = useField();
-return (
-  <input
-    {...field.register({ minLength: { value: 3, message: "Too short" } })}
-  />
-);
-```
-
-`register.pattern`:
-
-```tsx
-const field = useField();
-return (
-  <input
-    {...field.register({
-      pattern: { value: /^[a-z]+$/, message: "Only lowercase" },
-    })}
-  />
+  <div>
+    <input {...field.register()} />
+    <span>Characters: {String(value).length}</span>
+  </div>
 );
 ```
 
@@ -142,22 +93,21 @@ return (
 ```ts
 import type { RefObject } from "react";
 
-export interface UseFieldParams<Value> {
+export interface UseFieldOptions {
   autoFocus?: boolean;
   initialTouched?: boolean;
-  initialValue?: Value;
   validateOnBlur?: boolean;
   validateOnChange?: boolean;
   validateOnMount?: boolean;
 }
 export interface UseFieldRegisterParams {
-  required?: string;
-  validate?: (value: string) => Promise<string | true>;
   max?: { value: number; message: string };
   maxLength?: { value: number; message: string };
   min?: { value: number; message: string };
   minLength?: { value: number; message: string };
   pattern?: { value: RegExp; message: string };
+  required?: string;
+  validate?: (value: string) => Promise<string | true>;
 }
 export interface UseFieldReturn<Value> {
   dirty: boolean;
@@ -194,6 +144,7 @@ export declare const useField: <
     ? boolean
     : number
 >(
-  params?: UseFieldParams<Value>
+  initialValue: Value = "" as Value,
+  options?: UseFieldOptions
 ) => UseFieldReturn<Type>;
 ```

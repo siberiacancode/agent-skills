@@ -21,27 +21,20 @@ const scroll = useScroll(ref);
 ## Example
 
 ```tsx
-const scroll = useScroll<HTMLDivElement>();
+const scroll = useScroll<HTMLDivElement>({
+  onScroll: ({ arrived, y }) => {
+    if (arrived.bottom) console.log("reached bottom");
+  },
+});
 return (
   <div ref={scroll.ref}>
-    {scroll.arrived.bottom ? "Bottom" : `y: ${scroll.y}`}
+    <button onClick={() => scroll.scrollTo({ x: 0, y: 0 })}>Top</button>
+    <button onClick={() => scroll.scrollIntoView({ block: "end" })}>To end</button>
   </div>
 );
 ```
 
-`onScroll`:
-
-Scroll callback.
-
-```tsx
-const scroll = useScroll<HTMLDivElement>({
-  onScroll: ({ x, y }) => console.log(x, y),
-});
-```
-
 `onStop`:
-
-Stop callback.
 
 ```tsx
 const scroll = useScroll<HTMLDivElement>({
@@ -49,36 +42,25 @@ const scroll = useScroll<HTMLDivElement>({
 });
 ```
 
-`offset.left`:
-
-Left offset.
+`offset`:
 
 ```tsx
-const scroll = useScroll<HTMLDivElement>({ offset: { left: 10 } });
+const scroll = useScroll<HTMLDivElement>({ offset: { left: 10, top: 10 } });
 ```
 
-`offset.right`:
+**Reactivity.** By default the hook does not re-render on scroll — only `snapshot` in a ref and `onScroll` are updated. To render scroll state in JSX and react to changes, subscribe via `watch()`: call it once per render (e.g. `const state = scroll.watch()`), then the component will re-render on scroll and `state` will stay in sync.
 
-Right offset.
-
-```tsx
-const scroll = useScroll<HTMLDivElement>({ offset: { right: 10 } });
-```
-
-`offset.top`:
-
-Top offset.
+If you do need to show scroll position in the UI:
 
 ```tsx
-const scroll = useScroll<HTMLDivElement>({ offset: { top: 10 } });
-```
+const scroll = useScroll<HTMLDivElement>();
+const state = scroll.watch();
 
-`offset.bottom`:
-
-Bottom offset.
-
-```tsx
-const scroll = useScroll<HTMLDivElement>({ offset: { bottom: 10 } });
+return (
+  <div ref={scroll.ref}>
+    Scroll: {state.y}px · {state.arrived.bottom ? "Bottom" : "scrolling"}
+  </div>
+);
 ```
 
 ## Type Declarations
@@ -88,18 +70,16 @@ import type { HookTarget } from "@siberiacancode/reactuse";
 import type { StateRef } from "@siberiacancode/reactuse";
 
 export interface UseScrollOptions {
-  onScroll?: (params: UseScrollCallbackParams, event: Event) => void;
-  onStop?: (event: Event) => void;
   offset?: {
     left?: number;
     right?: number;
     top?: number;
     bottom?: number;
   };
+  onScroll?: (params: UseScrollCallbackParams, event: Event) => void;
+  onStop?: (event: Event) => void;
 }
 export interface UseScrollCallbackParams {
-  x: number;
-  y: number;
   arrived: {
     left: boolean;
     right: boolean;
@@ -112,6 +92,8 @@ export interface UseScrollCallbackParams {
     top: boolean;
     bottom: boolean;
   };
+  x: number;
+  y: number;
 }
 export interface ScrollIntoViewParams {
   behavior?: ScrollBehavior;
@@ -124,16 +106,17 @@ export interface ScrollToParams {
   y: number;
 }
 export interface UseScrollReturn {
-  scrolling: boolean;
+  snapshot: UseScrollCallbackParams;
   scrollIntoView: (params?: ScrollIntoViewParams) => void;
   scrollTo: (params?: ScrollToParams) => void;
+  watch: () => UseScrollCallbackParams;
 }
 export interface UseScroll {
   (
     target?: HookTarget,
     callback?: (params: UseScrollCallbackParams, event: Event) => void
   ): UseScrollReturn;
-  (target?: HookTarget, options?: UseScrollOptions): UseScrollReturn;
+  (target: HookTarget, options?: UseScrollOptions): UseScrollReturn;
   <Target extends Element>(
     callback?: (params: UseScrollCallbackParams, event: Event) => void,
     target?: never
