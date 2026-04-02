@@ -22,6 +22,7 @@ A juniors-focused set of React and TypeScript best practices, organized by scope
    - `devtools-` for Devtools
    - `assets-` for Assets
    - `git-` for Git
+   - `rest-` for REST API architecture
 3. Fill in the AI frontmatter and the guide content
 4. Include concise examples where they help understanding
 

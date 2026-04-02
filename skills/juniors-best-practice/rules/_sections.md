@@ -39,3 +39,8 @@ The section ID (in parentheses) is the filename prefix used to group rules.
 
 **Impact:** LOW  
 **Description:** Team conventions that improve history clarity and collaboration.
+
+## 8. REST (rest)
+
+**Impact:** MEDIUM  
+**Description:** REST client conventions for scalable abstractions and naming consistency with OpenAPI contracts.

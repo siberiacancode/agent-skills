@@ -14,6 +14,7 @@ Juniors-focused best practices for React and TypeScript projects. The rules are 
 ## When to Apply
 
 Reference these guidelines when:
+
 - Writing or reviewing React/TypeScript code for clarity and consistency
 - Teaching junior developers or establishing baseline team conventions
 - Refactoring code to align with simple, maintainable patterns
@@ -21,19 +22,21 @@ Reference these guidelines when:
 
 ## Rule Categories by Priority
 
-| Priority | Category | Impact | Prefix |
-|----------|----------|--------|--------|
-| 1 | Beginner Foundations | HIGH | `beginner-` |
-| 2 | TypeScript | MEDIUM | `typescript-` |
-| 3 | React | MEDIUM | `react-` |
-| 4 | Styling | MEDIUM | `styling-` |
-| 5 | Devtools | MEDIUM | `devtools-` |
-| 6 | Assets | LOW-MEDIUM | `assets-` |
-| 7 | Git | LOW | `git-` |
+| Priority | Category             | Impact     | Prefix        |
+| -------- | -------------------- | ---------- | ------------- |
+| 1        | Beginner Foundations | HIGH       | `beginner-`   |
+| 2        | TypeScript           | MEDIUM     | `typescript-` |
+| 3        | React                | MEDIUM     | `react-`      |
+| 4        | Styling              | MEDIUM     | `styling-`    |
+| 5        | Devtools             | MEDIUM     | `devtools-`   |
+| 6        | Assets               | LOW-MEDIUM | `assets-`     |
+| 7        | Git                  | LOW        | `git-`        |
+| 8        | REST                 | MEDIUM     | `rest-`       |
 
 ## Quick Reference
 
 ### 1. Beginner Foundations (HIGH)
+
 - `beginner-early-return` - Prefer early returns to reduce nesting
 - `beginner-double-negation` - Avoid `!isNotX` patterns
 - `beginner-unnecessary-destructuring` - Keep objects intact for clarity
@@ -43,28 +46,40 @@ Reference these guidelines when:
 - `beginner-uppercase-constants` - Use UPPER_CASE only for stable constants
 
 ### 2. TypeScript (MEDIUM)
+
 - `typescript-alias-naming` - Use safe path alias prefixes
+- `typescript-flat-translations` - Prefer flat translation keys to reduce duplication
 
 ### 3. React (MEDIUM)
+
 - `react-string-props` - Use string literals when possible
 - `react-children-prop` - Use children for composition
 - `react-extends-component` - Extend native element props
 - `react-props-typing` - Keep props typing readable
 
 ### 4. Styling (MEDIUM)
+
 - `styling-classnames-function` - Use clsx for conditional classes
 - `styling-css-states` - Prefer CSS selectors for component states
 
 ### 5. Devtools (MEDIUM)
+
 - `devtools-formatter-linter` - Use formatter and linter
 - `devtools-sorting-imports` - Keep imports ordered and grouped
 - `devtools-package-manager-lock` - Use a single package manager
 
 ### 6. Assets (LOW-MEDIUM)
+
 - `assets-svg-files` - Use SVGs as components
 
 ### 7. Git (LOW)
+
 - `git-commit-convention` - Use consistent commit conventions
+
+### 8. REST (MEDIUM)
+
+- `rest-scalability-abstractions` - Build REST layer around reusable transport abstractions
+- `rest-naming-openapi` - Keep REST naming aligned with OpenAPI contracts
 
 ## How to Use
 
@@ -76,6 +91,7 @@ rules/react-props-typing.md
 ```
 
 Each rule file contains:
+
 - Brief explanation of why it matters
 - Incorrect code example with explanation
 - Correct code example with explanation

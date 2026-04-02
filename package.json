@@ -6,11 +6,10 @@
     "prepare": "git submodule update --init --recursive"
   },
   "devDependencies": {
-    "@clack/prompts": "^0.11.0",
-    "@types/node": "^25.0.10",
-    "eslint": "^9.39.2",
-    "lint-staged": "^15.5.1",
-    "typescript": "^5.9.3"
+    "@clack/prompts": "^1.2.0",
+    "@types/node": "^25.5.0",
+    "lint-staged": "^16.4.0",
+    "typescript": "^6.0.2"
   },
   "lint-staged": {
     "*.{js,ts,mjs,mts}": "eslint --fix"

@@ -1,7 +1,7 @@
 export interface VendorSkillMeta {
   official?: boolean;
   source: string;
-  skills: Record<string, string>; // sourceSkillName -> outputSkillName
+  skills: Record<string, string>;
 }
 
 /**
@@ -15,6 +15,7 @@ export const submodules = {
   pnpm: "https://github.com/pnpm/pnpm.io",
   tsdown: "https://github.com/rolldown/tsdown",
   vitest: "https://github.com/vitest-dev/vitest",
+  "juniors-guides": "https://github.com/siberiacancode/juniors-bootcamp-portal",
 };
 
 /**

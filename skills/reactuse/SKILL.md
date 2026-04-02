@@ -1,6 +1,6 @@
 ---
 name: reactuse
-description: Reactuse delivers production-ready hooks that solve real-world problems. Built with a TypeScript-first approach, SSR compatibility, and tree-shaking optimization for modern React applications.
+description: Practical playbook for React teams to choose and apply reactuse hooks across state, async flows, browser APIs, and UI interactions. Use it when replacing custom hook logic with production-ready patterns that stay compatible with SSR and Next.js.
 license: MIT
 metadata:
   author: siberiacancode

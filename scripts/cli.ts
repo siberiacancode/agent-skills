@@ -73,7 +73,7 @@ interface Project {
 
 interface VendorConfig {
   source: string;
-  skills: Record<string, string>; // sourceSkillName -> outputSkillName
+  skills: Record<string, string>;
 }
 
 async function initSubmodules(skipPrompt = false) {
@@ -134,8 +134,6 @@ async function initSubmodules(skipPrompt = false) {
 
   const existingProjects = allProjects.filter((p) => submoduleExists(p.path));
   const newProjects = allProjects.filter((p) => !submoduleExists(p.path));
-  console.log("newProjects", newProjects);
-  console.log("existingProjects", existingProjects);
 
   if (!newProjects.length) {
     p.log.info("All submodules already initialized");

@@ -26,6 +26,7 @@ Juniors-focused best practices for React and TypeScript projects, organized by p
 2. [TypeScript](#2-typescript)
 
    - 2.1 [TypeScript path alias naming](#21-typescript-path-alias-naming)
+   - 2.2 [Flat translation keys](#22-flat-translation-keys)
 
 3. [React](#3-react)
 
@@ -50,7 +51,12 @@ Juniors-focused best practices for React and TypeScript projects, organized by p
    - 6.1 [SVG assets](#61-svg-assets)
 
 7. [Git](#7-git)
+
    - 7.1 [Commit conventions](#71-commit-conventions)
+
+8. [REST](#8-rest)
+   - 8.1 [REST scalability via abstractions](#81-rest-scalability-via-abstractions)
+   - 8.2 [REST naming from OpenAPI](#82-rest-naming-from-openapi)
 
 ---
 
@@ -89,6 +95,10 @@ Use UPPER_CASE only for stable, application-level constants.
 ### 2.1 TypeScript path alias naming
 
 Use aliases that avoid collisions with external packages.
+
+### 2.2 Flat translation keys
+
+Prefer flat translation keys to avoid deep nesting, reduce duplication, and simplify lookup in locale files.
 
 ## 3. React
 
@@ -143,3 +153,13 @@ Use SVGs as components for scalable, themeable icons.
 ### 7.1 Commit conventions
 
 Use a consistent commit message format across the team.
+
+## 8. REST
+
+### 8.1 REST scalability via abstractions
+
+Separate transport logic from endpoint definitions so API clients stay reusable and scalable.
+
+### 8.2 REST naming from OpenAPI
+
+Keep model and operation naming aligned with OpenAPI (`operationId` and schema names) to avoid duplicate contracts.

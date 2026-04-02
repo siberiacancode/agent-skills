@@ -7,6 +7,9 @@
 [submodule "sources/reactuse"]
 	path = sources/reactuse
 	url = https://github.com/siberiacancode/reactuse
+[submodule "sources/juniors-guides"]
+	path = sources/juniors-guides
+	url = https://github.com/siberiacancode/juniors-bootcamp-portal
 [submodule "sources/pnpm"]
 	path = sources/pnpm
 	url = https://github.com/pnpm/pnpm.io

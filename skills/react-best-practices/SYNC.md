@@ -1,5 +1,5 @@
 # Sync Info
 
 - **Source:** `vendor/react-best-practices/skills/react-best-practices`
-- **Git SHA:** `5847a7c7e79bab3e400cf47800b83449d7aea2d4`
-- **Synced:** 2026-03-14
+- **Git SHA:** `a7b34e89b52036f10ada00bf6e36a9a6cb468fc5`
+- **Synced:** 2026-04-02
