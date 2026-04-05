@@ -88,29 +88,31 @@ Comprehensive performance optimization guide for React and Next.js applications,
    - 5.14 [useEventSource](#514-useeventsource)
    - 5.15 [useEyeDropper](#515-useeyedropper)
    - 5.16 [useFavicon](#516-usefavicon)
-   - 5.17 [useFps](#517-usefps)
-   - 5.18 [useFullscreen](#518-usefullscreen)
-   - 5.19 [useGamepad](#519-usegamepad)
-   - 5.20 [useGeolocation](#520-usegeolocation)
-   - 5.21 [useMeasure](#521-usemeasure)
-   - 5.22 [useMediaControls](#522-usemediacontrols)
-   - 5.23 [useMediaQuery](#523-usemediaquery)
-   - 5.24 [useMemory](#524-usememory)
-   - 5.25 [useNetwork](#525-usenetwork)
-   - 5.26 [useOnline](#526-useonline)
-   - 5.27 [useOtpCredential](#527-useotpcredential)
-   - 5.28 [usePermission](#528-usepermission)
-   - 5.29 [usePictureInPicture](#529-usepictureinpicture)
-   - 5.30 [usePointerLock](#530-usepointerlock)
-   - 5.31 [usePostMessage](#531-usepostmessage)
-   - 5.32 [useRaf](#532-useraf)
-   - 5.33 [useShare](#533-useshare)
-   - 5.34 [useSpeechRecognition](#534-usespeechrecognition)
-   - 5.35 [useSpeechSynthesis](#535-usespeechsynthesis)
-   - 5.36 [useVibrate](#536-usevibrate)
-   - 5.37 [useVirtualKeyboard](#537-usevirtualkeyboard)
-   - 5.38 [useWakeLock](#538-usewakelock)
-   - 5.39 [useWebSocket](#539-usewebsocket)
+   - 5.17 [useFileSystemAccess](#517-usefilesystemaccess)
+   - 5.18 [useFps](#518-usefps)
+   - 5.19 [useFullscreen](#519-usefullscreen)
+   - 5.20 [useGamepad](#520-usegamepad)
+   - 5.21 [useGeolocation](#521-usegeolocation)
+   - 5.22 [useMeasure](#522-usemeasure)
+   - 5.23 [useMediaControls](#523-usemediacontrols)
+   - 5.24 [useMediaQuery](#524-usemediaquery)
+   - 5.25 [useMemory](#525-usememory)
+   - 5.26 [useNetwork](#526-usenetwork)
+   - 5.27 [useOnline](#527-useonline)
+   - 5.28 [useObjectUrl](#528-useobjecturl)
+   - 5.29 [useOtpCredential](#529-useotpcredential)
+   - 5.30 [usePermission](#530-usepermission)
+   - 5.31 [usePictureInPicture](#531-usepictureinpicture)
+   - 5.32 [usePointerLock](#532-usepointerlock)
+   - 5.33 [usePostMessage](#533-usepostmessage)
+   - 5.34 [useRaf](#534-useraf)
+   - 5.35 [useShare](#535-useshare)
+   - 5.36 [useSpeechRecognition](#536-usespeechrecognition)
+   - 5.37 [useSpeechSynthesis](#537-usespeechsynthesis)
+   - 5.38 [useVibrate](#538-usevibrate)
+   - 5.39 [useVirtualKeyboard](#539-usevirtualkeyboard)
+   - 5.40 [useWakeLock](#540-usewakelock)
+   - 5.41 [useWebSocket](#541-usewebsocket)
 
 6. [Utilities](#6-utilities)
 
@@ -3828,7 +3830,112 @@ export declare const useFavicon: (initialHref?: string) => {
 };
 ```
 
-### 5.17 useFps
+### 5.17 useFileSystemAccess
+
+Hook for reading and writing local files via the File System Access API.
+
+#### Usage
+
+```ts
+import { useFileSystemAccess } from "@siberiacancode/reactuse";
+
+const fileSystemAccess = useFileSystemAccess();
+```
+
+#### Example
+
+```tsx
+import { useFileSystemAccess } from "@siberiacancode/reactuse";
+
+export const FileEditor = () => {
+  const fileSystemAccess = useFileSystemAccess({ dataType: "Text" });
+
+  return (
+    <div>
+      <button type="button" onClick={() => fileSystemAccess.open()}>
+        Open
+      </button>
+      <pre>{fileSystemAccess.data}</pre>
+    </div>
+  );
+};
+```
+
+`dataType`:
+
+```tsx
+const buf = useFileSystemAccess({ dataType: "ArrayBuffer" });
+const blob = useFileSystemAccess({ dataType: "Blob" });
+```
+
+#### Notes
+
+- Hook uses the [File System Access API](https://developer.mozilla.org/en-US/docs/Web/API/File_System_Access_API).
+
+#### Type Declarations
+
+```ts
+export interface FileSystemAccessShowOpenFileOptions {
+  excludeAcceptAllOption?: boolean;
+  multiple?: boolean;
+  types?: Array<{
+    description?: string;
+    accept: Record<string, string[]>;
+  }>;
+}
+export interface FileSystemAccessShowSaveFileOptions {
+  excludeAcceptAllOption?: boolean;
+  suggestedName?: string;
+  types?: Array<{
+    description?: string;
+    accept: Record<string, string[]>;
+  }>;
+}
+export type UseFileSystemAccessCommonOptions = Pick<
+  FileSystemAccessShowOpenFileOptions,
+  "excludeAcceptAllOption" | "types"
+>;
+export type UseFileSystemAccessShowSaveOptions = Pick<
+  FileSystemAccessShowSaveFileOptions,
+  "suggestedName"
+>;
+export type UseFileSystemAccessOptions = UseFileSystemAccessCommonOptions & {
+  dataType?: "ArrayBuffer" | "Blob" | "Text";
+};
+export interface UseFileSystemAccessReturn<Data = string | ArrayBuffer | Blob> {
+  data?: Data;
+  file?: File;
+  lastModified: number;
+  name: string;
+  size: number;
+  supported: boolean;
+  type: string;
+  create: (createOptions?: UseFileSystemAccessShowSaveOptions) => Promise<void>;
+  open: (openOptions?: UseFileSystemAccessCommonOptions) => Promise<void>;
+  save: (saveOptions?: UseFileSystemAccessShowSaveOptions) => Promise<void>;
+  saveAs: (saveOptions?: UseFileSystemAccessShowSaveOptions) => Promise<void>;
+  set: (data: Data) => void;
+  update: () => Promise<void>;
+}
+export interface UseFileSystemAccess {
+  (): UseFileSystemAccessReturn<string | ArrayBuffer | Blob>;
+  (
+    options: UseFileSystemAccessOptions & { dataType: "ArrayBuffer" }
+  ): UseFileSystemAccessReturn<ArrayBuffer>;
+  (
+    options: UseFileSystemAccessOptions & { dataType: "Blob" }
+  ): UseFileSystemAccessReturn<Blob>;
+  (
+    options: UseFileSystemAccessOptions & { dataType: "Text" }
+  ): UseFileSystemAccessReturn<string>;
+  (options?: UseFileSystemAccessOptions): UseFileSystemAccessReturn<
+    string | ArrayBuffer | Blob
+  >;
+}
+export declare const useFileSystemAccess: UseFileSystemAccess;
+```
+
+### 5.18 useFps
 
 Measures frames per second.
 
@@ -3857,7 +3964,7 @@ return <div>FPS: {fps}</div>;
 export declare const useFps: () => number;
 ```
 
-### 5.18 useFullscreen
+### 5.19 useFullscreen
 
 Controls fullscreen state for an element.
 
@@ -3940,7 +4047,7 @@ export interface UseFullScreen {
 export declare const useFullscreen: UseFullScreen;
 ```
 
-### 5.19 useGamepad
+### 5.20 useGamepad
 
 Returns connected gamepads and active status.
 
@@ -3988,7 +4095,7 @@ export interface UseGamepadStateReturn {
 export declare const useGamepad: () => UseGamepadStateReturn;
 ```
 
-### 5.20 useGeolocation
+### 5.21 useGeolocation
 
 Returns the current geolocation and updates on changes.
 
@@ -4062,7 +4169,7 @@ export declare const useGeolocation: (
 ) => UseGeolocationReturn;
 ```
 
-### 5.21 useMeasure
+### 5.22 useMeasure
 
 Measures an element's size and position.
 
@@ -4108,7 +4215,7 @@ export interface UseMeasure {
 export declare const useMeasure: UseMeasure;
 ```
 
-### 5.22 useMediaControls
+### 5.23 useMediaControls
 
 Provides controls and state for audio/video elements.
 
@@ -4216,7 +4323,7 @@ export interface UseMediaControls {
 export declare const useMediaControls: UseMediaControls;
 ```
 
-### 5.23 useMediaQuery
+### 5.24 useMediaQuery
 
 Returns whether a media query matches.
 
@@ -4249,7 +4356,7 @@ export const MobileOnly = () => {
 export declare const useMediaQuery: (query: string) => boolean;
 ```
 
-### 5.24 useMemory
+### 5.25 useMemory
 
 Returns the current JS heap memory usage.
 
@@ -4291,7 +4398,7 @@ export interface UseMemoryReturn {
 export declare const useMemory: () => UseMemoryReturn;
 ```
 
-### 5.25 useNetwork
+### 5.26 useNetwork
 
 Tracks online status and connection information.
 
@@ -4351,7 +4458,7 @@ export interface UseNetworkReturn {
 export declare const useNetwork: () => UseNetworkReturn;
 ```
 
-### 5.26 useOnline
+### 5.27 useOnline
 
 Returns whether the user is online.
 
@@ -4389,7 +4496,53 @@ export const Status = () => {
 export declare const useOnline: () => boolean;
 ```
 
-### 5.27 useOtpCredential
+### 5.28 useObjectUrl
+
+Hook that creates and revokes an object URL for a Blob or MediaSource.
+
+#### Usage
+
+```ts
+import { useObjectUrl } from "@siberiacancode/reactuse";
+
+const { value } = useObjectUrl(blob);
+```
+
+#### Example
+
+```tsx
+import { useObjectUrl } from "@siberiacancode/reactuse";
+
+interface PreviewProps {
+  blob: Blob;
+}
+
+export const Preview = ({ blob }: PreviewProps) => {
+  const objectUrl = useObjectUrl(blob);
+  return <img src={objectUrl.value} alt="" />;
+};
+```
+
+#### Notes
+
+- Hook uses the [URL.createObjectURL](https://developer.mozilla.org/en-US/docs/Web/API/URL/createObjectURL).
+
+#### Type Declarations
+
+```ts
+export interface UseObjectUrlReturn {
+  value?: string;
+  revoke: () => void;
+  set: (object: Blob | MediaSource) => void;
+}
+export declare const useObjectUrl: <
+  Value extends Blob | MediaSource | undefined
+>(
+  object?: Value
+) => UseObjectUrlReturn;
+```
+
+### 5.29 useOtpCredential
 
 Requests an OTP credential from the user agent.
 
@@ -4453,7 +4606,7 @@ export interface UseOtpCredential {
 export declare const useOtpCredential: UseOtpCredential;
 ```
 
-### 5.28 usePermission
+### 5.30 usePermission
 
 Returns the state of a given permission.
 
@@ -4516,7 +4669,7 @@ export declare const usePermission: (
 ) => UsePermissionReturn;
 ```
 
-### 5.29 usePictureInPicture
+### 5.31 usePictureInPicture
 
 Controls Picture-in-Picture mode for video elements.
 
@@ -4599,7 +4752,7 @@ export interface UsePictureInPicture {
 export declare const usePictureInPicture: UsePictureInPicture;
 ```
 
-### 5.30 usePointerLock
+### 5.32 usePointerLock
 
 Provides reactive pointer lock controls.
 
@@ -4640,7 +4793,7 @@ interface UsePointerLockReturn {
 export declare const usePointerLock: () => UsePointerLockReturn;
 ```
 
-### 5.31 usePostMessage
+### 5.33 usePostMessage
 
 Receives and posts messages between windows/frames.
 
@@ -4673,7 +4826,7 @@ export declare const usePostMessage: <Message>(
 ) => UsePostMessageReturn<Message>;
 ```
 
-### 5.32 useRaf
+### 5.34 useRaf
 
 Runs a callback on each animation frame.
 
@@ -4733,7 +4886,7 @@ export declare const useRaf: (
 ) => UseRafReturn;
 ```
 
-### 5.33 useShare
+### 5.35 useShare
 
 Triggers the native share dialog.
 
@@ -4811,7 +4964,7 @@ export interface UseShareReturn {
 export declare const useShare: (params?: UseShareParams) => UseShareReturn;
 ```
 
-### 5.34 useSpeechRecognition
+### 5.36 useSpeechRecognition
 
 Provides speech-to-text recognition controls and state.
 
@@ -4936,7 +5089,7 @@ export declare const useSpeechRecognition: (
 ) => UseSpeechRecognitionReturn;
 ```
 
-### 5.35 useSpeechSynthesis
+### 5.37 useSpeechSynthesis
 
 Provides text-to-speech controls and state.
 
@@ -5035,7 +5188,7 @@ export declare const useSpeechSynthesis: (
 ) => UseSpeechSynthesisReturn;
 ```
 
-### 5.36 useVibrate
+### 5.38 useVibrate
 
 Triggers vibration with optional intervals.
 
@@ -5093,7 +5246,7 @@ export declare const useVibrate: (
 ) => UseVibrateReturn;
 ```
 
-### 5.37 useVirtualKeyboard
+### 5.39 useVirtualKeyboard
 
 Tracks virtual keyboard state and exposes controls.
 
@@ -5149,7 +5302,7 @@ export declare const useVirtualKeyboard: (
 ) => UseVirtualKeyboardReturn;
 ```
 
-### 5.38 useWakeLock
+### 5.40 useWakeLock
 
 Controls the Wake Lock API state.
 
@@ -5211,7 +5364,7 @@ export declare const useWakeLock: (
 ) => UseWakeLockReturn;
 ```
 
-### 5.39 useWebSocket
+### 5.41 useWebSocket
 
 Connects to a WebSocket server with retries and callbacks.
 

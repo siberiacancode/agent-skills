@@ -108,6 +108,7 @@ IMPORTANT: Each hook entry includes a short `Description` and a detailed `Refere
 | useEventSource        | Provides a reactive wrapper around EventSource.                              | LOW        |
 | useEyeDropper         | Provides access to the EyeDropper API.                                       | LOW        |
 | useFavicon            | Reads and updates the current favicon.                                       | LOW        |
+| useFileSystemAccess   | Reads and writes local files via the File System Access API.                 | LOW        |
 | useFps                | Measures frames per second.                                                  | LOW        |
 | useFullscreen         | Controls fullscreen state for an element.                                    | LOW        |
 | useGamepad            | Returns connected gamepads and active status.                                | LOW        |
@@ -118,6 +119,7 @@ IMPORTANT: Each hook entry includes a short `Description` and a detailed `Refere
 | useMemory             | Returns the current JS heap memory usage.                                    | LOW        |
 | useNetwork            | Tracks online status and connection information.                             | LOW        |
 | useOnline             | Returns whether the user is online.                                          | MEDIUM     |
+| useObjectUrl          | Creates and revokes an object URL                                            | LOW        |
 | useOtpCredential      | Requests an OTP credential from the user agent.                              | LOW        |
 | usePermission         | Returns the state of a given permission.                                     | MEDIUM     |
 | usePictureInPicture   | Controls Picture-in-Picture mode for video elements.                         | LOW        |

@@ -8,8 +8,8 @@ export interface VendorSkillMeta {
  * Repositories to clone as submodules and generate skills from source
  */
 export const submodules = {
-  react: "https://github.com/facebook/react/tree/main/packages/react",
-  next: "https://github.com/vercel/next.js/tree/canary/packages/next",
+  react: "https://github.com/facebook/react",
+  next: "https://github.com/vercel/next.js",
   vite: "https://github.com/vitejs/vite",
   reactuse: "https://github.com/siberiacancode/reactuse",
   pnpm: "https://github.com/pnpm/pnpm.io",
@@ -38,6 +38,6 @@ export const vendors: Record<string, VendorSkillMeta> = {
 };
 
 /**
- * Hand-written skills with Anthony Fu's preferences/tastes/recommendations
+ * Hand-written skills with siberiacancode preferences/tastes/recommendations
  */
 export const manual = ["siberiacancode"];

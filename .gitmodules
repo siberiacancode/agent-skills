@@ -1,6 +1,6 @@
 [submodule "sources/react"]
 	path = sources/react
-	url = https://github.com/facebook/react/tree/main/packages/react
+	url = https://github.com/facebook/react
 [submodule "sources/vite"]
 	path = sources/vite
 	url = https://github.com/vitejs/vite
@@ -25,3 +25,6 @@
 [submodule "vendor/web-design-guidelines"]
 	path = vendor/web-design-guidelines
 	url = https://github.com/vercel-labs/agent-skills
+[submodule "sources/next"]
+	path = sources/next
+	url = https://github.com/vercel/next.js
