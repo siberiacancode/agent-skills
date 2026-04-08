@@ -13,7 +13,7 @@ Automatically scrolls a container to the bottom.
 ```ts
 import { useAutoScroll } from "@siberiacancode/reactuse";
 
-const autoScroll = useAutoScroll<HTMLDivElement>();
+const autoScrollRef = useAutoScroll<HTMLDivElement>();
 // or
 useAutoScroll(ref);
 ```
@@ -21,10 +21,10 @@ useAutoScroll(ref);
 ## Example
 
 ```tsx
-const autoScroll = useAutoScroll<HTMLDivElement>();
+const autoScrollRef = useAutoScroll<HTMLDivElement>();
 
 return (
-  <div ref={autoScroll.ref}>
+  <div ref={autoScrollRef}>
     <div>First message</div>
     <div>Second message</div>
   </div>
@@ -36,7 +36,7 @@ return (
 Disable auto scroll.
 
 ```tsx
-const autoScroll = useAutoScroll<HTMLDivElement>({ enabled: false });
+const autoScrollRef = useAutoScroll<HTMLDivElement>({ enabled: false });
 ```
 
 `force`:
@@ -44,7 +44,7 @@ const autoScroll = useAutoScroll<HTMLDivElement>({ enabled: false });
 Always jump to bottom.
 
 ```tsx
-const autoScroll = useAutoScroll<HTMLDivElement>({ force: true });
+const autoScrollRef = useAutoScroll<HTMLDivElement>({ force: true });
 ```
 
 ## Type Declarations
@@ -59,9 +59,7 @@ export interface UseAutoScrollOptions {
 }
 export interface UseAutoScroll {
   (target: HookTarget, options?: UseAutoScrollOptions): void;
-  <Target extends HTMLElement>(options?: UseAutoScrollOptions): {
-    ref: StateRef<Target>;
-  };
+  <Target extends HTMLElement>(options?: UseAutoScrollOptions): StateRef<Target>;
 }
 export declare const useAutoScroll: UseAutoScroll;
 ```

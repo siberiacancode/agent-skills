@@ -13,11 +13,11 @@ Registers keydown/keyup listeners on a target.
 ```ts
 import { useKeyboard } from "@siberiacancode/reactuse";
 
-const keyboard = useKeyboard<HTMLInputElement>((event) =>
+const keyboardRef = useKeyboard<HTMLInputElement>((event) =>
   console.log(event.key)
 );
 // or
-const keyboard = useKeyboard(ref, (event) => console.log(event.key));
+useKeyboard(ref, (event) => console.log(event.key));
 ```
 
 ## Example
@@ -26,11 +26,11 @@ const keyboard = useKeyboard(ref, (event) => console.log(event.key));
 import { useKeyboard } from "@siberiacancode/reactuse";
 
 export const SearchInput = () => {
-  const keyboard = useKeyboard<HTMLInputElement>({
+  const keyboardRef = useKeyboard<HTMLInputElement>({
     onKeyDown: (event) => console.log(event.key),
   });
 
-  return <input ref={keyboard.ref} placeholder="Type..." />;
+  return <input ref={keyboardRef} placeholder="Type..." />;
 };
 ```
 
@@ -67,11 +67,11 @@ export interface UseKeyboard {
   <Target extends HTMLElement>(
     callback: KeyboardEventHandler,
     target?: never
-  ): { ref: StateRef<Target> };
+  ): StateRef<Target>;
   <Target extends HTMLElement>(
     options: UseKeyboardEventOptions,
     target?: never
-  ): { ref: StateRef<Target> };
+  ): StateRef<Target>;
 }
 export declare const useKeyboard: UseKeyboard;
 ```

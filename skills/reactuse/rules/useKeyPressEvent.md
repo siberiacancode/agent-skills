@@ -13,7 +13,7 @@ Runs a handler when specific keys are pressed.
 ```ts
 import { useKeyPressEvent } from "@siberiacancode/reactuse";
 
-const keyPressEvent = useKeyPressEvent<HTMLDivElement>("Enter", () =>
+const keyPressEventRef = useKeyPressEvent<HTMLDivElement>("Enter", () =>
   console.log("pressed")
 );
 // or
@@ -26,10 +26,10 @@ useKeyPressEvent(ref, "Enter", () => console.log("pressed"));
 import { useKeyPressEvent } from "@siberiacancode/reactuse";
 
 export const SubmitShortcut = () => {
-  const keyPressEvent = useKeyPressEvent<HTMLDivElement>("Enter", () =>
+  const keyPressEventRef = useKeyPressEvent<HTMLDivElement>("Enter", () =>
     console.log("submit")
   );
-  return <div ref={keyPressEvent.ref}>Submit</div>;
+  return <div ref={keyPressEventRef}>Submit</div>;
 };
 ```
 
@@ -75,7 +75,7 @@ export interface UseKeyPressEvent {
     listener: (event: KeyboardEvent) => void,
     options?: UseKeyPressEventOptions,
     target?: never
-  ): { ref: StateRef<Target> };
+  ): StateRef<Target>;
 }
 export declare const useKeyPressEvent: UseKeyPressEvent;
 ```
