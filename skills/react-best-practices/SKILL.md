@@ -1,6 +1,6 @@
 ---
 name: vercel-react-best-practices
-description: React and Next.js performance optimization guidelines from Vercel Engineering. This skill should be used when writing, reviewing, or refactoring React/Next.js code to ensure optimal performance patterns. Triggers on tasks involving React components, Next.js pages, data fetching, bundle optimization, or performance improvements.
+description: "Applies Vercel's React and Next.js performance optimization rules during code writing, review, and refactoring. Implements code splitting with next/dynamic, eliminates request waterfalls via Promise.all, optimizes bundle size by avoiding barrel imports, configures server-side caching with React.cache(), and enforces re-render minimization patterns. Triggers on React component authoring, Next.js page/route creation, data fetching implementation, bundle analysis, and performance-focused code review."
 license: MIT
 metadata:
   author: vercel
@@ -10,15 +10,6 @@ metadata:
 # Vercel React Best Practices
 
 Comprehensive performance optimization guide for React and Next.js applications, maintained by Vercel. Contains 69 rules across 8 categories, prioritized by impact to guide automated refactoring and code generation.
-
-## When to Apply
-
-Reference these guidelines when:
-- Writing new React components or Next.js pages
-- Implementing data fetching (client or server-side)
-- Reviewing code for performance issues
-- Refactoring existing React/Next.js code
-- Optimizing bundle size or load times
 
 ## Rule Categories by Priority
 
@@ -32,6 +23,90 @@ Reference these guidelines when:
 | 6 | Rendering Performance | MEDIUM | `rendering-` |
 | 7 | JavaScript Performance | LOW-MEDIUM | `js-` |
 | 8 | Advanced Patterns | LOW | `advanced-` |
+
+## Optimization Workflow
+
+1. **Audit**: Identify performance bottlenecks by category priority (waterfalls and bundle size first)
+2. **Apply**: Use the concrete patterns below for CRITICAL/HIGH rules; reference individual rule files for others
+3. **Verify**: Confirm changes don't break SSR/hydration, check bundle size delta, test data fetching behavior
+4. **Review**: During code review, flag sequential awaits, barrel imports, missing dynamic imports, and inline object args to cache functions
+
+## High-Impact Patterns with Examples
+
+### Eliminate Request Waterfalls with Promise.all (`async-parallel`) — CRITICAL
+
+Sequential awaits on independent operations create cascading round trips. Use `Promise.all()` to parallelize them.
+
+```typescript
+// BAD: 3 sequential round trips (~900ms total)
+const user = await fetchUser()
+const posts = await fetchPosts()
+const comments = await fetchComments()
+
+// GOOD: 1 parallel round trip (~300ms total)
+const [user, posts, comments] = await Promise.all([
+  fetchUser(),
+  fetchPosts(),
+  fetchComments()
+])
+```
+
+### Avoid Barrel File Imports (`bundle-barrel-imports`) — CRITICAL
+
+Barrel files (`index.js` re-exporting everything) force loading thousands of unused modules, adding 200-800ms to cold starts.
+
+```tsx
+// BAD: loads 1,583 modules from lucide-react barrel file
+import { Check, X, Menu } from 'lucide-react'
+
+// GOOD (Next.js 13.5+): configure optimizePackageImports
+// next.config.js
+module.exports = {
+  experimental: {
+    optimizePackageImports: ['lucide-react', '@mui/material']
+  }
+}
+
+// GOOD (non-Next.js): import directly from source path
+import Button from '@mui/material/Button'
+import TextField from '@mui/material/TextField'
+```
+
+Commonly affected libraries: `lucide-react`, `@mui/material`, `@mui/icons-material`, `@tabler/icons-react`, `react-icons`, `lodash`, `date-fns`.
+
+### Lazy-Load Heavy Components (`bundle-dynamic-imports`) — CRITICAL
+
+Use `next/dynamic` to code-split components not needed on initial render, directly improving TTI and LCP.
+
+```tsx
+// BAD: Monaco (~300KB) bundles into main chunk
+import { MonacoEditor } from './monaco-editor'
+
+// GOOD: Monaco loads on demand
+import dynamic from 'next/dynamic'
+const MonacoEditor = dynamic(
+  () => import('./monaco-editor').then(m => m.MonacoEditor),
+  { ssr: false }
+)
+```
+
+### Deduplicate Server Requests with React.cache (`server-cache-react`) — HIGH
+
+Wrap async functions in `React.cache()` so multiple components calling the same function within a single request execute the query only once.
+
+```typescript
+import { cache } from 'react'
+
+export const getCurrentUser = cache(async () => {
+  const session = await auth()
+  if (!session?.user?.id) return null
+  return await db.user.findUnique({ where: { id: session.user.id } })
+})
+
+// Multiple components call getCurrentUser() — query runs once per request
+```
+
+Use primitive arguments (not inline objects) to ensure cache hits. `React.cache()` uses `Object.is` for equality — new object references always miss.
 
 ## Quick Reference
 
@@ -128,21 +203,14 @@ Reference these guidelines when:
 - `advanced-init-once` - Initialize app once per app load
 - `advanced-use-latest` - useLatest for stable callback refs
 
-## How to Use
+## Detailed Rule Files
 
-Read individual rule files for detailed explanations and code examples:
+Read individual rule files for full explanations and extended code examples:
 
 ```
 rules/async-parallel.md
 rules/bundle-barrel-imports.md
+rules/server-cache-react.md
 ```
 
-Each rule file contains:
-- Brief explanation of why it matters
-- Incorrect code example with explanation
-- Correct code example with explanation
-- Additional context and references
-
-## Full Compiled Document
-
-For the complete guide with all rules expanded: `AGENTS.md`
+Each rule file contains the problem explanation, incorrect and correct code examples, and additional context. For the complete compiled guide with all rules expanded, see `AGENTS.md`.
