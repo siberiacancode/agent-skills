@@ -1,6 +1,6 @@
 ---
 name: reactuse
-description: Practical playbook for React teams to choose and apply reactuse hooks across state, async flows, browser APIs, and UI interactions. Use it when replacing custom hook logic with production-ready patterns that stay compatible with SSR and Next.js.
+description: "Decision-and-implementation guide for reactuse — a VueUse-style hook library for React. Maps requirements to production-ready hooks for state (useLocalStorage, useBoolean, useMap), async flows (useQuery, useMutation), UI interactions (useClickOutside, useHover, useDebounceCallback), and browser APIs (useMediaQuery, useClipboard, useEventListener). Use it to replace hand-rolled hooks for debouncing, throttling, storage, media queries, and more while staying SSR/Next.js-safe."
 license: MIT
 metadata:
   author: siberiacancode
@@ -10,240 +10,210 @@ compatibility: Requires React 18+ (or Next.js 13+)
 
 # Reactuse
 
-This skill is a decision-and-implementation guide for reactuse library for react.js / next.js projects. It maps requirements to the most suitable reactuse hook, applies the correct usage pattern, and prefers hook-based solutions over bespoke code to keep implementations concise, maintainable, and performant.
+This skill maps requirements to the most suitable [reactuse](https://reactuse.org/) hook, applies the correct usage pattern, and prefers hook-based solutions over bespoke code to keep implementations concise, maintainable, and performant.
 
 ## When to Apply
 
 - Apply this skill whenever assisting development work in React.js / Next.js.
 - Always check first whether a reactuse hook can implement the requirement.
 - Prefer reactuse hooks over custom code to improve readability, maintainability, and performance.
-- Map requirements to the most appropriate hook and follow the hook’s invocation rule.
-- Please refer to the `Invocation` field in the hooks table. For example:
-  - `AUTO`: Use automatically when applicable.
-  - `EXTERNAL`: Use only if the user already installed the required external dependency; otherwise reconsider, and ask to install only if truly needed.
-  - `EXPLICIT_ONLY`: Use only when explicitly requested by the user.
-    > _NOTE_ User instructions in the prompt or `AGENTS.md` may override a hook’s default `Invocation` rule.
+- Map requirements to the most appropriate hook and follow the hook's invocation rule:
 
-## Hooks
+| Invocation | Meaning | Action |
+|------------|---------|--------|
+| **HIGH** | Core utility — use automatically when applicable. | Apply without asking. |
+| **MEDIUM** | Situational — use when the requirement clearly fits. | Apply when appropriate; confirm if borderline. |
+| **LOW** | Specialised — use only when explicitly requested. | Ask the user before applying. |
 
-All hooks listed below are part of the [reactuse](https://reactuse.org/) library. Each section categorizes hooks based on their functionality.
+> _NOTE:_ User instructions in the prompt or `AGENTS.md` may override a hook's default invocation rule.
 
-IMPORTANT: Each hook entry includes a short `Description` and a detailed `Reference`. When using any hook, always consult the corresponding document in `./references` for usage details and type declarations.
+## Quick Examples
+
+### Persist state to localStorage
+
+```tsx
+import { useLocalStorage } from "@siberiacancode/reactuse";
+
+const DraftNote = () => {
+  const draft = useLocalStorage("draft-note", "");
+  return (
+    <textarea
+      value={draft.value}
+      onChange={(e) => draft.set(e.target.value)}
+      placeholder="Type your note..."
+    />
+  );
+};
+```
+
+### Fetch data with useQuery (SSR-safe)
+
+```tsx
+import { useQuery } from "@siberiacancode/reactuse";
+
+const UserProfile = ({ userId }: { userId: string }) => {
+  const { data, isLoading, error } = useQuery(
+    ({ signal }) => fetch(`/api/users/${userId}`, { signal }).then((r) => r.json()),
+    { keys: [userId] }
+  );
+
+  if (isLoading) return <p>Loading...</p>;
+  if (error) return <p>Error: {error.message}</p>;
+  return <h1>{data.name}</h1>;
+};
+```
+
+### Dismiss a dropdown on outside click
+
+```tsx
+import { useClickOutside } from "@siberiacancode/reactuse";
+import { useState } from "react";
+
+const Dropdown = () => {
+  const [open, setOpen] = useState(false);
+  const ref = useClickOutside<HTMLDivElement>(() => setOpen(false));
+  return (
+    <>
+      <button onClick={() => setOpen(true)}>Open</button>
+      {open && <div ref={ref}>Dropdown content</div>}
+    </>
+  );
+};
+```
+
+### Debounce a search input
+
+```tsx
+import { useDebounceValue } from "@siberiacancode/reactuse";
+import { useState } from "react";
+
+const Search = () => {
+  const [value, setValue] = useState("");
+  const debounced = useDebounceValue(value, 300);
+  // Pass `debounced` to your query hook or fetch call
+  return <input value={value} onChange={(e) => setValue(e.target.value)} />;
+};
+```
+
+## Choosing Between Similar Hooks
+
+### Debounce: Callback vs State vs Value
+
+| Hook | Use when... | Returns |
+|------|-------------|---------|
+| `useDebounceCallback` | You need to debounce a **function call** (e.g., API search, analytics event). | A debounced function with `.cancel()`. |
+| `useDebounceState` | You need both **instant local state** and a **debounced mirror** (e.g., input + preview). | `[debouncedValue, setDebounced]` tuple. |
+| `useDebounceValue` | You have an **existing value** and just need a delayed version (simplest API). | The debounced value directly. |
+
+The same pattern applies to the throttle family (`useThrottleCallback`, `useThrottleState`, `useThrottleValue`).
+
+### Storage: localStorage vs sessionStorage vs generic
+
+| Hook | Scope | Persistence |
+|------|-------|-------------|
+| `useLocalStorage` | Per-origin, all tabs | Survives browser restart |
+| `useSessionStorage` | Per-tab | Cleared when tab closes |
+| `useStorage` | Configurable | Pass `localStorage` or `sessionStorage` |
+
+### Boolean state: useBoolean vs useToggle vs useDisclosure
+
+| Hook | Best for |
+|------|----------|
+| `useBoolean` | Simple on/off with `toggle()` |
+| `useToggle` | Cycling between two or more values |
+| `useDisclosure` | Modal/panel open/close with `open()`, `close()`, `toggle()` helpers |
+
+## High-Invocation Hooks Reference
+
+The hooks below are the most commonly applied (HIGH invocation). For the **complete list of 165+ hooks** across all categories, consult `AGENTS.md` and the `./rules/` directory where each hook has its own reference file with full type declarations and examples.
 
 ### Helpers
 
-| Hook                  | Description                                                     | Invocation |
-| --------------------- | --------------------------------------------------------------- | ---------- |
-| createContext         | Creates a typed context with provider and selector hook.        | HIGH       |
-| createEventEmitter    | Creates a type-safe event emitter with a subscription hook.     | LOW        |
-| createReactiveContext | Creates a typed context selector with optimized updates.        | LOW        |
-| createStore           | Creates a external store with state, subscriptions, and a hook. | MEDIUM     |
-| target                | Flexible helper to reference DOM targets for hooks.             | MEDIUM     |
+| Hook | Description |
+|------|-------------|
+| createContext | Creates a typed context with provider and selector hook. |
 
 ### Elements
 
-| Hook                | Description                                                | Invocation |
-| ------------------- | ---------------------------------------------------------- | ---------- |
-| useActiveElement    | Tracks the currently focused element.                      | LOW        |
-| useAutoScroll       | Automatically scrolls a container to the bottom.           | LOW        |
-| useClickOutside     | Calls a callback when clicking outside the target element. | HIGH       |
-| useDoubleClick      | Detects double-clicks with optional single-click handler.  | MEDIUM     |
-| useDropZone         | Creates a drag-and-drop area with file state.              | MEDIUM     |
-| useFileDialog       | Opens a file picker and returns selected files.            | LOW        |
-| useFocus            | Tracks focus state and provides focus/blur controls.       | MEDIUM     |
-| useFocusTrap        | Traps focus within a given element.                        | MEDIUM     |
-| useHover            | Tracks hover state for an element.                         | MEDIUM     |
-| useImage            | Loads an image with query-style state.                     | LOW        |
-| useLockScroll       | Locks scrolling on an element or the document body.        | MEDIUM     |
-| useLongPress        | Detects long press interactions.                           | MEDIUM     |
-| usePaint            | Draws on a canvas and exposes drawing controls.            | LOW        |
-| useRightClick       | Handles right-click and long press events.                 | LOW        |
-| useScript           | Loads a script and returns its status.                     | LOW        |
-| useSize             | Observes element width and height.                         | LOW        |
-| useSticky           | Detects whether a sticky element is stuck.                 | LOW        |
-| useTextareaAutosize | Auto-resizes a textarea based on content.                  | MEDIUM     |
-| useTextDirection    | Gets and sets the text direction of an element.            | MEDIUM     |
-| useWindowFocus      | Returns the current focus state of the window.             | LOW        |
-| useWindowSize       | Returns current window width and height.                   | LOW        |
+| Hook | Description |
+|------|-------------|
+| useClickOutside | Calls a callback when clicking outside the target element. |
 
 ### Async
 
-| Hook            | Description                                                             | Invocation |
-| --------------- | ----------------------------------------------------------------------- | ---------- |
-| useAsync        | Tracks loading, error, and data state for a promise-returning callback. | MEDIUM     |
-| useLockCallback | Prevents a callback from running multiple times simultaneously.         | MEDIUM     |
-| useMutation     | Defines mutation logic with loading, error, and success state.          | HIGH       |
-| useOptimistic   | Allows showing an optimistic value before the async update resolves.    | MEDIUM     |
-| useQuery        | Defines query logic with loading, error, success, and refetch state.    | HIGH       |
+| Hook | Description |
+|------|-------------|
+| useMutation | Defines mutation logic with loading, error, and success state. |
+| useQuery | Defines query logic with loading, error, success, and refetch state. |
 
 ### Lifecycle
 
-| Hook                      | Description                                                         | Invocation |
-| ------------------------- | ------------------------------------------------------------------- | ---------- |
-| useAsyncEffect            | Runs async side effects.                                            | MEDIUM     |
-| useDidUpdate              | Runs an effect only on updates (not on initial mount).              | HIGH       |
-| useIsFirstRender          | Returns `true` only on the first render.                            | LOW        |
-| useIsomorphicLayoutEffect | Uses `useLayoutEffect` on the client and `useEffect` on the server. | HIGH       |
-| useMount                  | Runs a callback once when the component mounts.                     | HIGH       |
-| useShallowEffect          | Runs an effect only when dependencies change shallowly or deeply.   | LOW        |
-| useUnmount                | Runs a callback when the component unmounts.                        | HIGH       |
+| Hook | Description |
+|------|-------------|
+| useDidUpdate | Runs an effect only on updates (not on initial mount). |
+| useIsomorphicLayoutEffect | Uses `useLayoutEffect` on client, `useEffect` on server. |
+| useMount | Runs a callback once when the component mounts. |
+| useUnmount | Runs a callback when the component unmounts. |
 
 ### Browser
 
-| Hook                  | Description                                                                  | Invocation |
-| --------------------- | ---------------------------------------------------------------------------- | ---------- |
-| useAudio              | Manages audio playback (play/pause/stop), volume, rate, and sprite segments. | LOW        |
-| useBattery            | Returns battery status and support state.                                    | LOW        |
-| useBluetooth          | Requests and connects to Bluetooth devices.                                  | LOW        |
-| useBreakpoints        | Manages responsive breakpoints and helper predicates.                        | MEDIUM     |
-| useBroadcastChannel   | Enables cross-tab/window messaging.                                          | LOW        |
-| useBrowserLocation    | Returns reactive location state and history navigation controls.              | MEDIUM     |
-| useClipboard          | Reads and copies text from the clipboard.                                    | MEDIUM     |
-| useCopy               | Copies text and resets status after a delay.                                 | MEDIUM     |
-| useCssVar             | Reads and writes a CSS custom property.                                      | LOW        |
-| useDisplayMedia       | Provides screen sharing controls and stream state.                           | LOW        |
-| useDocumentEvent      | Attaches an event listener to the document.                                  | LOW        |
-| useDocumentTitle      | Reads and updates the document title.                                        | LOW        |
-| useDocumentVisibility | Returns the document visibility state.                                       | LOW        |
-| useEventListener      | Attaches an event listener to a target.                                      | HIGH       |
-| useEventSource        | Provides a reactive wrapper around EventSource.                              | LOW        |
-| useEyeDropper         | Provides access to the EyeDropper API.                                       | LOW        |
-| useFavicon            | Reads and updates the current favicon.                                       | LOW        |
-| useFileSystemAccess   | Reads and writes local files via the File System Access API.                 | LOW        |
-| useFps                | Measures frames per second.                                                  | LOW        |
-| useFullscreen         | Controls fullscreen state for an element.                                    | LOW        |
-| useGamepad            | Returns connected gamepads and active status.                                | LOW        |
-| useGeolocation        | Returns the current geolocation and updates on changes.                      | MEDIUM     |
-| useMeasure            | Measures an element's size and position.                                     | LOW        |
-| useMediaControls      | Provides controls and state for audio/video elements.                        | LOW        |
-| useMediaQuery         | Returns whether a media query matches.                                       | MEDIUM     |
-| useMemory             | Returns the current JS heap memory usage.                                    | LOW        |
-| useNetwork            | Tracks online status and connection information.                             | LOW        |
-| useOnline             | Returns whether the user is online.                                          | MEDIUM     |
-| useObjectUrl          | Creates and revokes an object URL                                            | LOW        |
-| useOtpCredential      | Requests an OTP credential from the user agent.                              | LOW        |
-| usePermission         | Returns the state of a given permission.                                     | MEDIUM     |
-| usePictureInPicture   | Controls Picture-in-Picture mode for video elements.                         | LOW        |
-| usePointerLock        | Provides reactive pointer lock controls.                                     | LOW        |
-| usePostMessage        | Receives and posts messages between windows/frames.                          | LOW        |
-| useRaf                | Runs a callback on each animation frame.                                     | LOW        |
-| useShare              | Triggers the native share dialog.                                            | MEDIUM     |
-| useSpeechRecognition  | Provides speech-to-text recognition controls and state.                      | LOW        |
-| useSpeechSynthesis    | Provides text-to-speech controls and state.                                  | LOW        |
-| useVibrate            | Triggers vibration with optional intervals.                                  | LOW        |
-| useVirtualKeyboard    | Tracks virtual keyboard state and exposes controls.                          | LOW        |
-| useWakeLock           | Controls the Wake Lock API state.                                            | LOW        |
-| useWebSocket          | Connects to a WebSocket server with retries and callbacks.                   | MEDIUM     |
+| Hook | Description |
+|------|-------------|
+| useEventListener | Attaches an event listener to a target. |
 
 ### Utilities
 
-| Hook                | Description                                                               | Invocation |
-| ------------------- | ------------------------------------------------------------------------- | ---------- |
-| useBatchedCallback  | Batches calls and forwards them to a callback.                            | MEDIUM     |
-| useConst            | Returns a constant value initialized once.                                | HIGH       |
-| useDebounceCallback | Creates a debounced callback with a cancel method.                        | HIGH       |
-| useDebounceEffect   | Runs an effect after a delay when dependencies change.                    | HIGH       |
-| useDebounceState    | Creates a debounced state setter.                                         | HIGH       |
-| useDebounceValue    | Returns a debounced version of a value.                                   | HIGH       |
-| useDevicePixelRatio | Returns the current device pixel ratio.                                   | LOW        |
-| useEvent            | Returns a stable callback reference that always calls the latest handler. | HIGH       |
-| useLastChanged      | Records the timestamp of the last change.                                 | LOW        |
-| useLatest           | Returns a stable ref that always points to the latest value.              | MEDIUM     |
-| usePrevious         | Returns the previous value.                                               | LOW        |
-| useThrottleCallback | Creates a throttled callback with a cancel method.                        | MEDIUM     |
-| useThrottleEffect   | Runs an effect at most once per delay period when dependencies change.    | MEDIUM     |
-| useThrottleState    | Creates a throttled state setter.                                         | MEDIUM     |
-| useThrottleValue    | Returns a throttled version of a value.                                   | MEDIUM     |
+| Hook | Description |
+|------|-------------|
+| useConst | Returns a constant value initialized once. |
+| useDebounceCallback | Creates a debounced callback with a cancel method. |
+| useDebounceEffect | Runs an effect after a delay when dependencies change. |
+| useDebounceState | Creates a debounced state setter. |
+| useDebounceValue | Returns a debounced version of a value. |
+| useEvent | Returns a stable callback reference that always calls the latest handler. |
 
 ### State
 
-| Hook                 | Description                                                              | Invocation |
-| -------------------- | ------------------------------------------------------------------------ | ---------- |
-| useBoolean           | Manages a boolean state with a toggle helper.                            | HIGH       |
-| useControllableState | Supports controlled and uncontrolled state patterns.                     | MEDIUM     |
-| useCookie            | Reads and writes a cookie value.                                         | MEDIUM     |
-| useCookies           | Manages all cookies as a single object.                                  | MEDIUM     |
-| useCounter           | Manages a numeric counter with bounds.                                   | LOW        |
-| useDefault           | Returns a value or a provided default when nullish.                      | MEDIUM     |
-| useDisclosure        | Manages open/close state with helpers.                                   | HIGH       |
-| useField             | Manages input state, validation, and helpers.                            | MEDIUM     |
-| useHash              | Manages URL hash value.                                                  | LOW        |
-| useList              | Manages an array with helper methods.                                    | MEDIUM     |
-| useLocalStorage      | Manages a value in localStorage.                                         | HIGH       |
-| useMap               | Manages a Map with helper methods.                                       | HIGH       |
-| useMergedRef         | Merges multiple refs into a single ref callback.                         | MEDIUM     |
-| useObject            | Manages object state with helper methods for updates and key operations. | MEDIUM     |
-| useOffsetPagination  | Manages pagination state for offset-based lists.                         | MEDIUM     |
-| useQueue             | Manages a queue with add/remove helpers.                                 | MEDIUM     |
-| useRafState          | Updates state inside `requestAnimationFrame`.                            | LOW        |
-| useRefState          | Creates a ref-like state that updates on assignment.                     | LOW        |
-| useSessionStorage    | Manages a value in sessionStorage.                                       | MEDIUM     |
-| useSet               | Manages a Set with helper methods.                                       | MEDIUM     |
-| useStateHistory      | Keeps state with undo/redo history.                                      | MEDIUM     |
-| useStep              | Creates a stepper with next/back helpers.                                | MEDIUM     |
-| useStorage           | Manages a value in Web Storage.                                          | HIGH       |
-| useToggle            | A boolean switcher with utility functions.                               | HIGH       |
-| useUrlSearchParam    | Syncs a single URL search param with state.                              | HIGH       |
-| useUrlSearchParams   | Syncs multiple URL search params with state.                             | HIGH       |
-| useWizard            | Manages wizard steps and history.                                        | MEDIUM     |
-
-### User
-
-| Hook                      | Description                                                  | Invocation |
-| ------------------------- | ------------------------------------------------------------ | ---------- |
-| useBrowserLanguage        | Returns the current browser language.                        | MEDIUM     |
-| useOperatingSystem        | Returns the user's operating system based on the user agent. | LOW        |
-| usePreferredColorScheme   | Returns the user's preferred color scheme.                   | MEDIUM     |
-| usePreferredContrast      | Returns the user's contrast preference.                      | MEDIUM     |
-| usePreferredDark          | Returns whether the user prefers dark mode.                  | MEDIUM     |
-| usePreferredLanguages     | Returns the user's preferred languages.                      | MEDIUM     |
-| usePreferredReducedMotion | Returns the reduced motion preference.                       | LOW        |
-
-### Sensors
-
-| Hook                    | Description                                                     | Invocation |
-| ----------------------- | --------------------------------------------------------------- | ---------- |
-| useDeviceMotion         | Provides device motion data with optional throttling.           | LOW        |
-| useDeviceOrientation    | Provides the current device orientation.                        | LOW        |
-| useHotkeys              | Listens for keyboard shortcuts.                                 | MEDIUM     |
-| useIdle                 | Tracks whether the user is idle and last active time.           | LOW        |
-| useInfiniteScroll       | Triggers a callback when scroll reaches an edge.                | MEDIUM     |
-| useIntersectionObserver | Tracks intersection state for an element.                       | MEDIUM     |
-| useKeyboard             | Registers keydown/keyup listeners on a target.                  | MEDIUM     |
-| useKeyPress             | Tracks whether specific keys are pressed.                       | MEDIUM     |
-| useKeyPressEvent        | Runs a handler when specific keys are pressed.                  | LOW        |
-| useKeysPressed          | Tracks all currently pressed keys.                              | LOW        |
-| useMouse                | Tracks mouse coordinates relative to page and element.          | LOW        |
-| useMutationObserver     | Observes DOM mutations on an element.                           | LOW        |
-| useOrientation          | Returns the current screen orientation and lock controls.       | LOW        |
-| usePageLeave            | Detects when the mouse leaves the page.                         | LOW        |
-| useParallax             | Creates a parallax effect based on mouse or device orientation. | LOW        |
-| usePerformanceObserver  | Observes performance entries.                                   | LOW        |
-| useResizeObserver       | Observes size changes for an element.                           | LOW        |
-| useScroll               | Tracks scroll state and provides scroll helpers.                | LOW        |
-| useScrollIntoView       | Scrolls an element into view and exposes a trigger.             | LOW        |
-| useScrollTo             | Scrolls to a specific position with a trigger.                  | LOW        |
-| useTextSelection        | Tracks text selection details.                                  | LOW        |
-| useVisibility           | Tracks whether an element is visible in the viewport.           | MEDIUM     |
-| useWindowEvent          | Attaches an event listener to the window object.                | LOW        |
-| useWindowScroll         | Tracks window scroll position and exposes scrollTo.             | LOW        |
+| Hook | Description |
+|------|-------------|
+| useBoolean | Manages a boolean state with a toggle helper. |
+| useDisclosure | Manages open/close state with helpers. |
+| useLocalStorage | Manages a value in localStorage. |
+| useMap | Manages a Map with helper methods. |
+| useStorage | Manages a value in Web Storage. |
+| useToggle | A boolean switcher with utility functions. |
+| useUrlSearchParam | Syncs a single URL search param with state. |
+| useUrlSearchParams | Syncs multiple URL search params with state. |
 
 ### Time
 
-| Hook         | Description                                                | Invocation |
-| ------------ | ---------------------------------------------------------- | ---------- |
-| useInterval  | Creates an interval with controls to pause and resume it.  | HIGH       |
-| useProgress  | Creates progress state with auto-incrementing controls.    | MEDIUM     |
-| useStopwatch | Creates a stopwatch with start, pause, and reset controls. | HIGH       |
-| useTime      | Provides the current time split into multiple fields.      | MEDIUM     |
-| useTimeout   | Runs a callback after a delay and returns a `ready` flag.  | MEDIUM     |
-| useTimer     | Creates a countdown timer with controls and callbacks.     | MEDIUM     |
+| Hook | Description |
+|------|-------------|
+| useInterval | Creates an interval with controls to pause and resume it. |
+| useStopwatch | Creates a stopwatch with start, pause, and reset controls. |
 
-### Debug
+## MEDIUM and LOW Invocation Hooks
 
-| Hook           | Description                                                   | Invocation |
-| -------------- | ------------------------------------------------------------- | ---------- |
-| useLogger      | Logs mount, update, and unmount for a component.              | LOW        |
-| useRenderCount | Returns how many times a component has rendered.              | LOW        |
-| useRenderInfo  | Provides render count and timing info, with optional logging. | LOW        |
-| useRerender    | Forces a component rerender on demand.                        | MEDIUM     |
+For the complete categorized reference of all MEDIUM and LOW invocation hooks (Elements, Async, Lifecycle, Browser, Utilities, State, User, Sensors, Time, Debug), see `AGENTS.md` and individual files in the `./rules/` directory. Each rule file contains usage examples, type declarations, and category metadata.
+
+### Category Overview
+
+| Category | MEDIUM hooks | LOW hooks | Key hooks |
+|----------|-------------|-----------|-----------|
+| Elements | 8 | 10 | useHover, useFocus, useDropZone |
+| Async | 3 | 0 | useAsync, useOptimistic |
+| Lifecycle | 2 | 2 | useAsyncEffect, useShallowEffect |
+| Browser | 11 | 26 | useMediaQuery, useClipboard, useWebSocket |
+| Utilities | 5 | 3 | useThrottleCallback, useLatest |
+| State | 13 | 3 | useCookie, useField, useSessionStorage |
+| User | 5 | 2 | usePreferredColorScheme, usePreferredDark |
+| Sensors | 7 | 15 | useHotkeys, useIntersectionObserver |
+| Time | 3 | 0 | useTimeout, useTimer |
+| Debug | 1 | 3 | useRerender |
+
+## SSR / Next.js Considerations
+
+- Hooks that access `window`, `document`, or browser APIs (`useLocalStorage`, `useMediaQuery`, `useClipboard`, etc.) are **no-ops during SSR** and activate after hydration.
+- Use `useIsomorphicLayoutEffect` instead of `useLayoutEffect` to avoid SSR warnings.
+- `useQuery` supports `enabled` to defer fetching until client-side conditions are met.
+- Always consult the hook's reference file in `./rules/` for SSR-specific notes.
