@@ -59,6 +59,7 @@ export interface BrowserLocationState {
   port?: string;
   protocol?: string;
   search?: string;
+  searchParams: URLSearchParams;
   state?: unknown;
 }
 export interface UseBrowserLocationReturn {

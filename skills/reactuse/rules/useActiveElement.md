@@ -42,14 +42,13 @@ return (
 import type { HookTarget } from "@siberiacancode/reactuse";
 import type { StateRef } from "@siberiacancode/reactuse";
 
-export type UseActiveElementReturn<
+export interface UseActiveElementReturn<
   ActiveElement extends HTMLElement = HTMLElement
-> = ActiveElement | null;
-export interface UseActiveElementReturn {
+> {
   value: ActiveElement | null;
 }
 export interface UseActiveElement {
-  (): UseActiveElementReturn;
+  (): UseActiveElementReturn<HTMLElement>;
   <Target extends Element, ActiveElement extends HTMLElement = HTMLElement>(
     target?: never
   ): {

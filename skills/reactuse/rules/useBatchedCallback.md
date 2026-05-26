@@ -13,7 +13,7 @@ Batches calls and forwards them to a callback.
 ```ts
 import { useBatchedCallback } from "@siberiacancode/reactuse";
 
-const batched = useBatchedCallback((batch) => console.log(batch), 5);
+const batched = useBatchedCallback((batch) => console.log(batch), { size: 5 });
 ```
 
 ## Example
@@ -24,7 +24,7 @@ import { useBatchedCallback } from "@siberiacancode/reactuse";
 export const Logger = () => {
   const batched = useBatchedCallback((batch) => {
     console.log("batch", batch);
-  }, 3);
+  }, { size: 3, delay: 1000 });
 
   return (
     <div>
@@ -49,8 +49,12 @@ export type BatchedCallback<Params extends unknown[]> = ((
   flush: () => void;
   cancel: () => void;
 };
+export interface UseBatchedCallbackOptions {
+  delay?: number;
+  size: number;
+}
 export declare const useBatchedCallback: <Params extends unknown[]>(
   callback: (batch: Params[]) => void,
-  size: number
+  options: UseBatchedCallbackOptions
 ) => BatchedCallback<Params>;
 ```

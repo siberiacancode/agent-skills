@@ -57,9 +57,9 @@ export interface UseBatteryValue {
   level: number;
   loading: boolean;
 }
-export interface UseBatteryStateReturn {
+export interface UseBatteryReturn {
   supported: boolean;
   value: UseBatteryValue;
 }
-export declare const useBattery: () => UseBatteryStateReturn;
+export declare const useBattery: () => UseBatteryReturn;
 ```

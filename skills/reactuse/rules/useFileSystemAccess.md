@@ -84,12 +84,12 @@ export interface UseFileSystemAccessReturn<Data = string | ArrayBuffer | Blob> {
   size: number;
   supported: boolean;
   type: string;
-  create: (createOptions?: UseFileSystemAccessShowSaveOptions) => Promise<void>;
-  open: (openOptions?: UseFileSystemAccessCommonOptions) => Promise<void>;
-  save: (saveOptions?: UseFileSystemAccessShowSaveOptions) => Promise<void>;
-  saveAs: (saveOptions?: UseFileSystemAccessShowSaveOptions) => Promise<void>;
+  create: (createOptions?: UseFileSystemAccessShowSaveOptions) => Promise<Data>;
+  open: (openOptions?: UseFileSystemAccessCommonOptions) => Promise<Data>;
+  save: (saveOptions?: UseFileSystemAccessShowSaveOptions) => Promise<Data>;
+  saveAs: (saveOptions?: UseFileSystemAccessShowSaveOptions) => Promise<Data>;
   set: (data: Data) => void;
-  update: () => Promise<void>;
+  update: () => Promise<Data>;
 }
 export interface UseFileSystemAccess {
   (): UseFileSystemAccessReturn<string | ArrayBuffer | Blob>;

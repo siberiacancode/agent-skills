@@ -13,16 +13,16 @@ Returns the current device pixel ratio.
 ```ts
 import { useDevicePixelRatio } from "@siberiacancode/reactuse";
 
-const ratio = useDevicePixelRatio();
+const devicePixelRatio = useDevicePixelRatio();
 ```
 
 ## Example
 
 ```tsx
 const devicePixelRatio = useDevicePixelRatio();
-if (!orientation.supported) return <div>Not supported</div>;
+if (!devicePixelRatio.supported) return <div>Not supported</div>;
 
-return <div>{String(devicePixelRatio.ratio)})</div>;
+return <div>{String(devicePixelRatio.value)}</div>;
 ```
 
 ## Notes
@@ -32,9 +32,12 @@ return <div>{String(devicePixelRatio.ratio)})</div>;
 ## Type Declarations
 
 ```ts
+export type UseDevicePixelRatioCallback = (value: number) => void;
 export interface UseDevicePixelRatioReturn {
-  ratio: number;
   supported: boolean;
+  value: number;
 }
-export declare const useDevicePixelRatio: () => UseDevicePixelRatioReturn;
+export declare const useDevicePixelRatio: (
+  callback?: UseDevicePixelRatioCallback
+) => UseDevicePixelRatioReturn;
 ```

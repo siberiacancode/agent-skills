@@ -6,7 +6,7 @@ usage: low
 
 # useDeviceMotion
 
-Provides device motion data with optional throttling.
+Provides device motion data via `snapshot` and `watch()`.
 
 ## Usage
 
@@ -14,25 +14,21 @@ Provides device motion data with optional throttling.
 import { useDeviceMotion } from "@siberiacancode/reactuse";
 
 const motion = useDeviceMotion();
+const value = motion.watch();
 ```
 
 ## Example
 
 ```tsx
 const motion = useDeviceMotion();
+const value = motion.watch();
 
 return (
   <div>
-    {Math.round(motion.accelerationIncludingGravity.x ?? 0)} /{" "}
-    {Math.round(motion.accelerationIncludingGravity.y ?? 0)}
+    {Math.round(value.accelerationIncludingGravity.x ?? 0)} /{" "}
+    {Math.round(value.accelerationIncludingGravity.y ?? 0)}
   </div>
 );
-```
-
-`delay`:
-
-```tsx
-const motion = useDeviceMotion({ delay: 500 });
 ```
 
 `enabled`:
@@ -55,21 +51,21 @@ const motion = useDeviceMotion({ onChange: (event) => console.log(event) });
 
 ```ts
 export interface UseDeviceMotionReturn {
+  snapshot: UseDeviceMotionValue;
+  watch: () => UseDeviceMotionValue;
+}
+export interface UseDeviceMotionValue {
   acceleration: DeviceMotionEventAcceleration;
   accelerationIncludingGravity: DeviceMotionEventAcceleration;
   interval: DeviceMotionEvent["interval"];
   rotationRate: DeviceMotionEventRotationRate;
 }
 export interface UseDeviceMotionOptions {
-  delay?: number;
   enabled?: boolean;
   onChange?: (event: DeviceMotionEvent) => void;
 }
 export interface UseDeviceMotion {
-  (
-    callback?: (event: DeviceMotionEvent) => void,
-    delay?: number
-  ): UseDeviceMotionReturn;
+  (callback?: (event: DeviceMotionEvent) => void): UseDeviceMotionReturn;
   (options?: UseDeviceMotionOptions): UseDeviceMotionReturn;
 }
 export declare const useDeviceMotion: UseDeviceMotion;

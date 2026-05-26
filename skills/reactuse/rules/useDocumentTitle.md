@@ -39,10 +39,10 @@ export const TitleEditor = () => {
 const title = useDocumentTitle("Dashboard");
 ```
 
-`restoreOnUnmount`:
+`restore`:
 
 ```tsx
-const title = useDocumentTitle("Profile", { restoreOnUnmount: true });
+const title = useDocumentTitle("Profile", { restore: true });
 ```
 
 ## Notes
@@ -53,7 +53,7 @@ const title = useDocumentTitle("Profile", { restoreOnUnmount: true });
 
 ```ts
 export interface UseDocumentTitleOptions {
-  restoreOnUnmount?: boolean;
+  restore?: boolean;
 }
 export interface UseDocumentTitleReturn {
   value: string;

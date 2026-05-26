@@ -77,6 +77,7 @@ Comprehensive performance optimization guide for React and Next.js applications,
    - 5.3 [useBluetooth](#53-usebluetooth)
    - 5.4 [useBreakpoints](#54-usebreakpoints)
    - 5.5 [useBroadcastChannel](#55-usebroadcastchannel)
+   - 5.5.1 [useBrowserLocation](#551-usebrowserlocation)
    - 5.6 [useClipboard](#56-useclipboard)
    - 5.7 [useCopy](#57-usecopy)
    - 5.8 [useCssVar](#58-usecssvar)
@@ -537,17 +538,18 @@ return (
 import type { HookTarget } from "@siberiacancode/reactuse";
 import type { StateRef } from "@siberiacancode/reactuse";
 
-export type UseActiveElementReturn<
+export interface UseActiveElementReturn<
   ActiveElement extends HTMLElement = HTMLElement
-> = ActiveElement | null;
+> {
+  value: ActiveElement | null;
+}
 export interface UseActiveElement {
-  (): UseActiveElementReturn;
+  (): UseActiveElementReturn<HTMLElement>;
   <Target extends Element, ActiveElement extends HTMLElement = HTMLElement>(
     target?: never
   ): {
     ref: StateRef<Target>;
-    value: UseActiveElementReturn<ActiveElement>;
-  };
+  } & UseActiveElementReturn<ActiveElement>;
   <ActiveElement extends HTMLElement = HTMLElement>(
     target: HookTarget
   ): UseActiveElementReturn<ActiveElement>;
@@ -2857,11 +2859,11 @@ export interface UseBatteryValue {
   level: number;
   loading: boolean;
 }
-export interface UseBatteryStateReturn {
+export interface UseBatteryReturn {
   supported: boolean;
   value: UseBatteryValue;
 }
-export declare const useBattery: () => UseBatteryStateReturn;
+export declare const useBattery: () => UseBatteryReturn;
 ```
 
 ### 5.3 useBluetooth
@@ -3159,6 +3161,75 @@ export declare const useBroadcastChannel: <Data = unknown>(
   name: string,
   callback?: (data: Data) => void
 ) => UseBroadcastChannelReturn<Data>;
+```
+
+### 5.5.1 useBrowserLocation
+
+Returns reactive browser location state with navigation controls.
+
+#### Usage
+
+```ts
+import { useBrowserLocation } from "@siberiacancode/reactuse";
+
+const location = useBrowserLocation();
+```
+
+#### Example
+
+```tsx
+import { useBrowserLocation } from "@siberiacancode/reactuse";
+
+export const BrowserLocationControls = () => {
+  const location = useBrowserLocation();
+
+  return (
+    <div>
+      <p>Path: {location.value.pathname}</p>
+      <button onClick={() => location.push("/dashboard?tab=overview")}>
+        Push
+      </button>
+      <button onClick={() => location.replace("/dashboard?tab=settings")}>
+        Replace
+      </button>
+      <button onClick={() => location.back()}>Back</button>
+      <button onClick={() => location.forward()}>Forward</button>
+    </div>
+  );
+};
+```
+
+#### Notes
+
+- Hook uses [window.location](https://developer.mozilla.org/en-US/docs/Web/API/Window/location).
+- Hook uses [window.history](https://developer.mozilla.org/en-US/docs/Web/API/Window/history).
+
+#### Type Declarations
+
+```ts
+export interface BrowserLocationState {
+  hash?: string;
+  host?: string;
+  hostname?: string;
+  href?: string;
+  length?: number;
+  origin?: string;
+  pathname?: string;
+  port?: string;
+  protocol?: string;
+  search?: string;
+  searchParams: URLSearchParams;
+  state?: unknown;
+}
+export interface UseBrowserLocationReturn {
+  value: BrowserLocationState;
+  back: () => void;
+  forward: () => void;
+  go: (delta: number) => void;
+  push: (url: string | URL, state?: unknown, title?: string) => void;
+  replace: (url: string | URL, state?: unknown, title?: string) => void;
+}
+export declare const useBrowserLocation: () => UseBrowserLocationReturn;
 ```
 
 ### 5.6 useClipboard
@@ -3478,10 +3549,10 @@ export const TitleEditor = () => {
 const title = useDocumentTitle("Dashboard");
 ```
 
-`restoreOnUnmount`:
+`restore`:
 
 ```tsx
-const title = useDocumentTitle("Profile", { restoreOnUnmount: true });
+const title = useDocumentTitle("Profile", { restore: true });
 ```
 
 #### Notes
@@ -3492,7 +3563,7 @@ const title = useDocumentTitle("Profile", { restoreOnUnmount: true });
 
 ```ts
 export interface UseDocumentTitleOptions {
-  restoreOnUnmount?: boolean;
+  restore?: boolean;
 }
 export interface UseDocumentTitleReturn {
   value: string;
@@ -3523,10 +3594,20 @@ const documentVisibility = useDocumentVisibility();
 return <div>{documentVisibility === "hidden" ? "Hidden" : "Visible"}</div>;
 ```
 
+`callback`:
+
+```tsx
+const documentVisibility = useDocumentVisibility((state) => {
+  if (state === "hidden") console.log("user left tab");
+});
+```
+
 #### Type Declarations
 
 ```ts
-export declare const useDocumentVisibility: () => DocumentVisibilityState;
+export declare const useDocumentVisibility: (
+  callback?: (state: DocumentVisibilityState) => void
+) => DocumentVisibilityState;
 ```
 
 ### 5.13 useEventListener
@@ -3910,12 +3991,12 @@ export interface UseFileSystemAccessReturn<Data = string | ArrayBuffer | Blob> {
   size: number;
   supported: boolean;
   type: string;
-  create: (createOptions?: UseFileSystemAccessShowSaveOptions) => Promise<void>;
-  open: (openOptions?: UseFileSystemAccessCommonOptions) => Promise<void>;
-  save: (saveOptions?: UseFileSystemAccessShowSaveOptions) => Promise<void>;
-  saveAs: (saveOptions?: UseFileSystemAccessShowSaveOptions) => Promise<void>;
+  create: (createOptions?: UseFileSystemAccessShowSaveOptions) => Promise<Data>;
+  open: (openOptions?: UseFileSystemAccessCommonOptions) => Promise<Data>;
+  save: (saveOptions?: UseFileSystemAccessShowSaveOptions) => Promise<Data>;
+  saveAs: (saveOptions?: UseFileSystemAccessShowSaveOptions) => Promise<Data>;
   set: (data: Data) => void;
-  update: () => Promise<void>;
+  update: () => Promise<Data>;
 }
 export interface UseFileSystemAccess {
   (): UseFileSystemAccessReturn<string | ArrayBuffer | Blob>;
@@ -3947,6 +4028,12 @@ import { useFps } from "@siberiacancode/reactuse";
 const fps = useFps();
 ```
 
+`callback`:
+
+```ts
+const fps = useFps((value) => console.log("fps", value));
+```
+
 #### Example
 
 ```tsx
@@ -3961,7 +4048,7 @@ return <div>FPS: {fps}</div>;
 #### Type Declarations
 
 ```ts
-export declare const useFps: () => number;
+export declare const useFps: (callback?: (fps: number) => void) => number;
 ```
 
 ### 5.19 useFullscreen
@@ -5479,7 +5566,7 @@ Batches calls and forwards them to a callback.
 ```ts
 import { useBatchedCallback } from "@siberiacancode/reactuse";
 
-const batched = useBatchedCallback((batch) => console.log(batch), 5);
+const batched = useBatchedCallback((batch) => console.log(batch), { size: 5 });
 ```
 
 #### Example
@@ -5488,9 +5575,12 @@ const batched = useBatchedCallback((batch) => console.log(batch), 5);
 import { useBatchedCallback } from "@siberiacancode/reactuse";
 
 export const Logger = () => {
-  const batched = useBatchedCallback((batch) => {
-    console.log("batch", batch);
-  }, 3);
+  const batched = useBatchedCallback(
+    (batch) => {
+      console.log("batch", batch);
+    },
+    { size: 3, delay: 1000 }
+  );
 
   return (
     <div>
@@ -5515,9 +5605,13 @@ export type BatchedCallback<Params extends unknown[]> = ((
   flush: () => void;
   cancel: () => void;
 };
+export interface UseBatchedCallbackOptions {
+  delay?: number;
+  size: number;
+}
 export declare const useBatchedCallback: <Params extends unknown[]>(
   callback: (batch: Params[]) => void,
-  size: number
+  options: UseBatchedCallbackOptions
 ) => BatchedCallback<Params>;
 ```
 
@@ -5729,16 +5823,16 @@ Returns the current device pixel ratio.
 ```ts
 import { useDevicePixelRatio } from "@siberiacancode/reactuse";
 
-const ratio = useDevicePixelRatio();
+const devicePixelRatio = useDevicePixelRatio();
 ```
 
 #### Example
 
 ```tsx
 const devicePixelRatio = useDevicePixelRatio();
-if (!orientation.supported) return <div>Not supported</div>;
+if (!devicePixelRatio.supported) return <div>Not supported</div>;
 
-return <div>{String(devicePixelRatio.ratio)})</div>;
+return <div>{String(devicePixelRatio.value)}</div>;
 ```
 
 #### Notes
@@ -5748,11 +5842,14 @@ return <div>{String(devicePixelRatio.ratio)})</div>;
 #### Type Declarations
 
 ```ts
+export type UseDevicePixelRatioCallback = (value: number) => void;
 export interface UseDevicePixelRatioReturn {
-  ratio: number;
   supported: boolean;
+  value: number;
 }
-export declare const useDevicePixelRatio: () => UseDevicePixelRatioReturn;
+export declare const useDevicePixelRatio: (
+  callback?: UseDevicePixelRatioCallback
+) => UseDevicePixelRatioReturn;
 ```
 
 ### 6.8 useEvent
@@ -6577,7 +6674,7 @@ export interface UseDisclosureReturn {
   opened: boolean;
   close: () => void;
   open: () => void;
-  toggle: () => void;
+  toggle: (value?: boolean) => void;
 }
 export declare const useDisclosure: (
   initialValue?: boolean,
@@ -8217,7 +8314,7 @@ export declare const usePreferredReducedMotion: () => UsePreferredReducedMotionR
 
 ### 9.1 useDeviceMotion
 
-Provides device motion data with optional throttling.
+Provides device motion data via `snapshot` and `watch()`.
 
 #### Usage
 
@@ -8225,25 +8322,21 @@ Provides device motion data with optional throttling.
 import { useDeviceMotion } from "@siberiacancode/reactuse";
 
 const motion = useDeviceMotion();
+const value = motion.watch();
 ```
 
 #### Example
 
 ```tsx
 const motion = useDeviceMotion();
+const value = motion.watch();
 
 return (
   <div>
-    {Math.round(motion.accelerationIncludingGravity.x ?? 0)} /{" "}
-    {Math.round(motion.accelerationIncludingGravity.y ?? 0)}
+    {Math.round(value.accelerationIncludingGravity.x ?? 0)} /{" "}
+    {Math.round(value.accelerationIncludingGravity.y ?? 0)}
   </div>
 );
-```
-
-`delay`:
-
-```tsx
-const motion = useDeviceMotion({ delay: 500 });
 ```
 
 `enabled`:
@@ -8266,21 +8359,21 @@ const motion = useDeviceMotion({ onChange: (event) => console.log(event) });
 
 ```ts
 export interface UseDeviceMotionReturn {
+  snapshot: UseDeviceMotionValue;
+  watch: () => UseDeviceMotionValue;
+}
+export interface UseDeviceMotionValue {
   acceleration: DeviceMotionEventAcceleration;
   accelerationIncludingGravity: DeviceMotionEventAcceleration;
   interval: DeviceMotionEvent["interval"];
   rotationRate: DeviceMotionEventRotationRate;
 }
 export interface UseDeviceMotionOptions {
-  delay?: number;
   enabled?: boolean;
   onChange?: (event: DeviceMotionEvent) => void;
 }
 export interface UseDeviceMotion {
-  (
-    callback?: (event: DeviceMotionEvent) => void,
-    delay?: number
-  ): UseDeviceMotionReturn;
+  (callback?: (event: DeviceMotionEvent) => void): UseDeviceMotionReturn;
   (options?: UseDeviceMotionOptions): UseDeviceMotionReturn;
 }
 export declare const useDeviceMotion: UseDeviceMotion;

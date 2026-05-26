@@ -64,7 +64,7 @@ export interface UseDisclosureReturn {
   opened: boolean;
   close: () => void;
   open: () => void;
-  toggle: () => void;
+  toggle: (value?: boolean) => void;
 }
 export declare const useDisclosure: (
   initialValue?: boolean,

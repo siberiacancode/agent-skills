@@ -203,7 +203,7 @@ IMPORTANT: Each hook entry includes a short `Description` and a detailed `Refere
 
 | Hook                    | Description                                                     | Invocation |
 | ----------------------- | --------------------------------------------------------------- | ---------- |
-| useDeviceMotion         | Provides device motion data with optional throttling.           | LOW        |
+| useDeviceMotion         | Provides device motion data via `snapshot` and `watch()`.       | LOW        |
 | useDeviceOrientation    | Provides the current device orientation.                        | LOW        |
 | useHotkeys              | Listens for keyboard shortcuts.                                 | MEDIUM     |
 | useIdle                 | Tracks whether the user is idle and last active time.           | LOW        |

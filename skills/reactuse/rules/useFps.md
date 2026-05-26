@@ -16,6 +16,12 @@ import { useFps } from "@siberiacancode/reactuse";
 const fps = useFps();
 ```
 
+`callback`:
+
+```ts
+const fps = useFps((value) => console.log("fps", value));
+```
+
 ## Example
 
 ```tsx
@@ -30,5 +36,5 @@ return <div>FPS: {fps}</div>;
 ## Type Declarations
 
 ```ts
-export declare const useFps: () => number;
+export declare const useFps: (callback?: (fps: number) => void) => number;
 ```
