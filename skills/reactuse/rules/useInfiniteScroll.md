@@ -42,8 +42,6 @@ return (
 
 `distance`:
 
-Trigger threshold.
-
 ```tsx
 const infiniteScroll = useInfiniteScroll<HTMLDivElement>(() => {}, {
   distance: 50,
@@ -51,8 +49,6 @@ const infiniteScroll = useInfiniteScroll<HTMLDivElement>(() => {}, {
 ```
 
 `direction`:
-
-Scroll edge.
 
 ```tsx
 const infiniteScroll = useInfiniteScroll<HTMLDivElement>(() => {}, {
@@ -72,6 +68,7 @@ export interface UseInfiniteScrollOptions {
 }
 export interface UseInfiniteScrollReturn {
   loading: boolean;
+  ref: StateRef<Element>;
 }
 export interface UseInfiniteScroll {
   (
@@ -83,7 +80,7 @@ export interface UseInfiniteScroll {
     callback: (event: Event) => void,
     options?: UseInfiniteScrollOptions,
     target?: never
-  ): { ref: StateRef<Target> } & UseInfiniteScrollReturn;
+  ): UseInfiniteScrollReturn & { ref: StateRef<Target> };
 }
 export declare const useInfiniteScroll: UseInfiniteScroll;
 ```

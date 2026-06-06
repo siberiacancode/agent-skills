@@ -13,7 +13,7 @@ Tracks all currently pressed keys.
 ```ts
 import { useKeysPressed } from "@siberiacancode/reactuse";
 
-const keysPressed = useKeysPressed<HTMLDivElement>();
+const keysPressed = useKeysPressed();
 // or
 const keysPressed = useKeysPressed(ref, { enabled: true });
 ```
@@ -28,15 +28,13 @@ export const KeysPanel = () => {
 
   return (
     <div ref={keysPressed.ref}>
-      {keysPressed.map((item) => item.key).join(", ") || "None"}
+      {keysPressed.value.map((item) => item.key).join(", ") || "None"}
     </div>
   );
 };
 ```
 
 `enabled`:
-
-Toggle tracking.
 
 ```tsx
 const keysPressed = useKeysPressed<HTMLDivElement>({ enabled: false });
@@ -59,9 +57,9 @@ export interface UseKeysPressed {
     target: HookTarget | Window,
     options?: UseKeysPressedOptions
   ): UseKeysPressedReturn;
-  <Target extends Element>(options?: UseKeysPressedOptions): {
-    ref: StateRef<Target>;
-  } & UseKeysPressedReturn;
+  <Target extends Element>(
+    options?: UseKeysPressedOptions
+  ): UseKeysPressedReturn & { ref: StateRef<Target> };
 }
 export declare const useKeysPressed: UseKeysPressed;
 ```

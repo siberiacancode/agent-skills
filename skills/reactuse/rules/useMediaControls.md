@@ -39,15 +39,11 @@ export const Player = () => {
 
 `src`:
 
-Media source.
-
 ```tsx
 const media = useMediaControls<HTMLAudioElement>("audio.mp3");
 ```
 
 `type`:
-
-Mime type.
 
 ```tsx
 const media = useMediaControls<HTMLVideoElement>({
@@ -57,8 +53,6 @@ const media = useMediaControls<HTMLVideoElement>({
 ```
 
 `media`:
-
-Media query.
 
 ```tsx
 const media = useMediaControls<HTMLVideoElement>({

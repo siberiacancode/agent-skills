@@ -16,6 +16,14 @@ import { useGeolocation } from "@siberiacancode/reactuse";
 const geolocation = useGeolocation();
 ```
 
+`callback`:
+
+```tsx
+const geolocation = useGeolocation((position) => {
+  console.log(position.coords.latitude);
+});
+```
+
 ## Example
 
 ```tsx
@@ -53,6 +61,15 @@ const geolocation = useGeolocation({ maximumAge: 60000 });
 const geolocation = useGeolocation({ timeout: 5000 });
 ```
 
+`onChange`, `onError`:
+
+```tsx
+const geolocation = useGeolocation({
+  onChange: (position) => console.log(position.coords.longitude),
+  onError: (error) => console.error(error.message),
+});
+```
+
 ## Notes
 
 - Hook uses the [navigator.geolocation API](https://developer.mozilla.org/en-US/docs/Web/API/Navigator/geolocation).
@@ -72,8 +89,19 @@ export interface UseGeolocationReturn {
   speed: number | null;
   timestamp: number | null;
 }
-export type UseGeolocationParams = PositionOptions;
-export declare const useGeolocation: (
-  params?: UseGeolocationParams
-) => UseGeolocationReturn;
+export type UseGeolocationCallback = (
+  position: GeolocationPosition
+) => void;
+export interface UseGeolocationOptions extends PositionOptions {
+  onChange?: UseGeolocationCallback;
+  onError?: (error: GeolocationPositionError) => void;
+}
+export interface UseGeolocation {
+  (
+    callback?: UseGeolocationCallback,
+    options?: PositionOptions
+  ): UseGeolocationReturn;
+  (options?: UseGeolocationOptions): UseGeolocationReturn;
+}
+export declare const useGeolocation: UseGeolocation;
 ```

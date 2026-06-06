@@ -16,6 +16,12 @@ import { useIdle } from "@siberiacancode/reactuse";
 const idle = useIdle();
 ```
 
+`callback`:
+
+```tsx
+const idle = useIdle(60000, (nextIdle) => console.log(nextIdle));
+```
+
 ## Example
 
 ```tsx
@@ -32,15 +38,11 @@ return (
 
 `milliseconds`:
 
-Idle timeout in milliseconds.
-
 ```tsx
 const idle = useIdle(30000);
 ```
 
 `initialValue`:
-
-Initial idle value.
 
 ```tsx
 const idle = useIdle(60000, { initialValue: true });
@@ -48,25 +50,35 @@ const idle = useIdle(60000, { initialValue: true });
 
 `events`:
 
-Events that reset idle state.
-
 ```tsx
 const idle = useIdle(60000, { events: ["mousemove", "keydown"] });
+```
+
+`onChange`:
+
+```tsx
+const idle = useIdle(60000, {
+  onChange: (nextIdle) => console.log(nextIdle),
+});
 ```
 
 ## Type Declarations
 
 ```ts
+export type UseIdleCallback = (idle: boolean) => void;
 export interface UseIdleOptions {
   events?: Array<keyof DocumentEventMap>;
   initialValue?: boolean;
+  onChange?: UseIdleCallback;
 }
 export interface UseIdleReturn {
   idle: boolean;
   lastActive: number;
 }
-export declare const useIdle: (
-  milliseconds?: number,
-  options?: UseIdleOptions
-) => UseIdleReturn;
+export interface UseIdle {
+  (): UseIdleReturn;
+  (milliseconds: number, callback: UseIdleCallback): UseIdleReturn;
+  (milliseconds: number, options?: UseIdleOptions): UseIdleReturn;
+}
+export declare const useIdle: UseIdle;
 ```

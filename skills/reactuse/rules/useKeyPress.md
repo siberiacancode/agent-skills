@@ -38,6 +38,14 @@ export const Spacebar = () => {
 const keyPress = useKeyPress<HTMLDivElement>(["ArrowLeft", "ArrowRight"]);
 ```
 
+`callback`:
+
+```tsx
+const keyPress = useKeyPress<HTMLDivElement>("Escape", (pressed, event) => {
+  console.log(pressed, event.key);
+});
+```
+
 ## Type Declarations
 
 ```ts
@@ -51,6 +59,7 @@ export type UseKeyPressCallback = (
 ) => void;
 export interface UseKeyPressReturn {
   pressed: boolean;
+  ref: StateRef<Element>;
 }
 export interface UseKeyPress {
   (
@@ -62,7 +71,7 @@ export interface UseKeyPress {
     key: UseKeyPressKey,
     callback?: UseKeyPressCallback,
     target?: never
-  ): { ref: StateRef<Target> } & UseKeyPressReturn;
+  ): UseKeyPressReturn & { ref: StateRef<Target> };
 }
 export declare const useKeyPress: UseKeyPress;
 ```

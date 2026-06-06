@@ -29,7 +29,7 @@ const mouse = useMouse<HTMLDivElement>((value) => {
   document.body.style.setProperty("--mouse-x", String(value.clientX));
   document.body.style.setProperty("--mouse-y", String(value.clientY));
 });
-return <div ref={mouse.ref}>Cursor position → CSS vars</div>;
+return <div ref={mouse.ref}>Cursor position -> CSS vars</div>;
 ```
 
 Reading `snapshot` without re-renders (e.g. in a handler):
@@ -46,7 +46,7 @@ return (
 );
 ```
 
-**Reactivity.** By default the hook does not re-render on mouse move — only `snapshot` and the optional callback are updated. To render coordinates in JSX and react to movement, subscribe via `watch()`: call it once per render (e.g. `const state = mouse.watch()`), then the component will re-render on mousemove. If you do need to show position in the UI:
+**Reactivity.** By default the hook does not re-render on mouse move, only `snapshot` and the optional callback are updated. To render coordinates in JSX and react to movement, subscribe via `watch()`: call it once per render, for example `const state = mouse.watch()`, then the component will re-render on mouse move. If you do need to show position in the UI:
 
 ```tsx
 const mouse = useMouse<HTMLDivElement>();

@@ -16,6 +16,14 @@ import { useOrientation } from "@siberiacancode/reactuse";
 const orientation = useOrientation();
 ```
 
+`callback`:
+
+```tsx
+const orientation = useOrientation((value) => {
+  console.log(value.orientationType);
+});
+```
+
 ## Example
 
 ```tsx
@@ -61,5 +69,7 @@ export interface useOrientationReturn {
   lock: (orientation: OrientationLockType) => void;
   unlock: () => void;
 }
-export declare const useOrientation: () => useOrientationReturn;
+export declare const useOrientation: (
+  callback?: (value: UseOrientationValue) => void
+) => useOrientationReturn;
 ```

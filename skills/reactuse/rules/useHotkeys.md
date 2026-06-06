@@ -49,6 +49,7 @@ import type { StateRef } from "@siberiacancode/reactuse";
 export interface UseHotkeysOptions {
   alias?: Record<string, string>;
   enabled?: boolean;
+  onChange?: (event: KeyboardEvent) => void;
 }
 export type UseHotkeysHotkeys = string;
 export interface UseHotkeysKey {
@@ -56,16 +57,23 @@ export interface UseHotkeysKey {
   code: string;
   key: string;
 }
-export type UseHotkeysTarget =
-  | Element
-  | React.RefObject<Element | null | undefined>;
 export interface UseHotkeys {
   (
-    target: UseHotkeysTarget,
+    target: HookTarget,
+    hotkeys: UseHotkeysHotkeys,
+    options?: UseHotkeysOptions
+  ): void;
+  (
+    target: HookTarget,
     hotkeys: UseHotkeysHotkeys,
     callback: (event: KeyboardEvent) => void,
     options?: UseHotkeysOptions
   ): void;
+  <Target extends Element>(
+    hotkeys: UseHotkeysHotkeys,
+    options?: UseHotkeysOptions,
+    target?: never
+  ): StateRef<Target>;
   <Target extends Element>(
     hotkeys: UseHotkeysHotkeys,
     callback: (event: KeyboardEvent) => void,

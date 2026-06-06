@@ -48,7 +48,7 @@ const scroll = useScroll<HTMLDivElement>({
 const scroll = useScroll<HTMLDivElement>({ offset: { left: 10, top: 10 } });
 ```
 
-**Reactivity.** By default the hook does not re-render on scroll — only `snapshot` in a ref and `onScroll` are updated. To render scroll state in JSX and react to changes, subscribe via `watch()`: call it once per render (e.g. `const state = scroll.watch()`), then the component will re-render on scroll and `state` will stay in sync.
+**Reactivity.** By default the hook does not re-render on scroll, only `snapshot` in a ref and `onScroll` are updated. To render scroll state in JSX and react to changes, subscribe via `watch()`: call it once per render, for example `const state = scroll.watch()`, then the component will re-render on scroll and `state` will stay in sync.
 
 If you do need to show scroll position in the UI:
 

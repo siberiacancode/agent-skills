@@ -16,6 +16,14 @@ import { useMemory } from "@siberiacancode/reactuse";
 const memory = useMemory();
 ```
 
+`callback`:
+
+```tsx
+const memory = useMemory((value) => {
+  console.log(value.usedJSHeapSize);
+});
+```
+
 ## Example
 
 ```tsx
@@ -43,5 +51,8 @@ export interface UseMemoryReturn {
   supported: boolean;
   value: Performance["memory"];
 }
-export declare const useMemory: () => UseMemoryReturn;
+export type UseMemoryCallback = (value: Performance["memory"]) => void;
+export declare const useMemory: (
+  callback?: UseMemoryCallback
+) => UseMemoryReturn;
 ```

@@ -28,12 +28,17 @@ export const EmailField = () => {
 
   return (
     <form
-      onSubmit={(e) => {
-        e.preventDefault();
+      onSubmit={(event) => {
+        event.preventDefault();
         console.log(field.getValue());
       }}
     >
-      <input {...field.register({ required: "Required" })} />
+      <input
+        {...field.register({
+          required: "Required",
+          onBlur: () => console.log("blur"),
+        })}
+      />
       {field.error && <span>{field.error}</span>}
       <button type="submit">Submit</button>
     </form>
@@ -41,7 +46,7 @@ export const EmailField = () => {
 };
 ```
 
-`initialValue` (first argument):
+`initialValue`:
 
 ```tsx
 const field = useField();
@@ -49,7 +54,7 @@ const fieldNum = useField(0);
 const fieldChecked = useField(false);
 ```
 
-`initialTouched`, `autoFocus`, `validateOnChange`, `validateOnBlur`, `validateOnMount` (second argument):
+`initialTouched`, `autoFocus`, `validateOnChange`, `validateOnBlur`, `validateOnMount`:
 
 ```tsx
 const field = useField("", {
@@ -57,6 +62,20 @@ const field = useField("", {
   autoFocus: true,
   validateOnBlur: true,
 });
+```
+
+`register.onChange`, `register.onBlur`:
+
+```tsx
+const field = useField("");
+return (
+  <input
+    {...field.register({
+      onChange: (event) => console.log(event.currentTarget.value),
+      onBlur: () => console.log("blur"),
+    })}
+  />
+);
 ```
 
 `register.required`, `register.validate`, `register.max`, `register.maxLength`, `register.min`, `register.minLength`, `register.pattern`:
@@ -73,25 +92,24 @@ return (
 );
 ```
 
-**Reactivity.** By default the hook does not re-render on input — only internal state and flags like `dirty`/`touched`/`error` update. To render the current value in JSX (e.g. character count), subscribe via `watch()`: call it once per render (e.g. `const value = field.watch()`), then the component will re-render when the field changes. Without `watch()` use `getValue()` for one-off reads (e.g. on submit).
+## Notes
 
-If you do need to show the value in the UI:
-
-```tsx
-const field = useField();
-const value = field.watch();
-return (
-  <div>
-    <input {...field.register()} />
-    <span>Characters: {String(value).length}</span>
-  </div>
-);
-```
+- **Reactivity.** By default the hook does not re-render on input, only internal state and flags like `dirty`, `touched`, and `error` update. To render the current value in JSX, subscribe via `watch()`: call it once per render, for example `const value = field.watch()`, then the component will re-render when the field changes. Without `watch()` use `getValue()` for one-off reads, for example on submit.
+- Checkboxes and radio inputs are treated as boolean `checked` state; text inputs, selects, and textareas use `value`.
 
 ## Type Declarations
 
 ```ts
-import type { RefObject } from "react";
+import type {
+  ChangeEventHandler,
+  FocusEventHandler,
+  RefObject,
+} from "react";
+
+type UseFieldElement =
+  | HTMLInputElement
+  | HTMLSelectElement
+  | HTMLTextAreaElement;
 
 export interface UseFieldOptions {
   autoFocus?: boolean;
@@ -105,31 +123,24 @@ export interface UseFieldRegisterParams {
   maxLength?: { value: number; message: string };
   min?: { value: number; message: string };
   minLength?: { value: number; message: string };
+  onBlur?: FocusEventHandler<UseFieldElement>;
+  onChange?: ChangeEventHandler<UseFieldElement>;
   pattern?: { value: RegExp; message: string };
   required?: string;
-  validate?: (value: string) => Promise<string | true>;
+  validate?: (value: string) => string | true | Promise<string | true>;
 }
 export interface UseFieldReturn<Value> {
   dirty: boolean;
   error?: string;
-  ref: RefObject<
-    HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement | null
-  >;
+  ref: RefObject<UseFieldElement | null>;
   touched: boolean;
   clearError: () => void;
   focus: () => void;
   getValue: () => Value;
   register: (params?: UseFieldRegisterParams) => {
-    onBlur: () => void;
-    onChange: () => void;
-    ref: (
-      node:
-        | HTMLInputElement
-        | HTMLSelectElement
-        | HTMLTextAreaElement
-        | null
-        | undefined
-    ) => void;
+    onBlur: FocusEventHandler<UseFieldElement>;
+    onChange: ChangeEventHandler<UseFieldElement>;
+    ref: (node: UseFieldElement | null | undefined) => void;
   };
   reset: () => void;
   setError: (error: string) => void;
@@ -137,14 +148,14 @@ export interface UseFieldReturn<Value> {
   watch: () => Value;
 }
 export declare const useField: <
-  Value extends boolean | number | string = string,
+  Value extends boolean | number | string | unknown = string,
   Type = Value extends string
     ? string
     : Value extends boolean
     ? boolean
     : number
 >(
-  initialValue: Value = "" as Value,
+  initialValue?: Value,
   options?: UseFieldOptions
 ) => UseFieldReturn<Type>;
 ```

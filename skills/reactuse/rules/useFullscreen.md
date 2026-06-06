@@ -34,15 +34,11 @@ return (
 
 `initialValue`:
 
-Start fullscreen.
-
 ```tsx
 const fullscreen = useFullscreen<HTMLDivElement>({ initialValue: true });
 ```
 
 `onEnter`:
-
-Enter callback.
 
 ```tsx
 const fullscreen = useFullscreen<HTMLDivElement>({
@@ -52,13 +48,15 @@ const fullscreen = useFullscreen<HTMLDivElement>({
 
 `onExit`:
 
-Exit callback.
-
 ```tsx
 const fullscreen = useFullscreen<HTMLDivElement>({
   onExit: () => console.log("exit"),
 });
 ```
+
+## Notes
+
+- Hook uses the [Fullscreen API](https://developer.mozilla.org/en-US/docs/Web/API/Fullscreen_API).
 
 ## Type Declarations
 

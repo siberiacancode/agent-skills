@@ -211,7 +211,6 @@ IMPORTANT: Each hook entry includes a short `Description` and a detailed `Refere
 | useIntersectionObserver | Tracks intersection state for an element.                       | MEDIUM     |
 | useKeyboard             | Registers keydown/keyup listeners on a target.                  | MEDIUM     |
 | useKeyPress             | Tracks whether specific keys are pressed.                       | MEDIUM     |
-| useKeyPressEvent        | Runs a handler when specific keys are pressed.                  | LOW        |
 | useKeysPressed          | Tracks all currently pressed keys.                              | LOW        |
 | useMouse                | Tracks mouse coordinates relative to page and element.          | LOW        |
 | useMutationObserver     | Observes DOM mutations on an element.                           | LOW        |

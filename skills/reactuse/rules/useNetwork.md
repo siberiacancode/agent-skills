@@ -16,6 +16,14 @@ import { useNetwork } from "@siberiacancode/reactuse";
 const network = useNetwork();
 ```
 
+`callback`:
+
+```tsx
+const network = useNetwork((value) => {
+  console.log(value.online);
+});
+```
+
 ## Example
 
 ```tsx
@@ -61,5 +69,7 @@ export interface UseNetworkReturn {
     | "wifi"
     | "wimax";
 }
-export declare const useNetwork: () => UseNetworkReturn;
+export declare const useNetwork: (
+  callback?: (value: UseNetworkReturn) => void
+) => UseNetworkReturn;
 ```

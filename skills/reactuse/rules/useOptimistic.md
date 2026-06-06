@@ -13,7 +13,7 @@ Allows showing an optimistic value before the async update resolves.
 ```ts
 import { useOptimistic } from "@siberiacancode/reactuse";
 
-const [optimisticCount, updateOptimistic] = useOptimistic(
+const [optimisticCount, updateOptimistic, setOptimisticCount] = useOptimistic(
   count,
   (current, delta) => current + delta
 );
@@ -44,6 +44,10 @@ export const LikeButton = () => {
 };
 ```
 
+## Notes
+
+- The third tuple item is the internal `setState`, useful when you need to imperatively replace the optimistic state.
+
 ## Type Declarations
 
 ```ts
@@ -56,6 +60,7 @@ export declare const useOptimistic: <State, OptimisticState = State>(
   update: (currentState: State, optimisticState: OptimisticState) => State
 ) => readonly [
   State,
-  (optimisticValue: OptimisticState, promise: Promise<any>) => Promise<any>
+  (optimisticValue: OptimisticState, promise: Promise<any>) => Promise<any>,
+  React.Dispatch<React.SetStateAction<State>>
 ];
 ```

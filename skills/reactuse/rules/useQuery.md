@@ -20,19 +20,19 @@ const query = useQuery(({ signal }) =>
 
 ## Example
 
-`enabled` (skip initial fetch until true):
+`enabled`:
 
 ```tsx
 const query = useQuery(fetchUser, { enabled: isOpen });
 ```
 
-`keys` (re-run when dependencies change):
+`keys`:
 
 ```tsx
 const query = useQuery(fetchUser, { keys: [userId] });
 ```
 
-`placeholderData` (initial UI data):
+`placeholderData`:
 
 ```tsx
 const query = useQuery(fetchUser, {
@@ -40,19 +40,19 @@ const query = useQuery(fetchUser, {
 });
 ```
 
-`refetchInterval` (polling):
+`refetchInterval`:
 
 ```tsx
 const query = useQuery(fetchStats, { refetchInterval: 5000 });
 ```
 
-`retry` (boolean or number of retries):
+`retry`:
 
 ```tsx
 const query = useQuery(fetchUser, { retry: 2 });
 ```
 
-`retryDelay` (number or function):
+`retryDelay`:
 
 ```tsx
 const query = useQuery(fetchUser, {
@@ -60,7 +60,7 @@ const query = useQuery(fetchUser, {
 });
 ```
 
-`onSuccess` (side effect on success):
+`onSuccess`:
 
 ```tsx
 const query = useQuery(fetchUser, {
@@ -68,7 +68,7 @@ const query = useQuery(fetchUser, {
 });
 ```
 
-`onError` (side effect on error):
+`onError`:
 
 ```tsx
 const query = useQuery(fetchUser, {
@@ -76,7 +76,7 @@ const query = useQuery(fetchUser, {
 });
 ```
 
-`select` (transform data):
+`select`:
 
 ```tsx
 const query = useQuery(fetchUser, {
@@ -87,7 +87,8 @@ const query = useQuery(fetchUser, {
 ## Notes
 
 - The callback receives `{ signal, keys }` for cancellation and dependency awareness.
-- Use `refetch()` to manually refresh the data.
+- Use `refetch()` for fire-and-forget reloads.
+- Use `fetch()` when you need the same reload behavior but want a `Promise` you can `await`.
 
 ## Type Declarations
 
@@ -118,6 +119,7 @@ export interface UseQueryReturn<Data> {
   isLoading: boolean;
   isRefetching: boolean;
   isSuccess: boolean;
+  fetch: () => Promise<void>;
   refetch: () => void;
 }
 export declare const useQuery: <QueryData, Data = QueryData>(
