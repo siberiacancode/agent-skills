@@ -14,6 +14,7 @@ React hooks best practices for React application code and custom hook design acr
 
 - Writing React application code that uses hooks
 - Creating or refactoring custom React hooks
+- Moving complex feature logic out of React components
 - Reviewing hook usage, dependencies, effects, state, refs, and callbacks
 - Designing hook APIs that should be clear, reusable, and hard to misuse
 - Checking hook code for DX, optimization, and logic issues

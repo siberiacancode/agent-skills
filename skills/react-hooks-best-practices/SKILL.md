@@ -13,6 +13,7 @@ Reference these guidelines when:
 
 - Writing React components that use hooks
 - Creating or refactoring custom hooks
+- Moving complex feature logic out of React components
 - Designing hook APIs that are ergonomic and composable
 - Reviewing dependencies, effects, refs, state, callbacks, and memoization
 - Reviewing hook APIs for unnecessary re-renders
@@ -34,7 +35,7 @@ Reference these guidelines when:
 
 ### 1. DX (HIGH)
 
-Rules coming soon.
+- `dx-extract-complex-hook` - Move complex feature logic into `use<ComponentName>` hooks with `Use<ComponentName>Params` params types and grouped return contracts like `form`, `state`, `functions`, `refs`, and `features`
 
 ### 2. Optimization (HIGH)
 
@@ -49,6 +50,7 @@ Rules coming soon.
 Read individual rule files for detailed explanations and examples:
 
 ```
+rules/dx-extract-complex-hook.md
 rules/optimization-watch-mode.md
 ```
 

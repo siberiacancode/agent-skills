@@ -2,6 +2,6 @@
   "version": "1.0.0",
   "organization": "siberiacancode",
   "date": "August 2026",
-  "abstract": "React hooks best practices for using hooks in React applications and designing custom hooks across DX, optimization, and logic. Use it for component hook usage, custom hook design, hook API review, and hook correctness/performance checks. The first guide focuses on watch mode for high-frequency updates.",
+  "abstract": "React hooks best practices for using hooks in React applications and designing custom hooks across DX, optimization, and logic. Use it for component hook usage, custom hook design, hook API review, feature-logic extraction, and hook correctness/performance checks.",
   "references": ["https://react.dev", "https://reactuse.org"]
 }
