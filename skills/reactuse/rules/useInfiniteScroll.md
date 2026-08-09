@@ -6,65 +6,82 @@ usage: medium
 
 # useInfiniteScroll
 
-Triggers a callback when scroll reaches an edge.
+Turns proximity to a scroll edge into a guarded loading callback for paginated lists and timelines.
 
 ## Usage
 
 ```ts
 import { useInfiniteScroll } from "@siberiacancode/reactuse";
 
-const infiniteScroll = useInfiniteScroll<HTMLDivElement>(() =>
-  console.log("load")
-);
+const infiniteScroll = useInfiniteScroll<HTMLDivElement>(async () => {
+  await loadMore();
+});
 // or
-const infiniteScroll = useInfiniteScroll(ref, () => console.log("load"));
+const infiniteScroll = useInfiniteScroll(ref, () => loadMore());
 ```
 
 ## Example
 
 ```tsx
-import { useRef } from "react";
 import { useInfiniteScroll } from "@siberiacancode/reactuse";
 
-const infiniteScroll = useInfiniteScroll<HTMLDivElement>(() =>
-  console.log("load")
+const infiniteScroll = useInfiniteScroll<HTMLDivElement>(
+  () => fetchNextPage(),
+  { hasMore, immediately: true }
 );
 
 return (
   <div ref={infiniteScroll.ref}>
     {items.map((item) => (
-      <div key={item}>Item {item}</div>
+      <div key={item.id}>{item.title}</div>
     ))}
     {infiniteScroll.loading && <div>Loading...</div>}
   </div>
 );
 ```
 
+`direction`:
+
+```tsx
+const infiniteScroll = useInfiniteScroll<HTMLDivElement>(loadPrevious, {
+  direction: "top",
+});
+```
+
 `distance`:
 
 ```tsx
-const infiniteScroll = useInfiniteScroll<HTMLDivElement>(() => {}, {
+const infiniteScroll = useInfiniteScroll<HTMLDivElement>(loadMore, {
   distance: 50,
 });
 ```
 
-`direction`:
+`hasMore`:
 
 ```tsx
-const infiniteScroll = useInfiniteScroll<HTMLDivElement>(() => {}, {
-  direction: "top",
+const infiniteScroll = useInfiniteScroll<HTMLDivElement>(loadMore, {
+  hasMore: hasNextPage,
+});
+```
+
+`immediately`:
+
+```tsx
+const infiniteScroll = useInfiniteScroll<HTMLDivElement>(loadMore, {
+  immediately: true,
 });
 ```
 
 ## Type Declarations
 
 ```ts
-import type { HookTarget } from "@siberiacancode/reactuse";
-import type { StateRef } from "@siberiacancode/reactuse";
+import type { HookTarget, StateRef } from "@siberiacancode/reactuse";
 
 export interface UseInfiniteScrollOptions {
   direction?: "bottom" | "left" | "right" | "top";
   distance?: number;
+  hasMore?: boolean;
+  immediately?: boolean;
 }
 export interface UseInfiniteScrollReturn {
   loading: boolean;
@@ -73,13 +90,12 @@ export interface UseInfiniteScrollReturn {
 export interface UseInfiniteScroll {
   (
     target: HookTarget,
-    callback: (event: Event) => void,
+    callback: (event?: Event) => Promise<void> | void,
     options?: UseInfiniteScrollOptions
   ): UseInfiniteScrollReturn;
   <Target extends Element>(
-    callback: (event: Event) => void,
-    options?: UseInfiniteScrollOptions,
-    target?: never
+    callback: (event?: Event) => Promise<void> | void,
+    options?: UseInfiniteScrollOptions
   ): UseInfiniteScrollReturn & { ref: StateRef<Target> };
 }
 export declare const useInfiniteScroll: UseInfiniteScroll;

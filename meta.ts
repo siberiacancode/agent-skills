@@ -40,4 +40,4 @@ export const vendors: Record<string, VendorSkillMeta> = {
 /**
  * Hand-written skills with siberiacancode preferences/tastes/recommendations
  */
-export const manual = ["siberiacancode"];
+export const manual = ["siberiacancode", "react-hooks-best-pratcies"];

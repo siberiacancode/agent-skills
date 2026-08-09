@@ -6,7 +6,7 @@ usage: medium
 
 # useField
 
-Manages input state, validation, and helpers.
+Keeps a single uncontrolled form control connected to React state for validation, touched/dirty flags, and imperative field helpers.
 
 ## Usage
 
@@ -54,17 +54,40 @@ const fieldNum = useField(0);
 const fieldChecked = useField(false);
 ```
 
-`initialTouched`, `autoFocus`, `validateOnChange`, `validateOnBlur`, `validateOnMount`:
+`initialTouched`:
 
 ```tsx
-const field = useField("", {
-  initialTouched: true,
-  autoFocus: true,
+const field = useField("", { initialTouched: true });
+```
+
+`autoFocus`:
+
+```tsx
+const field = useField("", { autoFocus: true });
+```
+
+`validateOnChange`:
+
+```tsx
+const field = useField("", { validateOnChange: true });
+```
+
+`validateOnBlur`:
+
+```tsx
+const email = useField("", {
   validateOnBlur: true,
+  required: "Email is required",
 });
 ```
 
-`register.onChange`, `register.onBlur`:
+`validateOnMount`:
+
+```tsx
+const field = useField("", { validateOnMount: true });
+```
+
+`register.onChange`:
 
 ```tsx
 const field = useField("");
@@ -72,13 +95,54 @@ return (
   <input
     {...field.register({
       onChange: (event) => console.log(event.currentTarget.value),
-      onBlur: () => console.log("blur"),
     })}
   />
 );
 ```
 
-`register.required`, `register.validate`, `register.max`, `register.maxLength`, `register.min`, `register.minLength`, `register.pattern`:
+`register.onBlur`:
+
+```tsx
+const field = useField("");
+return <input {...field.register({ onBlur: () => console.log("blur") })} />;
+```
+
+`register.required`:
+
+```tsx
+const field = useField("");
+return <input {...field.register({ required: "Required" })} />;
+```
+
+`register.validate`:
+
+```tsx
+const field = useField("");
+return <input {...field.register({ validate: (value) => value ? true : "Empty" })} />;
+```
+
+`register.max`:
+
+```tsx
+const age = useField(0);
+return <input type="number" {...age.register({ max: { value: 99, message: "Too old" } })} />;
+```
+
+`register.maxLength`:
+
+```tsx
+const field = useField("");
+return <input {...field.register({ maxLength: { value: 20, message: "Too long" } })} />;
+```
+
+`register.min`:
+
+```tsx
+const age = useField(0);
+return <input type="number" {...age.register({ min: { value: 18, message: "Too young" } })} />;
+```
+
+`register.minLength`:
 
 ```tsx
 const field = useField();
@@ -92,10 +156,16 @@ return (
 );
 ```
 
+`register.pattern`:
+
+```tsx
+const email = useField("");
+return <input {...email.register({ pattern: { value: /\S+@\S+\.\S+/, message: "Invalid" } })} />;
+```
+
 ## Notes
 
-- **Reactivity.** By default the hook does not re-render on input, only internal state and flags like `dirty`, `touched`, and `error` update. To render the current value in JSX, subscribe via `watch()`: call it once per render, for example `const value = field.watch()`, then the component will re-render when the field changes. Without `watch()` use `getValue()` for one-off reads, for example on submit.
-- Checkboxes and radio inputs are treated as boolean `checked` state; text inputs, selects, and textareas use `value`.
+- By default the hook does not re-render on every input value change. To render the current value in JSX, subscribe via `watch()`: call it once per render, for example `const value = field.watch()`, then the component will re-render when the field changes. Use `getValue()` for one-off reads such as submit handlers.
 
 ## Type Declarations
 
@@ -111,13 +181,6 @@ type UseFieldElement =
   | HTMLSelectElement
   | HTMLTextAreaElement;
 
-export interface UseFieldOptions {
-  autoFocus?: boolean;
-  initialTouched?: boolean;
-  validateOnBlur?: boolean;
-  validateOnChange?: boolean;
-  validateOnMount?: boolean;
-}
 export interface UseFieldRegisterParams {
   max?: { value: number; message: string };
   maxLength?: { value: number; message: string };
@@ -128,6 +191,13 @@ export interface UseFieldRegisterParams {
   pattern?: { value: RegExp; message: string };
   required?: string;
   validate?: (value: string) => string | true | Promise<string | true>;
+}
+export interface UseFieldOptions extends UseFieldRegisterParams {
+  autoFocus?: boolean;
+  initialTouched?: boolean;
+  validateOnBlur?: boolean;
+  validateOnChange?: boolean;
+  validateOnMount?: boolean;
 }
 export interface UseFieldReturn<Value> {
   dirty: boolean;

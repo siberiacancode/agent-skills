@@ -6,7 +6,7 @@ usage: low
 
 # useSpeechRecognition
 
-Provides speech-to-text recognition controls and state.
+Turns browser speech recognition into React state so voice input can be started, stopped, aborted, and rendered as transcript text.
 
 ## Usage
 
@@ -61,6 +61,13 @@ const speech = useSpeechRecognition({ language: "ru-RU" });
 const speech = useSpeechRecognition({ maxAlternatives: 3 });
 ```
 
+`abort`:
+
+```tsx
+const speech = useSpeechRecognition();
+speech.abort();
+```
+
 `grammars`:
 
 ```tsx
@@ -102,7 +109,7 @@ const speech = useSpeechRecognition({
 ## Type Declarations
 
 ```ts
-interface UseSpeechRecognitionOptions {
+export interface UseSpeechRecognitionOptions {
   continuous?: SpeechRecognition["continuous"];
   grammars?: SpeechRecognition["grammars"];
   interimResults?: SpeechRecognition["interimResults"];
@@ -113,7 +120,7 @@ interface UseSpeechRecognitionOptions {
   onResult?: (event: SpeechRecognitionEvent) => void;
   onStart?: () => void;
 }
-interface UseSpeechRecognitionReturn {
+export interface UseSpeechRecognitionReturn {
   error: SpeechRecognitionErrorEvent | null;
   final: boolean;
   listening: boolean;
@@ -122,6 +129,7 @@ interface UseSpeechRecognitionReturn {
   transcript: string;
   start: () => void;
   stop: () => void;
+  abort: () => void;
   toggle: (value?: boolean) => void;
 }
 export declare const useSpeechRecognition: (

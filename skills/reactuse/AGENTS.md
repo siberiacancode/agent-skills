@@ -1,8 +1,8 @@
 # Reactuse
 
-**Version 1.0.0**  
+**Version 1.0.12**
 Siberiacancode  
-January 2026
+July 2026
 
 > **Note:**  
 > This document is mainly for agents and LLMs to follow when maintaining,  
@@ -14,7 +14,7 @@ January 2026
 
 ## Abstract
 
-Comprehensive performance optimization guide for React and Next.js applications, designed for AI agents and LLMs. Contains 40+ rules across 8 categories, prioritized by impact from critical (eliminating waterfalls, reducing bundle size) to incremental (advanced patterns). Each rule includes detailed explanations, real-world examples comparing incorrect vs. correct implementations, and specific impact metrics to guide automated refactoring and code generation.
+Reactuse hook and helper playbook for React and Next.js projects, designed for AI agents and LLMs. Contains concise rules for choosing production-ready hooks, browser APIs, state helpers, async flows, sensors, lifecycle utilities, and SSR-compatible implementation patterns.
 
 ---
 
@@ -22,35 +22,40 @@ Comprehensive performance optimization guide for React and Next.js applications,
 
 1. [Helpers](#1-helpers)
 
-   - 1.1 [createContext](#11-createcontext)
-   - 1.2 [createEventEmitter](#12-createeventemitter)
-   - 1.3 [createReactiveContext](#13-createreactivecontext)
-   - 1.4 [createStore](#14-createstore)
-   - 1.5 [target](#15-target)
+   - 1.1 [cn](#11-cn)
+   - 1.2 [createContext](#12-createcontext)
+   - 1.3 [createContextHook](#13-createcontexthook)
+   - 1.4 [createEventEmitter](#14-createeventemitter)
+   - 1.5 [createReactiveContext](#15-createreactivecontext)
+   - 1.6 [createSharedHook](#16-createsharedhook)
+   - 1.7 [createStore](#17-createstore)
+   - 1.8 [makeDestructurable](#18-makedestructurable)
+   - 1.9 [target](#19-target)
 
 2. [Elements](#2-elements)
 
    - 2.1 [useActiveElement](#21-useactiveelement)
    - 2.2 [useAutoScroll](#22-useautoscroll)
    - 2.3 [useClickOutside](#23-useclickoutside)
-   - 2.4 [useDoubleClick](#24-usedoubleclick)
-   - 2.5 [useDropZone](#25-usedropzone)
-   - 2.6 [useFileDialog](#26-usefiledialog)
-   - 2.7 [useFocus](#27-usefocus)
-   - 2.8 [useFocusTrap](#28-usefocustrap)
-   - 2.9 [useHover](#29-usehover)
-   - 2.10 [useImage](#210-useimage)
-   - 2.11 [useLockScroll](#211-uselockscroll)
-   - 2.12 [useLongPress](#212-uselongpress)
-   - 2.13 [usePaint](#213-usepaint)
-   - 2.14 [useRightClick](#214-userightclick)
-   - 2.15 [useScript](#215-usescript)
-   - 2.16 [useSize](#216-usesize)
-   - 2.17 [useSticky](#217-usesticky)
-   - 2.18 [useTextareaAutosize](#218-usetextareaautosize)
-   - 2.19 [useTextDirection](#219-usetextdirection)
-   - 2.20 [useWindowFocus](#220-usewindowfocus)
-   - 2.21 [useWindowSize](#221-usewindowsize)
+   - 2.4 [useContextMenu](#24-usecontextmenu)
+   - 2.5 [useDoubleClick](#25-usedoubleclick)
+   - 2.6 [useDraggable](#26-usedraggable)
+   - 2.7 [useDropZone](#27-usedropzone)
+   - 2.8 [useFileDialog](#28-usefiledialog)
+   - 2.9 [useFocus](#29-usefocus)
+   - 2.10 [useFocusTrap](#210-usefocustrap)
+   - 2.11 [useHover](#211-usehover)
+   - 2.12 [useImage](#212-useimage)
+   - 2.13 [useLockScroll](#213-uselockscroll)
+   - 2.14 [useLongPress](#214-uselongpress)
+   - 2.15 [usePaint](#215-usepaint)
+   - 2.16 [useScript](#216-usescript)
+   - 2.17 [useSize](#217-usesize)
+   - 2.18 [useSticky](#218-usesticky)
+   - 2.19 [useTextareaAutosize](#219-usetextareaautosize)
+   - 2.20 [useTextDirection](#220-usetextdirection)
+   - 2.21 [useWindowFocus](#221-usewindowfocus)
+   - 2.22 [useWindowSize](#222-usewindowsize)
 
 3. [Async](#3-async)
 
@@ -77,43 +82,48 @@ Comprehensive performance optimization guide for React and Next.js applications,
    - 5.3 [useBluetooth](#53-usebluetooth)
    - 5.4 [useBreakpoints](#54-usebreakpoints)
    - 5.5 [useBroadcastChannel](#55-usebroadcastchannel)
-   - 5.5.1 [useBrowserLocation](#551-usebrowserlocation)
-   - 5.6 [useClipboard](#56-useclipboard)
-   - 5.7 [useCopy](#57-usecopy)
-   - 5.8 [useCssVar](#58-usecssvar)
-   - 5.9 [useDisplayMedia](#59-usedisplaymedia)
-   - 5.10 [useDocumentEvent](#510-usedocumentevent)
-   - 5.11 [useDocumentTitle](#511-usedocumenttitle)
-   - 5.12 [useDocumentVisibility](#512-usedocumentvisibility)
-   - 5.13 [useEventListener](#513-useeventlistener)
-   - 5.14 [useEventSource](#514-useeventsource)
-   - 5.15 [useEyeDropper](#515-useeyedropper)
-   - 5.16 [useFavicon](#516-usefavicon)
-   - 5.17 [useFileSystemAccess](#517-usefilesystemaccess)
-   - 5.18 [useFps](#518-usefps)
-   - 5.19 [useFullscreen](#519-usefullscreen)
-   - 5.20 [useGamepad](#520-usegamepad)
-   - 5.21 [useGeolocation](#521-usegeolocation)
-   - 5.22 [useMeasure](#522-usemeasure)
-   - 5.23 [useMediaControls](#523-usemediacontrols)
-   - 5.24 [useMediaQuery](#524-usemediaquery)
-   - 5.25 [useMemory](#525-usememory)
-   - 5.26 [useNetwork](#526-usenetwork)
-   - 5.27 [useOnline](#527-useonline)
-   - 5.28 [useObjectUrl](#528-useobjecturl)
-   - 5.29 [useOtpCredential](#529-useotpcredential)
-   - 5.30 [usePermission](#530-usepermission)
-   - 5.31 [usePictureInPicture](#531-usepictureinpicture)
-   - 5.32 [usePointerLock](#532-usepointerlock)
-   - 5.33 [usePostMessage](#533-usepostmessage)
-   - 5.34 [useRaf](#534-useraf)
-   - 5.35 [useShare](#535-useshare)
-   - 5.36 [useSpeechRecognition](#536-usespeechrecognition)
-   - 5.37 [useSpeechSynthesis](#537-usespeechsynthesis)
-   - 5.38 [useVibrate](#538-usevibrate)
-   - 5.39 [useVirtualKeyboard](#539-usevirtualkeyboard)
-   - 5.40 [useWakeLock](#540-usewakelock)
-   - 5.41 [useWebSocket](#541-usewebsocket)
+   - 5.6 [useBrowserLocation](#56-usebrowserlocation)
+   - 5.7 [useClipboard](#57-useclipboard)
+   - 5.8 [useCopy](#58-usecopy)
+   - 5.9 [useCssVar](#59-usecssvar)
+   - 5.10 [useDeviceList](#510-usedevicelist)
+   - 5.11 [useDisplayMedia](#511-usedisplaymedia)
+   - 5.12 [useDocumentEvent](#512-usedocumentevent)
+   - 5.13 [useDocumentTitle](#513-usedocumenttitle)
+   - 5.14 [useDocumentVisibility](#514-usedocumentvisibility)
+   - 5.15 [useEventListener](#515-useeventlistener)
+   - 5.16 [useEventSource](#516-useeventsource)
+   - 5.17 [useEyeDropper](#517-useeyedropper)
+   - 5.18 [useFavicon](#518-usefavicon)
+   - 5.19 [useFileSystemAccess](#519-usefilesystemaccess)
+   - 5.20 [useFps](#520-usefps)
+   - 5.21 [useFullscreen](#521-usefullscreen)
+   - 5.22 [useGamepad](#522-usegamepad)
+   - 5.23 [useGeolocation](#523-usegeolocation)
+   - 5.24 [useMeasure](#524-usemeasure)
+   - 5.25 [useMediaControls](#525-usemediacontrols)
+   - 5.26 [useMediaQuery](#526-usemediaquery)
+   - 5.27 [useMediaStream](#527-usemediastream)
+   - 5.28 [useMemory](#528-usememory)
+   - 5.29 [useNetwork](#529-usenetwork)
+   - 5.30 [useNotification](#530-usenotification)
+   - 5.31 [useObjectUrl](#531-useobjecturl)
+   - 5.32 [useOnline](#532-useonline)
+   - 5.33 [useOtpCredential](#533-useotpcredential)
+   - 5.34 [usePermission](#534-usepermission)
+   - 5.35 [usePictureInPicture](#535-usepictureinpicture)
+   - 5.36 [usePointerLock](#536-usepointerlock)
+   - 5.37 [usePostMessage](#537-usepostmessage)
+   - 5.38 [useRaf](#538-useraf)
+   - 5.39 [useShare](#539-useshare)
+   - 5.40 [useSpeechRecognition](#540-usespeechrecognition)
+   - 5.41 [useSpeechSynthesis](#541-usespeechsynthesis)
+   - 5.42 [useVibrate](#542-usevibrate)
+   - 5.43 [useVirtualKeyboard](#543-usevirtualkeyboard)
+   - 5.44 [useWakeLock](#544-usewakelock)
+   - 5.45 [useWebSocket](#545-usewebsocket)
+   - 5.46 [useWebWorker](#546-usewebworker)
+   - 5.47 [useWebWorkerCallback](#547-usewebworkercallback)
 
 6. [Utilities](#6-utilities)
 
@@ -140,28 +150,32 @@ Comprehensive performance optimization guide for React and Next.js applications,
    - 7.3 [useCookie](#73-usecookie)
    - 7.4 [useCookies](#74-usecookies)
    - 7.5 [useCounter](#75-usecounter)
-   - 7.6 [useDefault](#76-usedefault)
-   - 7.7 [useDisclosure](#77-usedisclosure)
-   - 7.8 [useField](#78-usefield)
-   - 7.9 [useHash](#79-usehash)
-   - 7.10 [useList](#710-uselist)
-   - 7.11 [useLocalStorage](#711-uselocalstorage)
-   - 7.12 [useMap](#712-usemap)
-   - 7.13 [useMergedRef](#713-usemergedref)
-   - 7.14 [useObject](#714-useobject)
-   - 7.15 [useOffsetPagination](#715-useoffsetpagination)
-   - 7.16 [useQueue](#716-usequeue)
-   - 7.17 [useRafState](#717-userafstate)
-   - 7.18 [useRefState](#718-userefstate)
-   - 7.19 [useSessionStorage](#719-usesessionstorage)
-   - 7.20 [useSet](#720-useset)
-   - 7.21 [useStateHistory](#721-usestatehistory)
-   - 7.22 [useStep](#722-usestep)
-   - 7.23 [useStorage](#723-usestorage)
-   - 7.24 [useToggle](#724-usetoggle)
-   - 7.25 [useUrlSearchParam](#725-useurlsearchparam)
-   - 7.26 [useUrlSearchParams](#726-useurlsearchparams)
-   - 7.27 [useWizard](#727-usewizard)
+   - 7.6 [useCycleList](#76-usecyclelist)
+   - 7.7 [useDefault](#77-usedefault)
+   - 7.8 [useDisclosure](#78-usedisclosure)
+   - 7.9 [useField](#79-usefield)
+   - 7.10 [useForm](#710-useform)
+   - 7.11 [useHash](#711-usehash)
+   - 7.12 [useList](#712-uselist)
+   - 7.13 [useLocalStorage](#713-uselocalstorage)
+   - 7.14 [useMap](#714-usemap)
+   - 7.15 [useMask](#715-usemask)
+   - 7.16 [useMergedRef](#716-usemergedref)
+   - 7.17 [useObject](#717-useobject)
+   - 7.18 [useOffsetPagination](#718-useoffsetpagination)
+   - 7.19 [useQueue](#719-usequeue)
+   - 7.20 [useRafState](#720-userafstate)
+   - 7.21 [useRefState](#721-userefstate)
+   - 7.22 [useSessionStorage](#722-usesessionstorage)
+   - 7.23 [useSet](#723-useset)
+   - 7.24 [useStateHistory](#724-usestatehistory)
+   - 7.25 [useStep](#725-usestep)
+   - 7.26 [useStorage](#726-usestorage)
+   - 7.27 [useToggle](#727-usetoggle)
+   - 7.28 [useUrlSearchParam](#728-useurlsearchparam)
+   - 7.29 [useUrlSearchParams](#729-useurlsearchparams)
+   - 7.30 [useValidatedState](#730-usevalidatedstate)
+   - 7.31 [useWizard](#731-usewizard)
 
 8. [User](#8-user)
 
@@ -183,17 +197,18 @@ Comprehensive performance optimization guide for React and Next.js applications,
    - 9.6 [useIntersectionObserver](#96-useintersectionobserver)
    - 9.7 [useKeyboard](#97-usekeyboard)
    - 9.8 [useKeyPress](#98-usekeypress)
-   - 9.10 [useKeysPressed](#910-usekeyspressed)
-   - 9.11 [useMouse](#911-usemouse)
-   - 9.12 [useMutationObserver](#912-usemutationobserver)
-   - 9.13 [useOrientation](#913-useorientation)
-   - 9.14 [usePageLeave](#914-usepageleave)
-   - 9.15 [useParallax](#915-useparallax)
-   - 9.16 [usePerformanceObserver](#916-useperformanceobserver)
-   - 9.17 [useResizeObserver](#917-useresizeobserver)
-   - 9.18 [useScroll](#918-usescroll)
-   - 9.19 [useScrollIntoView](#919-usescrollintoview)
-   - 9.20 [useScrollTo](#920-usescrollto)
+   - 9.9 [useKeysPressed](#99-usekeyspressed)
+   - 9.10 [useMouse](#910-usemouse)
+   - 9.11 [useMutationObserver](#911-usemutationobserver)
+   - 9.12 [useOrientation](#912-useorientation)
+   - 9.13 [usePageLeave](#913-usepageleave)
+   - 9.14 [useParallax](#914-useparallax)
+   - 9.15 [usePerformanceObserver](#915-useperformanceobserver)
+   - 9.16 [useResizeObserver](#916-useresizeobserver)
+   - 9.17 [useScroll](#917-usescroll)
+   - 9.18 [useScrollIntoView](#918-usescrollintoview)
+   - 9.19 [useScrollTo](#919-usescrollto)
+   - 9.20 [useSwipe](#920-useswipe)
    - 9.21 [useTextSelection](#921-usetextselection)
    - 9.22 [useVisibility](#922-usevisibility)
    - 9.23 [useWindowEvent](#923-usewindowevent)
@@ -201,25 +216,92 @@ Comprehensive performance optimization guide for React and Next.js applications,
 
 10. [Time](#10-time)
 
-- 10.1 [useInterval](#101-useinterval)
-- 10.2 [useStopwatch](#102-usestopwatch)
-- 10.3 [useTime](#103-usetime)
-- 10.4 [useTimeout](#104-usetimeout)
-- 10.5 [useTimer](#105-usetimer)
-- 10.6 [useProgress](#106-useprogress)
+   - 10.1 [useInterval](#101-useinterval)
+   - 10.2 [useProgress](#102-useprogress)
+   - 10.3 [useStopwatch](#103-usestopwatch)
+   - 10.4 [useTime](#104-usetime)
+   - 10.5 [useTimeout](#105-usetimeout)
+   - 10.6 [useTimer](#106-usetimer)
 
 11. [Debug](#11-debug)
 
-- 11.1 [useLogger](#111-uselogger)
-- 11.2 [useRenderCount](#112-userendercount)
-- 11.3 [useRenderInfo](#113-userenderinfo)
-- 11.4 [useRerender](#114-usererender)
+   - 11.1 [useLogger](#111-uselogger)
+   - 11.2 [useRenderCount](#112-userendercount)
+   - 11.3 [useRenderInfo](#113-userenderinfo)
+   - 11.4 [useRerender](#114-usererender)
 
 ---
 
 ## 1. Helpers
 
-### 1.1 createContext
+### 1.1 cn
+
+Normalizes conditional class name input into the single string React expects for `className`.
+
+#### Usage
+
+```ts
+import { cn } from "@siberiacancode/reactuse";
+
+const className = cn("button", active && "button-active", {
+  "button-disabled": disabled,
+});
+```
+
+#### Example
+
+```tsx
+import { cn } from "@siberiacancode/reactuse";
+
+export const Button = ({ active }: { active: boolean }) => {
+  return (
+    <button className={cn("button", { "button-active": active })}>Save</button>
+  );
+};
+```
+
+`values` as strings:
+
+```tsx
+const className = cn("button", "button-primary");
+```
+
+`values` as conditionals:
+
+```tsx
+const className = cn("button", disabled && "button-disabled");
+```
+
+`values` as arrays:
+
+```tsx
+const className = cn(["button", ["button-primary"]]);
+```
+
+`values` as objects:
+
+```tsx
+const className = cn({ "button-active": active });
+```
+
+#### Type Declarations
+
+```ts
+export type ClassDictionary = Record<string, any>;
+export type ClassArray = readonly ClassValue[];
+export type ClassValue =
+  | boolean
+  | number
+  | string
+  | ClassArray
+  | ClassDictionary
+  | null
+  | undefined;
+export declare const cn: (...values: ClassValue[]) => string;
+```
+
+### 1.2 createContext
+
 
 Creates a typed context with provider and selector hook.
 
@@ -253,6 +335,28 @@ export const CounterValue = () => {
 };
 ```
 
+`defaultValue`:
+
+```tsx
+const CounterContext = createContext(0);
+```
+
+`name`:
+
+Debug display name.
+
+```tsx
+const CounterContext = createContext(0, { name: "CounterContext" });
+```
+
+`strict`:
+
+Throw outside provider.
+
+```tsx
+const CounterContext = createContext(0, { strict: true });
+```
+
 #### Type Declarations
 
 ```ts
@@ -284,7 +388,77 @@ export declare const createContext: <Value>(
 ) => CreateContextReturn<Value>;
 ```
 
-### 1.2 createEventEmitter
+### 1.3 createContextHook
+
+Turns any hook into a scoped provider/consumer pair when several descendants should read the same hook result from one subtree instance.
+
+#### Usage
+
+```ts
+import { createContextHook, useMediaQuery } from "@siberiacancode/reactuse";
+
+const media = createContextHook(useMediaQuery);
+```
+
+#### Example
+
+```tsx
+import { createContextHook, useMediaQuery } from "@siberiacancode/reactuse";
+
+const media = createContextHook(useMediaQuery);
+
+const Sidebar = () => {
+  const isMobile = media.use();
+  return <aside data-mobile={isMobile}>Menu</aside>;
+};
+
+export const Layout = () => (
+  <media.Provider params={["(max-width: 768px)"]}>
+    <Sidebar />
+  </media.Provider>
+);
+```
+
+`useHook`:
+
+```tsx
+const media = createContextHook(useMediaQuery);
+```
+
+`Provider.params`:
+
+```tsx
+<media.Provider params={["(max-width: 768px)"]}>
+  <Sidebar />
+</media.Provider>
+```
+
+`use()`:
+
+```tsx
+const isMobile = media.use();
+```
+
+#### Type Declarations
+
+```ts
+import type { ReactNode } from "react";
+
+export declare const createContextHook: <
+  Hook extends (...args: any[]) => any
+>(
+  useHook: Hook
+) => {
+  Provider: (props: {
+    children: ReactNode;
+    params: Parameters<Hook>;
+  }) => JSX.Element;
+  use: () => ReturnType<Hook> | null;
+};
+```
+
+### 1.4 createEventEmitter
+
 
 Creates a type-safe event emitter with a subscription hook.
 
@@ -334,7 +508,8 @@ export declare const createEventEmitter: <
 };
 ```
 
-### 1.3 createReactiveContext
+### 1.5 createReactiveContext
+
 
 Creates a typed context selector with optimized updates.
 
@@ -370,6 +545,31 @@ export const UserLabel = () => {
 };
 ```
 
+`defaultValue`:
+
+```tsx
+const CounterContext = createReactiveContext({ count: 0 });
+```
+
+`name`:
+
+Debug display name.
+
+```tsx
+const CounterContext = createReactiveContext(
+  { count: 0 },
+  { name: "CounterContext" }
+);
+```
+
+`strict`:
+
+Throw outside provider.
+
+```tsx
+const CounterContext = createReactiveContext({ count: 0 }, { strict: true });
+```
+
 #### Notes
 
 - For complex interfaces, prefer external state management instead of context.
@@ -398,7 +598,56 @@ export declare const createReactiveContext: <Value extends Record<string, any>>(
 ) => CreateReactiveContextReturn<Value>;
 ```
 
-### 1.4 createStore
+### 1.6 createSharedHook
+
+Turns a hook into a shared singleton-style hook when multiple components should subscribe to the same underlying hook result.
+
+#### Usage
+
+```ts
+import { createSharedHook, useMediaQuery } from "@siberiacancode/reactuse";
+
+const useSharedMobile = createSharedHook(useMediaQuery);
+```
+
+#### Example
+
+```tsx
+import { createSharedHook, useMediaQuery } from "@siberiacancode/reactuse";
+
+const useSharedMobile = createSharedHook(useMediaQuery);
+
+export const Header = () => {
+  const isMobile = useSharedMobile("(max-width: 768px)");
+  return <header>{isMobile ? "Mobile" : "Desktop"}</header>;
+};
+```
+
+`useHook`:
+
+```tsx
+const useSharedOnline = createSharedHook(useOnline);
+```
+
+`hook arguments`:
+
+```tsx
+const useSharedMobile = createSharedHook(useMediaQuery);
+const isMobile = useSharedMobile("(max-width: 768px)");
+```
+
+#### Type Declarations
+
+```ts
+export declare const createSharedHook: <
+  Hook extends (...args: any[]) => any
+>(
+  useHook: Hook
+) => (...args: Parameters<Hook>) => ReturnType<Hook>;
+```
+
+### 1.7 createStore
+
 
 Creates a external store with state, subscriptions, and a hook.
 
@@ -467,9 +716,59 @@ export declare const createStore: <Value>(
 ) => StoreApi<Value>;
 ```
 
-### 1.5 target
+### 1.8 makeDestructurable
 
-Flexible helper to reference DOM targets for hooks.
+Returns one value that can be consumed both as a named object and as a tuple, useful for hook APIs that support both styles.
+
+#### Usage
+
+```ts
+import { makeDestructurable } from "@siberiacancode/reactuse";
+
+const point = makeDestructurable({ x: 10, y: 20 }, [10, 20] as const);
+```
+
+#### Example
+
+```tsx
+import { makeDestructurable } from "@siberiacancode/reactuse";
+
+const result = makeDestructurable({ value: 1, setValue: () => {} }, [
+  1,
+  () => {},
+] as const);
+
+const { value } = result;
+const [current] = result;
+```
+
+`obj`:
+
+```tsx
+const result = makeDestructurable({ value: 1 }, [1] as const);
+```
+
+`arr`:
+
+```tsx
+const result = makeDestructurable({ value: 1, setValue }, [1, setValue] as const);
+```
+
+#### Type Declarations
+
+```ts
+export declare const makeDestructurable: <
+  Obj extends Record<string, unknown>,
+  Arr extends readonly unknown[],
+>(
+  obj: Obj,
+  arr: Arr,
+) => Obj & Arr;
+```
+
+### 1.9 target
+
+Wraps DOM target references in the shape Reactuse hooks understand, especially when the target is not a React ref.
 
 #### Usage
 
@@ -481,25 +780,70 @@ useClickOutside(target("#container"), () => console.log("outside"));
 
 #### Example
 
-Selector and element targets:
+`string`:
 
 ```tsx
 import { target, useClickOutside } from "@siberiacancode/reactuse";
 
 useClickOutside(target("#container"), () => console.log("outside"));
+```
+
+`Element`:
+
+```tsx
 useClickOutside(target(document.getElementById("container")!), () =>
   console.log("outside")
 );
 ```
 
-#### Notes
+`Document`:
 
-- `target` accepts refs, DOM elements, functions returning elements, or selectors.
-- Use it when you want to avoid creating a ref callback from the hook.
+```tsx
+useClickOutside(target(document), () => console.log("document"));
+```
 
-## 2. Elements
+`Window`:
+
+```tsx
+useClickOutside(target(window), () => console.log("window"));
+```
+
+`getter function`:
+
+```tsx
+useClickOutside(target(() => document.querySelector("#container")), () => {
+  console.log("outside");
+});
+```
+
+#### Type Declarations
+
+```ts
+import type { RefObject } from "react";
+
+export type Target =
+  | (() => Document | Element | Window)
+  | string
+  | Document
+  | Element
+  | Window;
+interface StateRef<Value> {
+  (node: Value): void;
+  current: Value;
+  state: Value;
+}
+export type HookTarget =
+  | ReturnType<typeof target>
+  | RefObject<Element | null | undefined>
+  | StateRef<Element | null | undefined>;
+export declare const target: (target: Target) => {
+  value: Target;
+  type: symbol;
+};
+```
 
 ### 2.1 useActiveElement
+
 
 Tracks the currently focused element.
 
@@ -558,6 +902,7 @@ export declare const useActiveElement: UseActiveElement;
 
 ### 2.2 useAutoScroll
 
+
 Automatically scrolls a container to the bottom.
 
 #### Usage
@@ -611,14 +956,13 @@ export interface UseAutoScrollOptions {
 }
 export interface UseAutoScroll {
   (target: HookTarget, options?: UseAutoScrollOptions): void;
-  <Target extends HTMLElement>(
-    options?: UseAutoScrollOptions
-  ): StateRef<Target>;
+  <Target extends HTMLElement>(options?: UseAutoScrollOptions): StateRef<Target>;
 }
 export declare const useAutoScroll: UseAutoScroll;
 ```
 
 ### 2.3 useClickOutside
+
 
 Calls a callback when clicking outside the target element.
 
@@ -627,7 +971,9 @@ Calls a callback when clicking outside the target element.
 ```ts
 import { useClickOutside } from "@siberiacancode/reactuse";
 
-const ref = useClickOutside<HTMLDivElement>(() => console.log("outside"));
+const clickOutsideRef = useClickOutside<HTMLDivElement>(() =>
+  console.log("outside")
+);
 // or
 useClickOutside(ref, () => console.log("outside"));
 ```
@@ -636,11 +982,11 @@ useClickOutside(ref, () => console.log("outside"));
 
 ```tsx
 const [open, setOpen] = useState(true);
-const ref = useClickOutside<HTMLDivElement>(() => setOpen(false));
+const clickOutsideRef = useClickOutside<HTMLDivElement>(() => setOpen(false));
 
 if (!open) return <button onClick={() => setOpen(true)}>Open</button>;
 
-return <div ref={ref}>Modal</div>;
+return <div ref={clickOutsideRef}>Modal</div>;
 ```
 
 #### Type Declarations
@@ -651,15 +997,153 @@ import type { StateRef } from "@siberiacancode/reactuse";
 
 export interface UseClickOutside {
   (target: HookTarget, callback: (event: Event) => void): void;
-  <Target extends Element>(
-    callback: (event: Event) => void,
-    target?: never
-  ): StateRef<Target>;
+  <Target extends Element>(callback: (event: Event) => void, target?: never): StateRef<Target>;
 }
 export declare const useClickOutside: UseClickOutside;
 ```
 
-### 2.4 useDoubleClick
+### 2.4 useContextMenu
+
+Turns secondary-click and touch long-press gestures into menu state that can be rendered near the pointer position.
+
+#### Usage
+
+```ts
+import { useContextMenu } from "@siberiacancode/reactuse";
+
+const menu = useContextMenu<HTMLDivElement>((position) => {
+  console.log(position.x, position.y);
+});
+// or
+const menu = useContextMenu(ref, {
+  onOpen: (position) => console.log(position),
+});
+```
+
+#### Example
+
+```tsx
+import { useContextMenu } from "@siberiacancode/reactuse";
+
+export const CustomMenu = () => {
+  const menu = useContextMenu<HTMLDivElement>({ delay: 600 });
+
+  return (
+    <div ref={menu.ref}>
+      Right click me
+      {menu.opened && (
+        <div style={{ left: menu.position?.x, top: menu.position?.y }}>
+          <button onClick={menu.close}>Close</button>
+        </div>
+      )}
+    </div>
+  );
+};
+```
+
+`callback`:
+
+```tsx
+const menu = useContextMenu<HTMLDivElement>((position) => {
+  console.log(position.x, position.y);
+});
+```
+
+`target`:
+
+```tsx
+const menu = useContextMenu(target("#item-menu"), {
+  onOpen: (position) => console.log(position),
+});
+```
+
+`delay`:
+
+```tsx
+const menu = useContextMenu<HTMLDivElement>({ delay: 700 });
+```
+
+`enabled`:
+
+```tsx
+const menu = useContextMenu<HTMLDivElement>({ enabled: canOpenMenu });
+```
+
+`onOpen`:
+
+```tsx
+const menu = useContextMenu<HTMLDivElement>({
+  onOpen: (position) => console.log(position),
+});
+```
+
+`onClose`:
+
+```tsx
+const menu = useContextMenu<HTMLDivElement>({
+  onClose: () => console.log("closed"),
+});
+```
+
+`onStart`:
+
+```tsx
+const menu = useContextMenu<HTMLDivElement>({
+  onStart: (event) => console.log(event.type),
+});
+```
+
+`onEnd`:
+
+```tsx
+const menu = useContextMenu<HTMLDivElement>({
+  onEnd: (event) => console.log(event.type),
+});
+```
+
+#### Type Declarations
+
+```ts
+import type { HookTarget, StateRef } from "@siberiacancode/reactuse";
+
+export type ContextMenuEvent = MouseEvent | TouchEvent;
+export interface ContextMenuPosition {
+  x: number;
+  y: number;
+}
+export type UseContextMenuCallback = (
+  position: ContextMenuPosition,
+  event: ContextMenuEvent,
+) => void;
+export interface UseContextMenuOptions {
+  delay?: number;
+  enabled?: boolean;
+  onOpen?: UseContextMenuCallback;
+  onClose?: () => void;
+  onEnd?: (event: ContextMenuEvent) => void;
+  onStart?: (event: ContextMenuEvent) => void;
+}
+export interface UseContextMenuReturn {
+  opened: boolean;
+  position?: ContextMenuPosition;
+  close: () => void;
+  open: (position: ContextMenuPosition, event?: ContextMenuEvent) => void;
+}
+export interface UseContextMenu {
+  (target: HookTarget, callback?: UseContextMenuCallback): UseContextMenuReturn;
+  (target: HookTarget, options?: UseContextMenuOptions): UseContextMenuReturn;
+  <Target extends Element>(
+    callback?: UseContextMenuCallback,
+  ): UseContextMenuReturn & { ref: StateRef<Target> };
+  <Target extends Element>(
+    options?: UseContextMenuOptions,
+  ): UseContextMenuReturn & { ref: StateRef<Target> };
+}
+export declare const useContextMenu: UseContextMenu;
+```
+
+### 2.5 useDoubleClick
+
 
 Detects double-clicks with optional single-click handler.
 
@@ -668,7 +1152,9 @@ Detects double-clicks with optional single-click handler.
 ```ts
 import { useDoubleClick } from "@siberiacancode/reactuse";
 
-const ref = useDoubleClick<HTMLButtonElement>(() => console.log("double"));
+const doubleClickRef = useDoubleClick<HTMLButtonElement>(() =>
+  console.log("double")
+);
 // or
 useDoubleClick(ref, () => console.log("double"));
 ```
@@ -679,11 +1165,14 @@ useDoubleClick(ref, () => console.log("double"));
 import { useDoubleClick } from "@siberiacancode/reactuse";
 
 export const LikeButton = () => {
-  const ref = useDoubleClick<HTMLButtonElement>(() => console.log("double"), {
-    onSingleClick: () => console.log("single"),
-  });
+  const doubleClickRef = useDoubleClick<HTMLButtonElement>(
+    () => console.log("double"),
+    {
+      onSingleClick: () => console.log("single"),
+    }
+  );
 
-  return <button ref={ref}>Like</button>;
+  return <button ref={doubleClickRef}>Like</button>;
 };
 ```
 
@@ -692,7 +1181,9 @@ export const LikeButton = () => {
 Max time between clicks.
 
 ```tsx
-const ref = useDoubleClick<HTMLButtonElement>(() => {}, { threshold: 400 });
+const doubleClickRef = useDoubleClick<HTMLButtonElement>(() => {}, {
+  threshold: 400,
+});
 ```
 
 `onSingleClick`:
@@ -700,7 +1191,7 @@ const ref = useDoubleClick<HTMLButtonElement>(() => {}, { threshold: 400 });
 Single-click handler.
 
 ```tsx
-const ref = useDoubleClick<HTMLButtonElement>(() => {}, {
+const doubleClickRef = useDoubleClick<HTMLButtonElement>(() => {}, {
   onSingleClick: () => console.log("single"),
 });
 ```
@@ -721,7 +1212,7 @@ export interface UseDoubleClick {
     target: HookTarget,
     callback: (event: DoubleClickEvents) => void,
     options?: UseDoubleClickOptions
-  ): boolean;
+  ): void;
   <Target extends Element>(
     callback: (event: DoubleClickEvents) => void,
     options?: UseDoubleClickOptions,
@@ -731,7 +1222,131 @@ export interface UseDoubleClick {
 export declare const useDoubleClick: UseDoubleClick;
 ```
 
-### 2.5 useDropZone
+### 2.6 useDraggable
+
+Turns pointer movement on an element into reusable drag state that can drive transforms, canvas tools, and movable panels.
+
+#### Usage
+
+```ts
+import { useDraggable } from "@siberiacancode/reactuse";
+
+const draggable = useDraggable<HTMLDivElement>();
+// or
+const draggable = useDraggable(ref, { axis: "x" });
+```
+
+#### Example
+
+```tsx
+import { useDraggable } from "@siberiacancode/reactuse";
+
+export const FloatingPanel = () => {
+  const drag = useDraggable<HTMLDivElement>();
+  const position = drag.watch();
+
+  return (
+    <div
+      ref={drag.ref}
+      style={{ transform: `translate(${position.x}px, ${position.y}px)` }}
+    >
+      Drag me
+    </div>
+  );
+};
+```
+
+`target`:
+
+```tsx
+const drag = useDraggable(target("#panel"));
+```
+
+`axis`:
+
+```tsx
+const drag = useDraggable<HTMLDivElement>({ axis: "x" });
+```
+
+`enabled`:
+
+```tsx
+const drag = useDraggable<HTMLDivElement>({ enabled: editable });
+```
+
+`initialValue`:
+
+```tsx
+const drag = useDraggable<HTMLDivElement>({ initialValue: { x: 40, y: 20 } });
+```
+
+`onStart`:
+
+```tsx
+const drag = useDraggable<HTMLDivElement>({
+  onStart: ({ position }) => console.log(position),
+});
+```
+
+`onMove`:
+
+```tsx
+const drag = useDraggable<HTMLDivElement>({
+  onMove: ({ delta }) => console.log(delta.x),
+});
+```
+
+`onEnd`:
+
+```tsx
+const drag = useDraggable<HTMLDivElement>({
+  onEnd: ({ position }) => savePosition(position),
+});
+```
+
+#### Notes
+
+- By default pointer movement updates `snapshot` and callbacks without forcing a re-render. To render live drag position in JSX, subscribe via `watch()`: call it once per render, for example `const position = drag.watch()`, then the component will re-render while dragging.
+
+#### Type Declarations
+
+```ts
+import type { HookTarget, StateRef } from "@siberiacancode/reactuse";
+
+export interface UseDraggablePosition {
+  x: number;
+  y: number;
+}
+export interface UseDraggableEvent {
+  delta: UseDraggablePosition;
+  event: PointerEvent;
+  position: UseDraggablePosition;
+}
+export interface UseDraggableOptions {
+  axis?: "both" | "x" | "y";
+  enabled?: boolean;
+  initialValue?: UseDraggablePosition;
+  onEnd?: (params: UseDraggableEvent) => void;
+  onMove?: (params: UseDraggableEvent) => void;
+  onStart?: (params: UseDraggableEvent) => false | void;
+}
+export interface UseDraggableReturn {
+  dragging: boolean;
+  snapshot: UseDraggablePosition;
+  set: (position: UseDraggablePosition) => void;
+  watch: () => UseDraggablePosition;
+}
+export interface UseDraggable {
+  (target: HookTarget, options?: UseDraggableOptions): UseDraggableReturn;
+  <Target extends Element>(
+    options?: UseDraggableOptions
+  ): UseDraggableReturn & { ref: StateRef<Target> };
+}
+export declare const useDraggable: UseDraggable;
+```
+
+### 2.7 useDropZone
+
 
 Creates a drag-and-drop area with file state.
 
@@ -860,7 +1475,8 @@ export interface UseDropZone {
 export declare const useDropZone: UseDropZone;
 ```
 
-### 2.6 useFileDialog
+### 2.8 useFileDialog
+
 
 Opens a file picker and returns selected files.
 
@@ -933,7 +1549,8 @@ export interface UseFileDialog {
 export declare const useFileDialog: UseFileDialog;
 ```
 
-### 2.7 useFocus
+### 2.9 useFocus
+
 
 Tracks focus state and provides focus/blur controls.
 
@@ -1031,7 +1648,8 @@ export interface UseFocus {
 export declare const useFocus: UseFocus;
 ```
 
-### 2.8 useFocusTrap
+### 2.10 useFocusTrap
+
 
 Traps focus within a given element.
 
@@ -1092,7 +1710,8 @@ export interface UseFocusTrap {
 export declare const useFocusTrap: UseFocusTrap;
 ```
 
-### 2.9 useHover
+### 2.11 useHover
+
 
 Tracks hover state for an element.
 
@@ -1153,9 +1772,12 @@ export interface UseHoverOptions {
 export interface UseHoverReturn {
   value: boolean;
 }
+export interface UseHoverReturn {
+  value: boolean;
+}
 export interface UseHover {
-  (target: HookTarget, callback?: (event: Event) => void): boolean;
-  (target: HookTarget, options?: UseHoverOptions): boolean;
+  (target: HookTarget, callback?: (event: Event) => void): UseHoverReturn;
+  (target: HookTarget, options?: UseHoverOptions): UseHoverReturn;
   <Target extends Element>(callback?: (event: Event) => void, target?: never): {
     ref: StateRef<Target>;
   } & UseHoverReturn;
@@ -1166,7 +1788,8 @@ export interface UseHover {
 export declare const useHover: UseHover;
 ```
 
-### 2.10 useImage
+### 2.12 useImage
+
 
 Loads an image with query-style state.
 
@@ -1303,7 +1926,8 @@ export declare const useImage: (
 ) => UseImageReturn;
 ```
 
-### 2.11 useLockScroll
+### 2.13 useLockScroll
+
 
 Locks scrolling on an element or the document body.
 
@@ -1372,7 +1996,8 @@ export interface UseLockScroll {
 export declare const useLockScroll: UseLockScroll;
 ```
 
-### 2.12 useLongPress
+### 2.14 useLongPress
+
 
 Detects long press interactions.
 
@@ -1381,11 +2006,11 @@ Detects long press interactions.
 ```ts
 import { useLongPress } from "@siberiacancode/reactuse";
 
-const pressed = useLongPress<HTMLButtonElement>(() =>
+const longPress = useLongPress<HTMLButtonElement>(() =>
   console.log("long press")
 );
 // or
-const pressed = useLongPress(ref, () => console.log("long press"));
+const longPress = useLongPress(ref, () => console.log("long press"));
 ```
 
 #### Example
@@ -1394,11 +2019,11 @@ const pressed = useLongPress(ref, () => console.log("long press"));
 import { useLongPress } from "@siberiacancode/reactuse";
 
 export const HoldButton = () => {
-  const press = useLongPress<HTMLButtonElement>(() =>
+  const longPress = useLongPress<HTMLButtonElement>(() =>
     console.log("long press")
   );
 
-  return <button ref={press.ref}>Hold</button>;
+  return <button ref={longPress.ref}>Hold</button>;
 };
 ```
 
@@ -1407,7 +2032,7 @@ export const HoldButton = () => {
 Press duration.
 
 ```tsx
-const ref = useLongPress<HTMLButtonElement>(() => {}, { threshold: 600 });
+const longPress = useLongPress<HTMLButtonElement>(() => {}, { threshold: 600 });
 ```
 
 `onStart`:
@@ -1415,7 +2040,7 @@ const ref = useLongPress<HTMLButtonElement>(() => {}, { threshold: 600 });
 Press start.
 
 ```tsx
-const ref = useLongPress<HTMLButtonElement>(() => {}, {
+const longPress = useLongPress<HTMLButtonElement>(() => {}, {
   onStart: () => console.log("start"),
 });
 ```
@@ -1425,7 +2050,7 @@ const ref = useLongPress<HTMLButtonElement>(() => {}, {
 Press finish.
 
 ```tsx
-const ref = useLongPress<HTMLButtonElement>(() => {}, {
+const longPress = useLongPress<HTMLButtonElement>(() => {}, {
   onFinish: () => console.log("finish"),
 });
 ```
@@ -1435,7 +2060,7 @@ const ref = useLongPress<HTMLButtonElement>(() => {}, {
 Press cancel.
 
 ```tsx
-const ref = useLongPress<HTMLButtonElement>(() => {}, {
+const longPress = useLongPress<HTMLButtonElement>(() => {}, {
   onCancel: () => console.log("cancel"),
 });
 ```
@@ -1453,22 +2078,26 @@ export interface UseLongPressOptions {
   onFinish?: (event: LongPressEvents) => void;
   onStart?: (event: LongPressEvents) => void;
 }
+export interface UseLongPressReturn {
+  pressed: boolean;
+}
 export interface UseLongPress {
   (
     target: HookTarget,
     callback: (event: LongPressEvents) => void,
     options?: UseLongPressOptions
-  ): boolean;
+  ): UseLongPressReturn;
   <Target extends Element>(
     callback: (event: LongPressEvents) => void,
     options?: UseLongPressOptions,
     target?: never
-  ): { ref: StateRef<Target>; pressed: boolean };
+  ): { ref: StateRef<Target> } & UseLongPressReturn;
 }
 export declare const useLongPress: UseLongPress;
 ```
 
-### 2.13 usePaint
+### 2.15 usePaint
+
 
 Draws on a canvas and exposes drawing controls.
 
@@ -1617,89 +2246,8 @@ export interface UsePaint {
 export declare const usePaint: UsePaint;
 ```
 
-### 2.14 useRightClick
+### 2.16 useScript
 
-Handles right-click and long press events.
-
-#### Usage
-
-```ts
-import { useRightClick } from "@siberiacancode/reactuse";
-
-const ref = useRightClick<HTMLDivElement>(() => console.log("clicked"));
-// or
-useRightClick(ref, () => console.log("clicked"));
-```
-
-#### Example
-
-```tsx
-import { useRightClick } from "@siberiacancode/reactuse";
-import { useState } from "react";
-
-export const Menu = () => {
-  const [pos, setPos] = useState({ x: 0, y: 0 });
-  const ref = useRightClick<HTMLDivElement>(({ x, y }) => setPos({ x, y }));
-
-  return (
-    <div ref={ref}>
-      Right click at {pos.x}, {pos.y}
-    </div>
-  );
-};
-```
-
-`onStart`:
-
-Press start.
-
-```tsx
-const ref = useRightClick<HTMLDivElement>(() => {}, {
-  onStart: () => console.log("start"),
-});
-```
-
-`onEnd`:
-
-Press end.
-
-```tsx
-const ref = useRightClick<HTMLDivElement>(() => {}, {
-  onEnd: () => console.log("end"),
-});
-```
-
-#### Type Declarations
-
-```ts
-import type { HookTarget } from "@siberiacancode/reactuse";
-import type { StateRef } from "@siberiacancode/reactuse";
-
-export type RightClickEvent = MouseEvent | TouchEvent;
-export interface RightClickPositions {
-  x: number;
-  y: number;
-}
-export interface UseRightClickOptions {
-  onEnd?: (event: RightClickEvent) => void;
-  onStart?: (event: RightClickEvent) => void;
-}
-export interface UseRightClick {
-  (
-    target: HookTarget,
-    callback: (event: Event) => void,
-    options?: UseRightClickOptions
-  ): void;
-  <Target extends Element>(
-    callback: (positions: RightClickPositions, event: Event) => void,
-    options?: UseRightClickOptions,
-    target?: never
-  ): StateRef<Target>;
-}
-export declare const useRightClick: UseRightClick;
-```
-
-### 2.15 useScript
 
 Loads a script and returns its status.
 
@@ -1749,7 +2297,8 @@ export declare const useScript: (
 ) => UseScriptStatus;
 ```
 
-### 2.16 useSize
+### 2.17 useSize
+
 
 Observes element width and height.
 
@@ -1799,7 +2348,8 @@ export interface UseSize {
 export declare const useSize: UseSize;
 ```
 
-### 2.17 useSticky
+### 2.18 useSticky
+
 
 Detects whether a sticky element is stuck.
 
@@ -1810,7 +2360,7 @@ import { useSticky } from "@siberiacancode/reactuse";
 
 const sticky = useSticky<HTMLDivElement>();
 // or
-useSticky(ref, { axis: "vertical" });
+const sticky = useSticky(ref, { axis: "vertical" });
 ```
 
 #### Example
@@ -1859,7 +2409,8 @@ export interface UseSticky {
 export declare const useSticky: UseSticky;
 ```
 
-### 2.18 useTextareaAutosize
+### 2.19 useTextareaAutosize
+
 
 Auto-resizes a textarea based on content.
 
@@ -1945,7 +2496,8 @@ export interface UseTextareaAutosize {
 export declare const useTextareaAutosize: UseTextareaAutosize;
 ```
 
-### 2.19 useTextDirection
+### 2.20 useTextDirection
+
 
 Gets and sets the text direction of an element.
 
@@ -2011,7 +2563,8 @@ export interface UseTextDirection {
 export declare const useTextDirection: UseTextDirection;
 ```
 
-### 2.20 useWindowFocus
+### 2.21 useWindowFocus
+
 
 Returns the current focus state of the window.
 
@@ -2046,7 +2599,8 @@ export const FocusState = () => {
 export declare const useWindowFocus: () => boolean;
 ```
 
-### 2.21 useWindowSize
+### 2.22 useWindowSize
+
 
 Returns current window width and height.
 
@@ -2100,6 +2654,7 @@ export declare const useWindowSize: (
 
 ### 3.1 useAsync
 
+
 Tracks loading, error, and data state for a promise-returning callback.
 
 #### Usage
@@ -2146,6 +2701,7 @@ export declare const useAsync: <Data>(
 
 ### 3.2 useLockCallback
 
+
 Prevents a callback from running multiple times simultaneously.
 
 #### Usage
@@ -2183,6 +2739,7 @@ export declare const useLockCallback: <
 ```
 
 ### 3.3 useMutation
+
 
 Defines mutation logic with loading, error, and success state.
 
@@ -2255,6 +2812,7 @@ export declare const useMutation: <Body, Data>(
 
 ### 3.4 useOptimistic
 
+
 Allows showing an optimistic value before the async update resolves.
 
 #### Usage
@@ -2262,7 +2820,7 @@ Allows showing an optimistic value before the async update resolves.
 ```ts
 import { useOptimistic } from "@siberiacancode/reactuse";
 
-const [optimisticCount, updateOptimistic] = useOptimistic(
+const [optimisticCount, updateOptimistic, setOptimisticCount] = useOptimistic(
   count,
   (current, delta) => current + delta
 );
@@ -2293,6 +2851,10 @@ export const LikeButton = () => {
 };
 ```
 
+#### Notes
+
+- The third tuple item is the internal `setState`, useful when you need to imperatively replace the optimistic state.
+
 #### Type Declarations
 
 ```ts
@@ -2305,13 +2867,14 @@ export declare const useOptimistic: <State, OptimisticState = State>(
   update: (currentState: State, optimisticState: OptimisticState) => State
 ) => readonly [
   State,
-  (optimisticValue: OptimisticState, promise: Promise<any>) => Promise<any>
+  (optimisticValue: OptimisticState, promise: Promise<any>) => Promise<any>,
+  React.Dispatch<React.SetStateAction<State>>
 ];
 ```
 
 ### 3.5 useQuery
 
-Defines query logic with loading, error, success, and refetch state.
+Wraps an abortable async read in query state so components can express loading, refresh, retry, cancellation, and selected data without hand-rolling request bookkeeping.
 
 #### Usage
 
@@ -2325,63 +2888,64 @@ const query = useQuery(({ signal }) =>
 
 #### Example
 
-`enabled` (skip initial fetch until true):
+`enabled`:
 
 ```tsx
 const query = useQuery(fetchUser, { enabled: isOpen });
 ```
 
-`keys` (re-run when dependencies change):
+`keys`:
 
 ```tsx
 const query = useQuery(fetchUser, { keys: [userId] });
 ```
 
-`placeholderData` (initial UI data):
+`placeholderData`:
 
 ```tsx
-const query = useQuery(fetchUser, {
-  placeholderData: { name: "Loading..." },
-});
+const query = useQuery(fetchUser, { placeholderData: { name: "Loading..." } });
 ```
 
-`refetchInterval` (polling):
+`refetchInterval`:
+
+Use a number to refetch on a fixed interval.
 
 ```tsx
 const query = useQuery(fetchStats, { refetchInterval: 5000 });
 ```
 
-`retry` (boolean or number of retries):
+Use a function to choose the interval dynamically or return `false`.
 
 ```tsx
-const query = useQuery(fetchUser, { retry: 2 });
-```
-
-`retryDelay` (number or function):
-
-```tsx
-const query = useQuery(fetchUser, {
-  retryDelay: (attempt) => attempt * 300,
+const query = useQuery(fetchStats, {
+  refetchInterval: () => (document.hidden ? false : 5000),
 });
 ```
 
-`onSuccess` (side effect on success):
+`retry`:
+
+Use a number for a fixed retry count.
+
+```tsx
+const query = useQuery(fetchUser, { retry: 3, retryDelay: 500 });
+```
+
+Use a function to decide whether each failed request should retry.
 
 ```tsx
 const query = useQuery(fetchUser, {
-  onSuccess: (data) => console.log(data),
+  retry: (failureCount, error) => failureCount < 3 && error.message !== "401",
+  retryDelay: 500,
 });
 ```
 
-`onError` (side effect on error):
+`retryDelay`:
 
 ```tsx
-const query = useQuery(fetchUser, {
-  onError: (error) => console.error(error),
-});
+const query = useQuery(fetchUser, { retry: 3, retryDelay: 500 });
 ```
 
-`select` (transform data):
+`select`:
 
 ```tsx
 const query = useQuery(fetchUser, {
@@ -2389,10 +2953,21 @@ const query = useQuery(fetchUser, {
 });
 ```
 
-#### Notes
+`onError`:
 
-- The callback receives `{ signal, keys }` for cancellation and dependency awareness.
-- Use `refetch()` to manually refresh the data.
+```tsx
+const query = useQuery(fetchUser, {
+  onError: (error) => toast.error(error.message),
+});
+```
+
+`onSuccess`:
+
+```tsx
+const query = useQuery(fetchUser, {
+  onSuccess: (user) => console.log(user.id),
+});
+```
 
 #### Type Declarations
 
@@ -2403,9 +2978,9 @@ export interface UseQueryOptions<QueryData, Data> {
   enabled?: boolean;
   keys?: DependencyList;
   placeholderData?: (() => Data) | Data;
-  refetchInterval?: number;
-  retry?: boolean | number;
-  retryDelay?: ((retry: number, error: Error) => number) | number;
+  refetchInterval?: (() => number | false) | number | false;
+  retry?: ((failureCount: number, error: Error) => boolean) | boolean | number;
+  retryDelay?: number;
   onError?: (error: Error) => void;
   onSuccess?: (data: Data) => void;
   select?: (data: QueryData) => Data;
@@ -2423,6 +2998,7 @@ export interface UseQueryReturn<Data> {
   isLoading: boolean;
   isRefetching: boolean;
   isSuccess: boolean;
+  fetch: () => Promise<void>;
   refetch: () => void;
 }
 export declare const useQuery: <QueryData, Data = QueryData>(
@@ -2431,9 +3007,8 @@ export declare const useQuery: <QueryData, Data = QueryData>(
 ) => UseQueryReturn<Data>;
 ```
 
-## 4. Lifecycle
-
 ### 4.1 useAsyncEffect
+
 
 Runs async side effects.
 
@@ -2470,6 +3045,7 @@ export declare const useAsyncEffect: (
 ```
 
 ### 4.2 useDidUpdate
+
 
 Runs an effect only on updates (not on initial mount).
 
@@ -2512,6 +3088,7 @@ export declare const useDidUpdate: (
 
 ### 4.3 useIsFirstRender
 
+
 Returns `true` only on the first render.
 
 #### Usage
@@ -2541,6 +3118,7 @@ export declare const useIsFirstRender: () => boolean;
 
 ### 4.4 useIsomorphicLayoutEffect
 
+
 Uses `useLayoutEffect` on the client and `useEffect` on the server.
 
 #### Usage
@@ -2566,6 +3144,7 @@ export declare const useIsomorphicLayoutEffect: typeof useEffect;
 ```
 
 ### 4.5 useMount
+
 
 Runs a callback once when the component mounts.
 
@@ -2600,6 +3179,7 @@ export declare const useMount: (effect: EffectCallback) => void;
 ```
 
 ### 4.6 useShallowEffect
+
 
 Runs an effect only when dependencies change shallowly or deeply.
 
@@ -2648,6 +3228,7 @@ export declare const useShallowEffect: (
 
 ### 4.7 useUnmount
 
+
 Runs a callback when the component unmounts.
 
 #### Usage
@@ -2681,6 +3262,7 @@ export declare const useUnmount: (callback: () => void) => void;
 ## 5. Browser
 
 ### 5.1 useAudio
+
 
 Manages audio playback (play/pause/stop), volume, rate, and sprite segments.
 
@@ -2807,6 +3389,7 @@ export declare const useAudio: (
 
 ### 5.2 useBattery
 
+
 Returns battery status and support state.
 
 #### Usage
@@ -2866,6 +3449,7 @@ export declare const useBattery: () => UseBatteryReturn;
 ```
 
 ### 5.3 useBluetooth
+
 
 Requests and connects to Bluetooth devices.
 
@@ -3018,6 +3602,7 @@ export declare const useBluetooth: (
 
 ### 5.4 useBreakpoints
 
+
 Manages responsive breakpoints and helper predicates.
 
 #### Usage
@@ -3116,6 +3701,7 @@ export declare const useBreakpoints: <Breakpoint extends string>(
 
 ### 5.5 useBroadcastChannel
 
+
 Enables cross-tab/window messaging.
 
 #### Usage
@@ -3162,7 +3748,8 @@ export declare const useBroadcastChannel: <Data = unknown>(
 ) => UseBroadcastChannelReturn<Data>;
 ```
 
-### 5.5.1 useBrowserLocation
+### 5.6 useBrowserLocation
+
 
 Returns reactive browser location state with navigation controls.
 
@@ -3231,7 +3818,8 @@ export interface UseBrowserLocationReturn {
 export declare const useBrowserLocation: () => UseBrowserLocationReturn;
 ```
 
-### 5.6 useClipboard
+### 5.7 useClipboard
+
 
 Reads and copies text from the clipboard.
 
@@ -3282,7 +3870,8 @@ export declare const useClipboard: (
 ) => UseCopyToClipboardReturn;
 ```
 
-### 5.7 useCopy
+### 5.8 useCopy
+
 
 Copies text and resets status after a delay.
 
@@ -3327,7 +3916,8 @@ export interface UseCopyReturn {
 export declare const useCopy: (delay?: number) => UseCopyReturn;
 ```
 
-### 5.8 useCssVar
+### 5.9 useCssVar
+
 
 Reads and writes a CSS custom property.
 
@@ -3387,9 +3977,99 @@ export interface UseCssVar {
 export declare const useCssVar: UseCssVar;
 ```
 
-### 5.9 useDisplayMedia
+### 5.10 useDeviceList
 
-Provides screen sharing controls and stream state.
+Keeps the available media input and output devices grouped for UI pickers after permissions are requested.
+
+#### Usage
+
+```ts
+import { useDeviceList } from "@siberiacancode/reactuse";
+
+const devices = useDeviceList();
+```
+
+#### Example
+
+```tsx
+import { useDeviceList } from "@siberiacancode/reactuse";
+
+export const CameraPicker = () => {
+  const devices = useDeviceList({ immediately: false });
+
+  return (
+    <div>
+      <button onClick={() => devices.trigger()}>Load devices</button>
+      <select>
+        {devices.videoInputs.map((device) => (
+          <option key={device.deviceId} value={device.deviceId}>
+            {device.label || "Camera"}
+          </option>
+        ))}
+      </select>
+    </div>
+  );
+};
+```
+
+`constraints`:
+
+```tsx
+const devices = useDeviceList({ constraints: { video: true, audio: true } });
+```
+
+`callback`:
+
+```tsx
+const devices = useDeviceList((items) => console.log(items.length));
+```
+
+`immediately`:
+
+```tsx
+const devices = useDeviceList({ immediately: false });
+```
+
+`onUpdate`:
+
+```tsx
+const devices = useDeviceList({
+  onUpdate: (items) => console.log(items.length),
+});
+```
+
+#### Notes
+
+- Hook uses the [mediaDevices.enumerateDevices API](https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/enumerateDevices).
+
+#### Type Declarations
+
+```ts
+export type UseDeviceListCallback = (devices: MediaDeviceInfo[]) => void;
+export interface UseDeviceListOptions {
+  constraints?: MediaStreamConstraints;
+  immediately?: boolean;
+  onUpdate?: UseDeviceListCallback;
+}
+export interface UseDeviceListReturn {
+  audioInputs: MediaDeviceInfo[];
+  audioOutputs: MediaDeviceInfo[];
+  devices: MediaDeviceInfo[];
+  supported: boolean;
+  videoInputs: MediaDeviceInfo[];
+  trigger: () => Promise<MediaDeviceInfo[] | undefined>;
+  update: () => Promise<MediaDeviceInfo[] | undefined>;
+}
+export interface UseDeviceList {
+  (callback?: UseDeviceListCallback): UseDeviceListReturn;
+  (options?: UseDeviceListOptions): UseDeviceListReturn;
+}
+export declare const useDeviceList: UseDeviceList;
+```
+
+### 5.11 useDisplayMedia
+
+Connects a video element to a screen-capture stream and keeps capture state under React control.
 
 #### Usage
 
@@ -3398,7 +4078,9 @@ import { useDisplayMedia } from "@siberiacancode/reactuse";
 
 const displayMedia = useDisplayMedia<HTMLVideoElement>();
 // or
-const displayMedia = useDisplayMedia(ref);
+const displayMedia = useDisplayMedia(ref, {
+  constraints: { video: true, audio: false },
+});
 ```
 
 #### Example
@@ -3407,40 +4089,55 @@ const displayMedia = useDisplayMedia(ref);
 import { useDisplayMedia } from "@siberiacancode/reactuse";
 
 export const ScreenShare = () => {
-  const displayMedia = useDisplayMedia<HTMLVideoElement>({ video: true });
+  const displayMedia = useDisplayMedia<HTMLVideoElement>({
+    constraints: { video: true, audio: false },
+  });
 
   return (
     <div>
       <button onClick={() => displayMedia.start()}>Start</button>
       <button onClick={displayMedia.stop}>Stop</button>
       <video ref={displayMedia.ref} autoPlay muted />
+      {displayMedia.active && <span>Sharing</span>}
     </div>
   );
 };
 ```
 
-`audio`:
-
-Share audio.
+`start(constraints)`:
 
 ```tsx
-const displayMedia = useDisplayMedia<HTMLVideoElement>({ audio: true });
+await displayMedia.start({ video: { displaySurface: "browser" } });
 ```
 
-`video`:
-
-Share video.
+`constraints`:
 
 ```tsx
-const displayMedia = useDisplayMedia<HTMLVideoElement>({ video: true });
+const displayMedia = useDisplayMedia<HTMLVideoElement>({
+  constraints: { video: true, audio: false },
+});
 ```
 
 `immediately`:
 
-Auto-start.
+```tsx
+const displayMedia = useDisplayMedia(videoRef, { immediately: true });
+```
+
+`onStart`:
 
 ```tsx
-const displayMedia = useDisplayMedia<HTMLVideoElement>({ immediately: true });
+const displayMedia = useDisplayMedia<HTMLVideoElement>({
+  onStart: (stream) => console.log(stream),
+});
+```
+
+`onStop`:
+
+```tsx
+const displayMedia = useDisplayMedia<HTMLVideoElement>({
+  onStop: () => console.log("stopped"),
+});
 ```
 
 #### Notes
@@ -3450,32 +4147,36 @@ const displayMedia = useDisplayMedia<HTMLVideoElement>({ immediately: true });
 #### Type Declarations
 
 ```ts
-import type { HookTarget } from "@siberiacancode/reactuse";
-import type { StateRef } from "@siberiacancode/reactuse";
+import type { HookTarget, StateRef } from "@siberiacancode/reactuse";
 
+export interface UseDisplayMediaConstraints {
+  audio?: boolean | MediaTrackConstraints;
+  video?: boolean | MediaTrackConstraints;
+}
 export interface UseDisplayMediaReturn {
-  sharing: boolean;
+  active: boolean;
   stream: MediaStream | null;
   supported: boolean;
-  start: () => Promise<void>;
+  start: (constraints?: UseDisplayMediaConstraints) => Promise<MediaStream | undefined>;
   stop: () => void;
 }
 export interface UseDisplayMediaOptions {
-  audio?: boolean | MediaTrackConstraints;
+  constraints?: UseDisplayMediaConstraints;
   immediately?: boolean;
-  video?: boolean | MediaTrackConstraints;
+  onStart?: (stream: MediaStream) => void;
+  onStop?: (stream?: MediaStream) => void;
 }
 export interface UseDisplayMedia {
   (target: HookTarget, options?: UseDisplayMediaOptions): UseDisplayMediaReturn;
   <Target extends HTMLVideoElement>(
-    options?: UseDisplayMediaOptions,
-    target?: never
+    options?: UseDisplayMediaOptions
   ): UseDisplayMediaReturn & { ref: StateRef<Target> };
 }
 export declare const useDisplayMedia: UseDisplayMedia;
 ```
 
-### 5.10 useDocumentEvent
+### 5.12 useDocumentEvent
+
 
 Attaches an event listener to the document.
 
@@ -3513,7 +4214,8 @@ export declare const useDocumentEvent: <Event extends keyof DocumentEventMap>(
 ) => void;
 ```
 
-### 5.11 useDocumentTitle
+### 5.13 useDocumentTitle
+
 
 Reads and updates the document title.
 
@@ -3574,7 +4276,8 @@ export declare function useDocumentTitle(
 ): UseDocumentTitleReturn;
 ```
 
-### 5.12 useDocumentVisibility
+### 5.14 useDocumentVisibility
+
 
 Returns the document visibility state.
 
@@ -3609,7 +4312,8 @@ export declare const useDocumentVisibility: (
 ) => DocumentVisibilityState;
 ```
 
-### 5.13 useEventListener
+### 5.15 useEventListener
+
 
 Attaches an event listener to a target.
 
@@ -3698,7 +4402,8 @@ export interface UseEventListener {
 export declare const useEventListener: UseEventListener;
 ```
 
-### 5.14 useEventSource
+### 5.16 useEventSource
+
 
 Provides a reactive wrapper around EventSource.
 
@@ -3817,7 +4522,8 @@ export declare const useEventSource: <QueryData = any, Data = QueryData>(
 ) => UseEventSourceReturn<Data>;
 ```
 
-### 5.15 useEyeDropper
+### 5.17 useEyeDropper
+
 
 Provides access to the EyeDropper API.
 
@@ -3868,7 +4574,8 @@ export declare const useEyeDropper: (
 ) => UseEyeDropperReturn;
 ```
 
-### 5.16 useFavicon
+### 5.18 useFavicon
+
 
 Reads and updates the current favicon.
 
@@ -3910,7 +4617,8 @@ export declare const useFavicon: (initialHref?: string) => {
 };
 ```
 
-### 5.17 useFileSystemAccess
+### 5.19 useFileSystemAccess
+
 
 Hook for reading and writing local files via the File System Access API.
 
@@ -4015,7 +4723,8 @@ export interface UseFileSystemAccess {
 export declare const useFileSystemAccess: UseFileSystemAccess;
 ```
 
-### 5.18 useFps
+### 5.20 useFps
+
 
 Measures frames per second.
 
@@ -4050,7 +4759,8 @@ return <div>FPS: {fps}</div>;
 export declare const useFps: (callback?: (fps: number) => void) => number;
 ```
 
-### 5.19 useFullscreen
+### 5.21 useFullscreen
+
 
 Controls fullscreen state for an element.
 
@@ -4080,15 +4790,11 @@ return (
 
 `initialValue`:
 
-Start fullscreen.
-
 ```tsx
 const fullscreen = useFullscreen<HTMLDivElement>({ initialValue: true });
 ```
 
 `onEnter`:
-
-Enter callback.
 
 ```tsx
 const fullscreen = useFullscreen<HTMLDivElement>({
@@ -4098,13 +4804,15 @@ const fullscreen = useFullscreen<HTMLDivElement>({
 
 `onExit`:
 
-Exit callback.
-
 ```tsx
 const fullscreen = useFullscreen<HTMLDivElement>({
   onExit: () => console.log("exit"),
 });
 ```
+
+#### Notes
+
+- Hook uses the [Fullscreen API](https://developer.mozilla.org/en-US/docs/Web/API/Fullscreen_API).
 
 #### Type Declarations
 
@@ -4133,7 +4841,8 @@ export interface UseFullScreen {
 export declare const useFullscreen: UseFullScreen;
 ```
 
-### 5.20 useGamepad
+### 5.22 useGamepad
+
 
 Returns connected gamepads and active status.
 
@@ -4181,9 +4890,9 @@ export interface UseGamepadStateReturn {
 export declare const useGamepad: () => UseGamepadStateReturn;
 ```
 
-### 5.21 useGeolocation
+### 5.23 useGeolocation
 
-Returns the current geolocation and updates on changes.
+Keeps the latest browser geolocation reading in React state and exposes controls for one-off reads and watch mode.
 
 #### Usage
 
@@ -4193,23 +4902,49 @@ import { useGeolocation } from "@siberiacancode/reactuse";
 const geolocation = useGeolocation();
 ```
 
+`callback`:
+
+```tsx
+const geolocation = useGeolocation((position) => {
+  console.log(position.coords.latitude);
+});
+```
+
 #### Example
 
 ```tsx
 import { useGeolocation } from "@siberiacancode/reactuse";
 
 export const Location = () => {
-  const geolocation = useGeolocation();
+  const geolocation = useGeolocation({ immediately: false });
+  const { value } = geolocation;
 
-  if (geolocation.loading) return <p>Locating...</p>;
-  if (geolocation.error) return <p>Permission denied</p>;
+  if (value.loading) return <p>Locating...</p>;
+  if (value.error) return <p>Permission denied</p>;
 
   return (
-    <p>
-      {geolocation.latitude}, {geolocation.longitude}
-    </p>
+    <div>
+      <button onClick={geolocation.start}>Start</button>
+      <button onClick={geolocation.stop}>Stop</button>
+      <p>
+        {value.latitude}, {value.longitude}
+      </p>
+    </div>
   );
 };
+```
+
+`get`:
+
+```tsx
+const geolocation = useGeolocation({ immediately: false });
+geolocation.get();
+```
+
+`immediately`:
+
+```tsx
+const geolocation = useGeolocation({ immediately: false });
 ```
 
 `enableHighAccuracy`:
@@ -4221,13 +4956,29 @@ const geolocation = useGeolocation({ enableHighAccuracy: true });
 `maximumAge`:
 
 ```tsx
-const geolocation = useGeolocation({ maximumAge: 60000 });
+const geolocation = useGeolocation({ maximumAge: 10000 });
 ```
 
 `timeout`:
 
 ```tsx
 const geolocation = useGeolocation({ timeout: 5000 });
+```
+
+`onChange`:
+
+```tsx
+const geolocation = useGeolocation({
+  onChange: (position) => console.log(position.coords.latitude),
+});
+```
+
+`onError`:
+
+```tsx
+const geolocation = useGeolocation({
+  onError: (error) => console.error(error.message),
+});
 ```
 
 #### Notes
@@ -4237,7 +4988,7 @@ const geolocation = useGeolocation({ timeout: 5000 });
 #### Type Declarations
 
 ```ts
-export interface UseGeolocationReturn {
+export interface UseGeolocationValue {
   accuracy: number | null;
   altitude: number | null;
   altitudeAccuracy: number | null;
@@ -4249,13 +5000,31 @@ export interface UseGeolocationReturn {
   speed: number | null;
   timestamp: number | null;
 }
-export type UseGeolocationParams = PositionOptions;
-export declare const useGeolocation: (
-  params?: UseGeolocationParams
-) => UseGeolocationReturn;
+export interface UseGeolocationReturn {
+  value: UseGeolocationValue;
+  watching: boolean;
+  get: () => void;
+  start: () => void;
+  stop: () => void;
+}
+export type UseGeolocationCallback = (position: GeolocationPosition) => void;
+export interface UseGeolocationOptions extends PositionOptions {
+  immediately?: boolean;
+  onChange?: UseGeolocationCallback;
+  onError?: (error: GeolocationPositionError) => void;
+}
+export interface UseGeolocation {
+  (
+    callback?: UseGeolocationCallback,
+    options?: PositionOptions & { immediately?: boolean }
+  ): UseGeolocationReturn;
+  (options?: UseGeolocationOptions): UseGeolocationReturn;
+}
+export declare const useGeolocation: UseGeolocation;
 ```
 
-### 5.22 useMeasure
+### 5.24 useMeasure
+
 
 Measures an element's size and position.
 
@@ -4301,7 +5070,8 @@ export interface UseMeasure {
 export declare const useMeasure: UseMeasure;
 ```
 
-### 5.23 useMediaControls
+### 5.25 useMediaControls
+
 
 Provides controls and state for audio/video elements.
 
@@ -4336,15 +5106,11 @@ export const Player = () => {
 
 `src`:
 
-Media source.
-
 ```tsx
 const media = useMediaControls<HTMLAudioElement>("audio.mp3");
 ```
 
 `type`:
-
-Mime type.
 
 ```tsx
 const media = useMediaControls<HTMLVideoElement>({
@@ -4354,8 +5120,6 @@ const media = useMediaControls<HTMLVideoElement>({
 ```
 
 `media`:
-
-Media query.
 
 ```tsx
 const media = useMediaControls<HTMLVideoElement>({
@@ -4409,7 +5173,8 @@ export interface UseMediaControls {
 export declare const useMediaControls: UseMediaControls;
 ```
 
-### 5.24 useMediaQuery
+### 5.26 useMediaQuery
+
 
 Returns whether a media query matches.
 
@@ -4442,7 +5207,117 @@ export const MobileOnly = () => {
 export declare const useMediaQuery: (query: string) => boolean;
 ```
 
-### 5.25 useMemory
+### 5.27 useMediaStream
+
+Connects camera or microphone capture to a media element while exposing stream lifecycle state and constraint updates.
+
+#### Usage
+
+```ts
+import { useMediaStream } from "@siberiacancode/reactuse";
+
+const media = useMediaStream<HTMLVideoElement>();
+// or
+const media = useMediaStream(videoRef, { constraints: { video: true } });
+```
+
+#### Example
+
+```tsx
+import { useMediaStream } from "@siberiacancode/reactuse";
+
+export const CameraPreview = () => {
+  const media = useMediaStream<HTMLVideoElement>({
+    constraints: { video: true, audio: false },
+  });
+
+  return (
+    <div>
+      <video ref={media.ref} autoPlay muted playsInline />
+      <button onClick={() => media.start()}>Start</button>
+      <button onClick={media.stop}>Stop</button>
+    </div>
+  );
+};
+```
+
+`constraints`:
+
+```tsx
+const media = useMediaStream<HTMLVideoElement>({
+  constraints: { video: true, audio: false },
+});
+```
+
+`immediately`:
+
+```tsx
+const media = useMediaStream(videoRef, { immediately: true });
+```
+
+`onError`:
+
+```tsx
+const media = useMediaStream({ onError: (error) => console.error(error) });
+```
+
+`onStart`:
+
+```tsx
+const media = useMediaStream({
+  onStart: (stream) => console.log(stream.id),
+});
+```
+
+`onStop`:
+
+```tsx
+const media = useMediaStream({ onStop: () => console.log("stopped") });
+```
+
+`apply(constraints)`:
+
+```tsx
+await media.apply({ video: { width: 1280 } });
+```
+
+#### Notes
+
+- Hook uses the [mediaDevices.getUserMedia API](https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getUserMedia).
+
+#### Type Declarations
+
+```ts
+import type { HookTarget, StateRef } from "@siberiacancode/reactuse";
+
+export interface UseMediaStreamOptions {
+  constraints?: MediaStreamConstraints;
+  immediately?: boolean;
+  onError?: (error: Error) => void;
+  onStart?: (stream: MediaStream) => void;
+  onStop?: (stream?: MediaStream) => void;
+}
+export interface UseMediaStreamReturn {
+  active: boolean;
+  loading: boolean;
+  stream?: MediaStream;
+  supported: boolean;
+  apply: (constraints: MediaStreamConstraints) => Promise<boolean>;
+  restart: () => Promise<MediaStream | undefined>;
+  start: (constraints?: MediaStreamConstraints) => Promise<MediaStream | undefined>;
+  stop: () => void;
+}
+export interface UseMediaStream {
+  (target: HookTarget, options?: UseMediaStreamOptions): UseMediaStreamReturn;
+  (options?: UseMediaStreamOptions): UseMediaStreamReturn & {
+    ref: StateRef<HTMLVideoElement>;
+  };
+}
+export declare const useMediaStream: UseMediaStream;
+```
+
+### 5.28 useMemory
+
 
 Returns the current JS heap memory usage.
 
@@ -4452,6 +5327,14 @@ Returns the current JS heap memory usage.
 import { useMemory } from "@siberiacancode/reactuse";
 
 const memory = useMemory();
+```
+
+`callback`:
+
+```tsx
+const memory = useMemory((value) => {
+  console.log(value.usedJSHeapSize);
+});
 ```
 
 #### Example
@@ -4481,10 +5364,14 @@ export interface UseMemoryReturn {
   supported: boolean;
   value: Performance["memory"];
 }
-export declare const useMemory: () => UseMemoryReturn;
+export type UseMemoryCallback = (value: Performance["memory"]) => void;
+export declare const useMemory: (
+  callback?: UseMemoryCallback
+) => UseMemoryReturn;
 ```
 
-### 5.26 useNetwork
+### 5.29 useNetwork
+
 
 Tracks online status and connection information.
 
@@ -4494,6 +5381,14 @@ Tracks online status and connection information.
 import { useNetwork } from "@siberiacancode/reactuse";
 
 const network = useNetwork();
+```
+
+`callback`:
+
+```tsx
+const network = useNetwork((value) => {
+  console.log(value.online);
+});
 ```
 
 #### Example
@@ -4541,48 +5436,115 @@ export interface UseNetworkReturn {
     | "wifi"
     | "wimax";
 }
-export declare const useNetwork: () => UseNetworkReturn;
+export declare const useNetwork: (
+  callback?: (value: UseNetworkReturn) => void
+) => UseNetworkReturn;
 ```
 
-### 5.27 useOnline
+### 5.30 useNotification
 
-Returns whether the user is online.
+Keeps browser notification permission and the latest notification instance available for UI flows that ask permission before showing messages.
 
 #### Usage
 
 ```ts
-import { useOnline } from "@siberiacancode/reactuse";
+import { useNotification } from "@siberiacancode/reactuse";
 
-const online = useOnline();
+const notification = useNotification();
 ```
 
 #### Example
 
 ```tsx
-import { useOnline } from "@siberiacancode/reactuse";
+import { useNotification } from "@siberiacancode/reactuse";
 
-export const Status = () => {
-  const online = useOnline();
+export const NotifyButton = () => {
+  const notification = useNotification();
+
   return (
-    <div>
-      {online ? "Online" : "Offline"}
-      {!online && <div>Changes will sync when you reconnect.</div>}
-    </div>
+    <button
+      disabled={!notification.supported}
+      onClick={async () => {
+        if (await notification.trigger()) {
+          notification.show({ title: "Build finished" });
+        }
+      }}
+    >
+      Notify me
+    </button>
   );
 };
 ```
 
+`title`:
+
+```tsx
+notification.show({ title: "Build finished" });
+```
+
+`NotificationOptions`:
+
+```tsx
+notification.show({ title: "New message", body: "Open the inbox" });
+```
+
+`onClick`:
+
+```tsx
+notification.show({ title: "New message", onClick: () => router.push("/inbox") });
+```
+
+`onClose`:
+
+```tsx
+notification.show({ title: "Saved", onClose: () => console.log("closed") });
+```
+
+`onError`:
+
+```tsx
+notification.show({ title: "Sync failed", onError: (event) => console.error(event) });
+```
+
+`onShow`:
+
+```tsx
+notification.show({ title: "Ready", onShow: () => console.log("shown") });
+```
+
+`trigger()`:
+
+```tsx
+const allowed = await notification.trigger();
+if (allowed) notification.show({ title: "Ready" });
+```
+
 #### Notes
 
-- Hook uses the [navigator.onLine API](https://developer.mozilla.org/en-US/docs/Web/API/Navigator/onLine).
+- Hook uses the [Notification API](https://developer.mozilla.org/en-US/docs/Web/API/Notification).
 
 #### Type Declarations
 
 ```ts
-export declare const useOnline: () => boolean;
+export interface UseNotificationParams extends NotificationOptions {
+  title?: string;
+  onClick?: (event: Event) => void;
+  onClose?: (event: Event) => void;
+  onError?: (event: Event) => void;
+  onShow?: (event: Event) => void;
+}
+export interface UseNotificationReturn {
+  notification: Notification | undefined;
+  supported: boolean;
+  close: () => void;
+  show: (params?: UseNotificationParams) => Notification | undefined;
+  trigger: () => Promise<boolean>;
+}
+export declare const useNotification: () => UseNotificationReturn;
 ```
 
-### 5.28 useObjectUrl
+### 5.31 useObjectUrl
+
 
 Hook that creates and revokes an object URL for a Blob or MediaSource.
 
@@ -4628,7 +5590,47 @@ export declare const useObjectUrl: <
 ) => UseObjectUrlReturn;
 ```
 
-### 5.29 useOtpCredential
+### 5.32 useOnline
+
+
+Returns whether the user is online.
+
+#### Usage
+
+```ts
+import { useOnline } from "@siberiacancode/reactuse";
+
+const online = useOnline();
+```
+
+#### Example
+
+```tsx
+import { useOnline } from "@siberiacancode/reactuse";
+
+export const Status = () => {
+  const online = useOnline();
+  return (
+    <div>
+      {online ? "Online" : "Offline"}
+      {!online && <div>Changes will sync when you reconnect.</div>}
+    </div>
+  );
+};
+```
+
+#### Notes
+
+- Hook uses the [navigator.onLine API](https://developer.mozilla.org/en-US/docs/Web/API/Navigator/onLine).
+
+#### Type Declarations
+
+```ts
+export declare const useOnline: () => boolean;
+```
+
+### 5.33 useOtpCredential
+
 
 Requests an OTP credential from the user agent.
 
@@ -4692,9 +5694,9 @@ export interface UseOtpCredential {
 export declare const useOtpCredential: UseOtpCredential;
 ```
 
-### 5.30 usePermission
+### 5.34 usePermission
 
-Returns the state of a given permission.
+Tracks a browser permission query so UI can react when access is granted, prompted, or denied.
 
 #### Usage
 
@@ -4707,14 +5709,27 @@ const permission = usePermission("microphone");
 #### Example
 
 ```tsx
-const permission = usePermission("camera");
-return <div>{permission.state}</div>;
+import { usePermission } from "@siberiacancode/reactuse";
+
+export const CameraPermission = () => {
+  const permission = usePermission("camera", (state) => console.log(state));
+
+  return <div>{permission.supported ? permission.state : "unsupported"}</div>;
+};
 ```
 
-`enabled`:
+`onChange`:
 
 ```tsx
-const permission = usePermission("camera", { enabled: false });
+const permission = usePermission("notifications", {
+  onChange: (state) => console.log(state),
+});
+```
+
+`name`:
+
+```tsx
+const permission = usePermission("microphone");
 ```
 
 #### Notes
@@ -4733,6 +5748,7 @@ export type UsePermissionName =
   | "clipboard-read"
   | "clipboard-write"
   | "gyroscope"
+  | "local-fonts"
   | "magnetometer"
   | "microphone"
   | "notifications"
@@ -4741,21 +5757,24 @@ export type UsePermissionName =
   | "push"
   | "speaker"
   | PermissionName;
+export type UsePermissionCallback = (state: PermissionState) => void;
 export interface UsePermissionOptions {
-  enabled: boolean;
+  onChange?: UsePermissionCallback;
 }
 export interface UsePermissionReturn {
   state: PermissionState;
   supported: boolean;
   query: () => Promise<PermissionState>;
 }
-export declare const usePermission: (
-  permissionDescriptorName: UsePermissionName,
-  options?: UsePermissionOptions
-) => UsePermissionReturn;
+export interface UsePermission {
+  (name: UsePermissionName, callback?: UsePermissionCallback): UsePermissionReturn;
+  (name: UsePermissionName, options?: UsePermissionOptions): UsePermissionReturn;
+}
+export declare const usePermission: UsePermission;
 ```
 
-### 5.31 usePictureInPicture
+### 5.35 usePictureInPicture
+
 
 Controls Picture-in-Picture mode for video elements.
 
@@ -4838,7 +5857,8 @@ export interface UsePictureInPicture {
 export declare const usePictureInPicture: UsePictureInPicture;
 ```
 
-### 5.32 usePointerLock
+### 5.36 usePointerLock
+
 
 Provides reactive pointer lock controls.
 
@@ -4879,7 +5899,8 @@ interface UsePointerLockReturn {
 export declare const usePointerLock: () => UsePointerLockReturn;
 ```
 
-### 5.33 usePostMessage
+### 5.37 usePostMessage
+
 
 Receives and posts messages between windows/frames.
 
@@ -4912,7 +5933,8 @@ export declare const usePostMessage: <Message>(
 ) => UsePostMessageReturn<Message>;
 ```
 
-### 5.34 useRaf
+### 5.38 useRaf
+
 
 Runs a callback on each animation frame.
 
@@ -4972,7 +5994,8 @@ export declare const useRaf: (
 ) => UseRafReturn;
 ```
 
-### 5.35 useShare
+### 5.39 useShare
+
 
 Triggers the native share dialog.
 
@@ -5050,9 +6073,9 @@ export interface UseShareReturn {
 export declare const useShare: (params?: UseShareParams) => UseShareReturn;
 ```
 
-### 5.36 useSpeechRecognition
+### 5.40 useSpeechRecognition
 
-Provides speech-to-text recognition controls and state.
+Turns browser speech recognition into React state so voice input can be started, stopped, aborted, and rendered as transcript text.
 
 #### Usage
 
@@ -5107,6 +6130,13 @@ const speech = useSpeechRecognition({ language: "ru-RU" });
 const speech = useSpeechRecognition({ maxAlternatives: 3 });
 ```
 
+`abort`:
+
+```tsx
+const speech = useSpeechRecognition();
+speech.abort();
+```
+
 `grammars`:
 
 ```tsx
@@ -5148,7 +6178,7 @@ const speech = useSpeechRecognition({
 #### Type Declarations
 
 ```ts
-interface UseSpeechRecognitionOptions {
+export interface UseSpeechRecognitionOptions {
   continuous?: SpeechRecognition["continuous"];
   grammars?: SpeechRecognition["grammars"];
   interimResults?: SpeechRecognition["interimResults"];
@@ -5159,7 +6189,7 @@ interface UseSpeechRecognitionOptions {
   onResult?: (event: SpeechRecognitionEvent) => void;
   onStart?: () => void;
 }
-interface UseSpeechRecognitionReturn {
+export interface UseSpeechRecognitionReturn {
   error: SpeechRecognitionErrorEvent | null;
   final: boolean;
   listening: boolean;
@@ -5168,6 +6198,7 @@ interface UseSpeechRecognitionReturn {
   transcript: string;
   start: () => void;
   stop: () => void;
+  abort: () => void;
   toggle: (value?: boolean) => void;
 }
 export declare const useSpeechRecognition: (
@@ -5175,9 +6206,9 @@ export declare const useSpeechRecognition: (
 ) => UseSpeechRecognitionReturn;
 ```
 
-### 5.37 useSpeechSynthesis
+### 5.41 useSpeechSynthesis
 
-Provides text-to-speech controls and state.
+Turns text into spoken output while keeping playback status, errors, and pause/resume controls in React state.
 
 #### Usage
 
@@ -5241,6 +6272,13 @@ const speech = useSpeechSynthesis({ voice });
 const speech = useSpeechSynthesis({ volume: 0.6 });
 ```
 
+`speak(text)`:
+
+```tsx
+const speech = useSpeechSynthesis();
+speech.speak("Read this sentence");
+```
+
 #### Notes
 
 - Hook uses the [SpeechSynthesis API](https://developer.mozilla.org/en-US/docs/Web/API/SpeechSynthesis).
@@ -5265,7 +6303,7 @@ export interface UseSpeechSynthesisReturn {
   utterance: SpeechSynthesisUtterance | undefined;
   pause: () => void;
   resume: () => void;
-  speak: () => void;
+  speak: (text?: string) => void;
   stop: () => void;
   toggle: (value?: boolean) => void;
 }
@@ -5274,7 +6312,8 @@ export declare const useSpeechSynthesis: (
 ) => UseSpeechSynthesisReturn;
 ```
 
-### 5.38 useVibrate
+### 5.42 useVibrate
+
 
 Triggers vibration with optional intervals.
 
@@ -5332,7 +6371,8 @@ export declare const useVibrate: (
 ) => UseVibrateReturn;
 ```
 
-### 5.39 useVirtualKeyboard
+### 5.43 useVirtualKeyboard
+
 
 Tracks virtual keyboard state and exposes controls.
 
@@ -5388,7 +6428,8 @@ export declare const useVirtualKeyboard: (
 ) => UseVirtualKeyboardReturn;
 ```
 
-### 5.40 useWakeLock
+### 5.44 useWakeLock
+
 
 Controls the Wake Lock API state.
 
@@ -5450,9 +6491,9 @@ export declare const useWakeLock: (
 ) => UseWakeLockReturn;
 ```
 
-### 5.41 useWebSocket
+### 5.45 useWebSocket
 
-Connects to a WebSocket server with retries and callbacks.
+Keeps a component connected to a WebSocket endpoint while exposing a small control surface for manual open/close, message sending, retries, and connection lifecycle reactions.
 
 #### Usage
 
@@ -5468,27 +6509,63 @@ const socket = useWebSocket("wss://example.com");
 import { useWebSocket } from "@siberiacancode/reactuse";
 
 export const SocketPing = () => {
-  const socket = useWebSocket("wss://example.com");
+  const socket = useWebSocket("wss://example.com", {
+    heartbeat: (ws) => ws.send("ping"),
+    heartbeatDelay: 30000,
+  });
 
   return (
-    <button onClick={() => socket.send("ping")}>Status: {socket.status}</button>
+    <button onClick={() => socket.send("hello")}>Status: {socket.status}</button>
   );
 };
+```
+
+`url`:
+
+```tsx
+const socket = useWebSocket(() => `wss://example.com/${roomId}`);
+```
+
+`heartbeat`:
+
+```tsx
+const socket = useWebSocket("wss://example.com", {
+  heartbeat: (webSocket) => webSocket.send("ping"),
+});
+```
+
+`heartbeatDelay`:
+
+```tsx
+const socket = useWebSocket("wss://example.com", { heartbeatDelay: 30000 });
+```
+
+`immediately`:
+
+```tsx
+const socket = useWebSocket("wss://example.com", { immediately: false });
+socket.open();
+```
+
+`protocols`:
+
+```tsx
+const socket = useWebSocket("wss://example.com", { protocols: ["soap"] });
+```
+
+`onClose`:
+
+```tsx
+const socket = useWebSocket("wss://example.com", {
+  onClose: (event) => console.log(event.code),
+});
 ```
 
 `onConnected`:
 
 ```tsx
 const socket = useWebSocket("wss://example.com", {
-  onConnected: (ws) => console.log(ws),
-});
-```
-
-`onDisconnected`:
-
-```tsx
-const socket = useWebSocket("wss://example.com", {
-  onDisconnected: (event) => console.log(event),
+  onConnected: (webSocket) => console.log(webSocket.readyState),
 });
 ```
 
@@ -5511,13 +6588,18 @@ const socket = useWebSocket("wss://example.com", {
 `retry`:
 
 ```tsx
-const socket = useWebSocket("wss://example.com", { retry: 3 });
+const socket = useWebSocket("wss://example.com", {
+  retry: (failureCount) => failureCount < 3,
+});
 ```
 
-`protocols`:
+`retryDelay`:
 
 ```tsx
-const socket = useWebSocket("wss://example.com", { protocols: ["soap"] });
+const socket = useWebSocket("wss://example.com", {
+  retry: 3,
+  retryDelay: 1000,
+});
 ```
 
 #### Notes
@@ -5529,18 +6611,18 @@ const socket = useWebSocket("wss://example.com", { protocols: ["soap"] });
 ```ts
 export type UseWebSocketUrl = (() => string) | string;
 export interface UseWebSocketOptions {
+  heartbeatDelay?: number;
+  immediately?: boolean;
   protocols?: Array<"soap" | "wasm">;
-  retry?: boolean | number;
+  retry?: ((failureCount: number, event: CloseEvent) => boolean) | boolean | number;
+  retryDelay?: number;
+  heartbeat?: (webSocket: WebSocket) => void;
+  onClose?: (event: CloseEvent, webSocket: WebSocket) => void;
   onConnected?: (webSocket: WebSocket) => void;
-  onDisconnected?: (event: CloseEvent, webSocket: WebSocket) => void;
   onError?: (event: Event, webSocket: WebSocket) => void;
   onMessage?: (event: MessageEvent, webSocket: WebSocket) => void;
 }
-export type UseWebSocketStatus =
-  | "connected"
-  | "connecting"
-  | "disconnected"
-  | "failed";
+export type UseWebSocketStatus = "closed" | "connected" | "connecting" | "failed";
 export interface UseWebSocketReturn {
   client?: WebSocket;
   close: WebSocket["close"];
@@ -5554,9 +6636,166 @@ export declare const useWebSocket: (
 ) => UseWebSocketReturn;
 ```
 
-## 6. Utilities
+### 5.46 useWebWorker
+
+Keeps a Web Worker connected to React state so components can post messages, restart work, terminate it, and render the latest result or error.
+
+#### Usage
+
+```ts
+import { useWebWorker } from "@siberiacancode/reactuse";
+
+const worker = useWebWorker<number>("/worker.js");
+```
+
+#### Example
+
+```tsx
+import { useWebWorker } from "@siberiacancode/reactuse";
+
+export const WorkerCounter = () => {
+  const worker = useWebWorker<number>("/counter-worker.js");
+
+  return (
+    <div>
+      <button onClick={() => worker.post("next")}>Next</button>
+      <span>{worker.data ?? 0}</span>
+      <button onClick={worker.terminate}>Stop</button>
+    </div>
+  );
+};
+```
+
+`source` as URL:
+
+```tsx
+const worker = useWebWorker(new URL("./worker.ts", import.meta.url));
+```
+
+`source` as Worker:
+
+```tsx
+const worker = useWebWorker(new Worker("/worker.js"));
+```
+
+`WorkerOptions`:
+
+```tsx
+const worker = useWebWorker("/worker.js", { type: "module" });
+```
+
+`onError`:
+
+```tsx
+const worker = useWebWorker("/worker.js", {
+  onError: (event) => console.error(event),
+});
+```
+
+`onMessage`:
+
+```tsx
+const worker = useWebWorker<number>("/worker.js", {
+  onMessage: (data) => console.log(data),
+});
+```
+
+#### Notes
+
+- Hook uses the [Worker API](https://developer.mozilla.org/en-US/docs/Web/API/Worker).
+
+#### Type Declarations
+
+```ts
+export type UseWebWorkerSource = string | URL | Worker;
+export interface UseWebWorkerOptions<Data = unknown> extends WorkerOptions {
+  onError?: (event: Event) => void;
+  onMessage?: (data: Data, event: MessageEvent<Data>) => void;
+}
+export interface UseWebWorkerReturn<Data = unknown> {
+  data?: Data;
+  error?: Event;
+  post: Worker["postMessage"];
+  terminated: boolean;
+  restart: () => void;
+  terminate: () => void;
+}
+export declare const useWebWorker: <Data = unknown>(
+  source: UseWebWorkerSource,
+  options?: UseWebWorkerOptions<Data>
+) => UseWebWorkerReturn<Data>;
+```
+
+### 5.47 useWebWorkerCallback
+
+Runs a self-contained function off the main thread and returns a promise-based runner for component code.
+
+#### Usage
+
+```ts
+import { useWebWorkerCallback } from "@siberiacancode/reactuse";
+
+const worker = useWebWorkerCallback((input: number) => input * 2);
+```
+
+#### Example
+
+```tsx
+import { useWebWorkerCallback } from "@siberiacancode/reactuse";
+
+export const HeavyCompute = () => {
+  const worker = useWebWorkerCallback((count: number) => {
+    let total = 0;
+    for (let index = 0; index < count; index++) total += index;
+    return total;
+  });
+
+  return (
+    <button
+      disabled={worker.pending}
+      onClick={async () => console.log(await worker.run(1000000))}
+    >
+      Run
+    </button>
+  );
+};
+```
+
+`callback`:
+
+```tsx
+const worker = useWebWorkerCallback((value: number) => value * 2);
+```
+
+`run(...args)`:
+
+```tsx
+const doubled = await worker.run(21);
+```
+
+#### Notes
+
+- Hook uses the [Worker API](https://developer.mozilla.org/en-US/docs/Web/API/Worker).
+
+#### Type Declarations
+
+```ts
+export interface UseWebWorkerCallbackReturn<
+  Callback extends (...args: any[]) => any
+> {
+  pending: boolean;
+  run: (...args: Parameters<Callback>) => Promise<Awaited<ReturnType<Callback>>>;
+  terminate: () => void;
+}
+export declare const useWebWorkerCallback: <
+  Callback extends (...args: any[]) => any
+>(
+  callback: Callback
+) => UseWebWorkerCallbackReturn<Callback>;
+```
 
 ### 6.1 useBatchedCallback
+
 
 Batches calls and forwards them to a callback.
 
@@ -5574,12 +6813,9 @@ const batched = useBatchedCallback((batch) => console.log(batch), { size: 5 });
 import { useBatchedCallback } from "@siberiacancode/reactuse";
 
 export const Logger = () => {
-  const batched = useBatchedCallback(
-    (batch) => {
-      console.log("batch", batch);
-    },
-    { size: 3, delay: 1000 }
-  );
+  const batched = useBatchedCallback((batch) => {
+    console.log("batch", batch);
+  }, { size: 3, delay: 1000 });
 
   return (
     <div>
@@ -5616,6 +6852,7 @@ export declare const useBatchedCallback: <Params extends unknown[]>(
 
 ### 6.2 useConst
 
+
 Returns a constant value initialized once.
 
 #### Usage
@@ -5647,6 +6884,7 @@ export declare const useConst: <Value>(
 ```
 
 ### 6.3 useDebounceCallback
+
 
 Creates a debounced callback with a cancel method.
 
@@ -5689,6 +6927,7 @@ export declare const useDebounceCallback: <Params extends unknown[], Return>(
 
 ### 6.4 useDebounceEffect
 
+
 Runs an effect after a delay when dependencies change.
 
 #### Usage
@@ -5728,6 +6967,7 @@ export declare const useDebounceEffect: (
 ```
 
 ### 6.5 useDebounceState
+
 
 Creates a debounced state setter.
 
@@ -5775,6 +7015,7 @@ export declare const useDebounceState: <Value>(
 
 ### 6.6 useDebounceValue
 
+
 Returns a debounced version of a value.
 
 #### Usage
@@ -5815,6 +7056,7 @@ export declare const useDebounceValue: <Value>(
 
 ### 6.7 useDevicePixelRatio
 
+
 Returns the current device pixel ratio.
 
 #### Usage
@@ -5853,6 +7095,7 @@ export declare const useDevicePixelRatio: (
 
 ### 6.8 useEvent
 
+
 Returns a stable callback reference that always calls the latest handler.
 
 #### Usage
@@ -5889,6 +7132,7 @@ export declare const useEvent: <Params extends unknown[], Return>(
 
 ### 6.9 useLastChanged
 
+
 Records the timestamp of the last change.
 
 #### Usage
@@ -5924,6 +7168,7 @@ export declare const useLastChanged: (
 
 ### 6.10 useLatest
 
+
 Returns a stable ref that always points to the latest value.
 
 #### Usage
@@ -5953,6 +7198,7 @@ export declare const useLatest: <Value>(value: Value) => UseLatestReturn<Value>;
 ```
 
 ### 6.11 usePrevious
+
 
 Returns the previous value.
 
@@ -5990,6 +7236,7 @@ export declare const usePrevious: <Value>(
 ```
 
 ### 6.12 useThrottleCallback
+
 
 Creates a throttled callback with a cancel method.
 
@@ -6034,6 +7281,7 @@ export declare const useThrottleCallback: <Params extends unknown[], Return>(
 
 ### 6.13 useThrottleEffect
 
+
 Runs an effect at most once per delay period when dependencies change.
 
 #### Usage
@@ -6075,6 +7323,7 @@ export declare const useThrottleEffect: (
 ```
 
 ### 6.14 useThrottleState
+
 
 Creates a throttled state setter.
 
@@ -6122,6 +7371,7 @@ export declare const useThrottleState: <Value>(
 
 ### 6.15 useThrottleValue
 
+
 Returns a throttled version of a value.
 
 #### Usage
@@ -6164,6 +7414,7 @@ export declare const useThrottleValue: <Value>(
 
 ### 7.1 useBoolean
 
+
 Manages a boolean state with a toggle helper.
 
 #### Usage
@@ -6202,6 +7453,7 @@ export declare const useBoolean: (initialValue?: boolean) => UseBooleanReturn;
 ```
 
 ### 7.2 useControllableState
+
 
 Supports controlled and uncontrolled state patterns.
 
@@ -6279,6 +7531,7 @@ export declare function useControllableState<Value>(
 ```
 
 ### 7.3 useCookie
+
 
 Reads and writes a cookie value.
 
@@ -6431,6 +7684,7 @@ export declare const useCookie: UseCookie;
 
 ### 7.4 useCookies
 
+
 Manages all cookies as a single object.
 
 #### Usage
@@ -6496,6 +7750,7 @@ export declare const useCookies: <Value extends CookieParams>(
 ```
 
 ### 7.5 useCounter
+
 
 Manages a numeric counter with bounds.
 
@@ -6565,7 +7820,84 @@ export interface UseCounter {
 export declare const useCounter: UseCounter;
 ```
 
-### 7.6 useDefault
+### 7.6 useCycleList
+
+Models a finite set of ordered choices as a current value plus helpers for moving through the list.
+
+#### Usage
+
+```ts
+import { useCycleList } from "@siberiacancode/reactuse";
+
+const cycle = useCycleList(["light", "dark", "system"]);
+```
+
+#### Example
+
+```tsx
+import { useCycleList } from "@siberiacancode/reactuse";
+
+export const ThemeCycle = () => {
+  const { value, next, prev } = useCycleList(["light", "dark", "system"]);
+
+  return (
+    <div>
+      <button onClick={() => prev()}>Prev</button>
+      <span>{value}</span>
+      <button onClick={() => next()}>Next</button>
+    </div>
+  );
+};
+```
+
+`list`:
+
+```tsx
+const cycle = useCycleList(["light", "dark", "system"]);
+```
+
+`initialIndex`:
+
+```tsx
+const cycle = useCycleList(["small", "medium", "large"], 1);
+```
+
+`next(step)`:
+
+```tsx
+cycle.next(2);
+```
+
+`prev(step)`:
+
+```tsx
+cycle.prev();
+```
+
+`go(index)`:
+
+```tsx
+cycle.go(0);
+```
+
+#### Type Declarations
+
+```ts
+export interface UseCycleListReturn<Value> {
+  index: number;
+  value: Value;
+  go: (index: number) => Value;
+  next: (step?: number) => Value;
+  prev: (step?: number) => Value;
+}
+export declare const useCycleList: <Value>(
+  list: Value[],
+  initialIndex?: number,
+) => UseCycleListReturn<Value>;
+```
+
+### 7.7 useDefault
+
 
 Returns a value or a provided default when nullish.
 
@@ -6613,7 +7945,8 @@ export declare const useDefault: <Value>(
 ) => readonly [Value, (value: Value) => void];
 ```
 
-### 7.7 useDisclosure
+### 7.8 useDisclosure
+
 
 Manages open/close state with helpers.
 
@@ -6681,9 +8014,9 @@ export declare const useDisclosure: (
 ) => UseDisclosureReturn;
 ```
 
-### 7.8 useField
+### 7.9 useField
 
-Manages input state, validation, and helpers.
+Keeps a single uncontrolled form control connected to React state for validation, touched/dirty flags, and imperative field helpers.
 
 #### Usage
 
@@ -6691,6 +8024,8 @@ Manages input state, validation, and helpers.
 import { useField } from "@siberiacancode/reactuse";
 
 const field = useField();
+// or with initial value and options
+const field = useField("", { validateOnBlur: true });
 ```
 
 #### Example
@@ -6699,95 +8034,122 @@ const field = useField();
 import { useField } from "@siberiacancode/reactuse";
 
 export const EmailField = () => {
-  const inputField = useField({ initialValue: "" });
+  const field = useField("", { validateOnBlur: true });
 
-  return <input {...inputField.register()} />;
+  return (
+    <form
+      onSubmit={(event) => {
+        event.preventDefault();
+        console.log(field.getValue());
+      }}
+    >
+      <input
+        {...field.register({
+          required: "Required",
+          onBlur: () => console.log("blur"),
+        })}
+      />
+      {field.error && <span>{field.error}</span>}
+      <button type="submit">Submit</button>
+    </form>
+  );
 };
 ```
 
 `initialValue`:
 
 ```tsx
-const field = useField({ initialValue: "" });
+const field = useField();
+const fieldNum = useField(0);
+const fieldChecked = useField(false);
 ```
 
 `initialTouched`:
 
 ```tsx
-const field = useField({ initialTouched: true });
+const field = useField("", { initialTouched: true });
 ```
 
 `autoFocus`:
 
 ```tsx
-const field = useField({ autoFocus: true });
+const field = useField("", { autoFocus: true });
 ```
 
 `validateOnChange`:
 
 ```tsx
-const field = useField({ validateOnChange: true });
+const field = useField("", { validateOnChange: true });
 ```
 
 `validateOnBlur`:
 
 ```tsx
-const field = useField({ validateOnBlur: true });
+const email = useField("", {
+  validateOnBlur: true,
+  required: "Email is required",
+});
 ```
 
 `validateOnMount`:
 
 ```tsx
-const field = useField({ validateOnMount: true });
+const field = useField("", { validateOnMount: true });
+```
+
+`register.onChange`:
+
+```tsx
+const field = useField("");
+return (
+  <input
+    {...field.register({
+      onChange: (event) => console.log(event.currentTarget.value),
+    })}
+  />
+);
+```
+
+`register.onBlur`:
+
+```tsx
+const field = useField("");
+return <input {...field.register({ onBlur: () => console.log("blur") })} />;
 ```
 
 `register.required`:
 
 ```tsx
-const field = useField();
+const field = useField("");
 return <input {...field.register({ required: "Required" })} />;
 ```
 
 `register.validate`:
 
 ```tsx
-const field = useField();
-return (
-  <input
-    {...field.register({
-      validate: (value) => (value ? true : "Invalid"),
-    })}
-  />
-);
+const field = useField("");
+return <input {...field.register({ validate: (value) => value ? true : "Empty" })} />;
 ```
 
 `register.max`:
 
 ```tsx
-const field = useField();
-return (
-  <input {...field.register({ max: { value: 10, message: "Too big" } })} />
-);
+const age = useField(0);
+return <input type="number" {...age.register({ max: { value: 99, message: "Too old" } })} />;
 ```
 
 `register.maxLength`:
 
 ```tsx
-const field = useField();
-return (
-  <input
-    {...field.register({ maxLength: { value: 10, message: "Too long" } })}
-  />
-);
+const field = useField("");
+return <input {...field.register({ maxLength: { value: 20, message: "Too long" } })} />;
 ```
 
 `register.min`:
 
 ```tsx
-const field = useField();
-return (
-  <input {...field.register({ min: { value: 1, message: "Too small" } })} />
-);
+const age = useField(0);
+return <input type="number" {...age.register({ min: { value: 18, message: "Too young" } })} />;
 ```
 
 `register.minLength`:
@@ -6796,7 +8158,10 @@ return (
 const field = useField();
 return (
   <input
-    {...field.register({ minLength: { value: 3, message: "Too short" } })}
+    {...field.register({
+      required: "Required",
+      minLength: { value: 3, message: "Too short" },
+    })}
   />
 );
 ```
@@ -6804,59 +8169,58 @@ return (
 `register.pattern`:
 
 ```tsx
-const field = useField();
-return (
-  <input
-    {...field.register({
-      pattern: { value: /^[a-z]+$/, message: "Only lowercase" },
-    })}
-  />
-);
+const email = useField("");
+return <input {...email.register({ pattern: { value: /\S+@\S+\.\S+/, message: "Invalid" } })} />;
 ```
+
+#### Notes
+
+- By default the hook does not re-render on every input value change. To render the current value in JSX, subscribe via `watch()`: call it once per render, for example `const value = field.watch()`, then the component will re-render when the field changes. Use `getValue()` for one-off reads such as submit handlers.
 
 #### Type Declarations
 
 ```ts
-import type { RefObject } from "react";
+import type {
+  ChangeEventHandler,
+  FocusEventHandler,
+  RefObject,
+} from "react";
 
-export interface UseFieldParams<Value> {
-  autoFocus?: boolean;
-  initialTouched?: boolean;
-  initialValue?: Value;
-  validateOnBlur?: boolean;
-  validateOnChange?: boolean;
-  validateOnMount?: boolean;
-}
+type UseFieldElement =
+  | HTMLInputElement
+  | HTMLSelectElement
+  | HTMLTextAreaElement;
+
 export interface UseFieldRegisterParams {
-  required?: string;
-  validate?: (value: string) => Promise<string | true>;
   max?: { value: number; message: string };
   maxLength?: { value: number; message: string };
   min?: { value: number; message: string };
   minLength?: { value: number; message: string };
+  onBlur?: FocusEventHandler<UseFieldElement>;
+  onChange?: ChangeEventHandler<UseFieldElement>;
   pattern?: { value: RegExp; message: string };
+  required?: string;
+  validate?: (value: string) => string | true | Promise<string | true>;
+}
+export interface UseFieldOptions extends UseFieldRegisterParams {
+  autoFocus?: boolean;
+  initialTouched?: boolean;
+  validateOnBlur?: boolean;
+  validateOnChange?: boolean;
+  validateOnMount?: boolean;
 }
 export interface UseFieldReturn<Value> {
   dirty: boolean;
   error?: string;
-  ref: RefObject<
-    HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement | null
-  >;
+  ref: RefObject<UseFieldElement | null>;
   touched: boolean;
   clearError: () => void;
   focus: () => void;
   getValue: () => Value;
   register: (params?: UseFieldRegisterParams) => {
-    onBlur: () => void;
-    onChange: () => void;
-    ref: (
-      node:
-        | HTMLInputElement
-        | HTMLSelectElement
-        | HTMLTextAreaElement
-        | null
-        | undefined
-    ) => void;
+    onBlur: FocusEventHandler<UseFieldElement>;
+    onChange: ChangeEventHandler<UseFieldElement>;
+    ref: (node: UseFieldElement | null | undefined) => void;
   };
   reset: () => void;
   setError: (error: string) => void;
@@ -6864,18 +8228,220 @@ export interface UseFieldReturn<Value> {
   watch: () => Value;
 }
 export declare const useField: <
-  Value extends boolean | number | string = string,
+  Value extends boolean | number | string | unknown = string,
   Type = Value extends string
     ? string
     : Value extends boolean
     ? boolean
     : number
 >(
-  params?: UseFieldParams<Value>
+  initialValue?: Value,
+  options?: UseFieldOptions
 ) => UseFieldReturn<Type>;
 ```
 
-### 7.9 useHash
+### 7.10 useForm
+
+Coordinates uncontrolled form fields behind a typed values object so validation, errors, submit state, and imperative form helpers stay in one place.
+
+#### Usage
+
+```ts
+import { useForm } from "@siberiacancode/reactuse";
+
+const form = useForm({ initialValues: { email: "" } });
+```
+
+#### Example
+
+```tsx
+import { useForm } from "@siberiacancode/reactuse";
+
+export const LoginForm = () => {
+  const form = useForm({
+    initialValues: { email: "", password: "" },
+    validateOnBlur: true,
+  });
+
+  return (
+    <form onSubmit={form.handleSubmit((values) => console.log(values))}>
+      <input {...form.register("email", { required: "Email is required" })} />
+      {form.errors.email && <span>{form.errors.email}</span>}
+      <input
+        type="password"
+        {...form.register("password", { minLength: { value: 6, message: "Too short" } })}
+      />
+      <button disabled={form.submitting}>Submit</button>
+    </form>
+  );
+};
+```
+
+`resolver`:
+
+```tsx
+const form = useForm({
+  initialValues: { email: "" },
+  resolver: (values) => ({
+    values,
+    errors: values.email.includes("@") ? {} : { email: "Invalid email" },
+  }),
+});
+```
+
+`autoFocus`:
+
+```tsx
+const form = useForm({ initialValues: { email: "" }, autoFocus: "email" });
+```
+
+`initialValues`:
+
+```tsx
+const form = useForm({ initialValues: { email: "", remember: false } });
+```
+
+`validateOnBlur`:
+
+```tsx
+const form = useForm({ initialValues: { email: "" }, validateOnBlur: true });
+```
+
+`validateOnChange`:
+
+```tsx
+const form = useForm({ initialValues: { email: "" }, validateOnChange: true });
+```
+
+`validateOnMount`:
+
+```tsx
+const form = useForm({ initialValues: { email: "" }, validateOnMount: true });
+```
+
+`register.required`:
+
+```tsx
+<input {...form.register("email", { required: "Email is required" })} />;
+```
+
+`register.validate`:
+
+```tsx
+<input {...form.register("email", { validate: (value) => value ? true : "Empty" })} />;
+```
+
+`register.max`:
+
+```tsx
+<input type="number" {...form.register("age", { max: { value: 99, message: "Too old" } })} />;
+```
+
+`register.maxLength`:
+
+```tsx
+<input {...form.register("name", { maxLength: { value: 40, message: "Too long" } })} />;
+```
+
+`register.min`:
+
+```tsx
+<input type="number" {...form.register("age", { min: { value: 18, message: "Too young" } })} />;
+```
+
+`register.minLength`:
+
+```tsx
+<input {...form.register("password", { minLength: { value: 6, message: "Too short" } })} />;
+```
+
+`register.pattern`:
+
+```tsx
+<input {...form.register("email", { pattern: { value: /\S+@\S+\.\S+/, message: "Invalid" } })} />;
+```
+
+`register.onChange`:
+
+```tsx
+<input {...form.register("email", { onChange: (event) => console.log(event.currentTarget.value) })} />;
+```
+
+`register.onBlur`:
+
+```tsx
+<input {...form.register("email", { onBlur: () => console.log("blur") })} />;
+```
+
+#### Notes
+
+- By default the hook keeps field values in refs and does not re-render on every input value change. To render live form values in JSX, subscribe via `watch()`: call it once per render, for example `const values = form.watch()`, then the component will re-render when registered fields change. Use `getValues()` for one-off reads.
+
+#### Type Declarations
+
+```ts
+import type { BaseSyntheticEvent, ChangeEventHandler, FocusEventHandler } from "react";
+
+type UseFormElement = HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement;
+export type UseFormErrors<Values> = Partial<Record<keyof Values, string>>;
+export interface UseFormResolverResult<Values> {
+  errors: UseFormErrors<Values>;
+  values: Values;
+}
+export type UseFormResolver<Values> = (
+  values: Values
+) => Promise<UseFormResolverResult<Values>> | UseFormResolverResult<Values>;
+export interface UseFormOptions<Values> {
+  autoFocus?: keyof Values;
+  initialValues: Values;
+  resolver?: UseFormResolver<Values>;
+  validateOnBlur?: boolean;
+  validateOnChange?: boolean;
+  validateOnMount?: boolean;
+}
+export interface UseFormRegisterParams<Values = any> {
+  max?: { value: number; message: string };
+  maxLength?: { value: number; message: string };
+  min?: { value: number; message: string };
+  minLength?: { value: number; message: string };
+  onBlur?: FocusEventHandler<UseFormElement>;
+  onChange?: ChangeEventHandler<UseFormElement>;
+  pattern?: { value: RegExp; message: string };
+  required?: string;
+  validate?: (value: any, values: Values) => string | true | Promise<string | true>;
+}
+export interface UseFormReturn<Values extends Record<string, any>> {
+  dirty: Partial<Record<keyof Values, boolean>>;
+  errors: UseFormErrors<Values>;
+  submitting: boolean;
+  touched: Partial<Record<keyof Values, boolean>>;
+  clearErrors: (name?: keyof Values) => void;
+  focus: (name: keyof Values) => void;
+  getValue: <Name extends keyof Values>(name: Name) => Values[Name];
+  getValues: () => Values;
+  handleSubmit: (
+    onValid: (values: Values, event?: BaseSyntheticEvent) => any,
+    onInvalid?: (errors: UseFormErrors<Values>, event?: BaseSyntheticEvent) => any
+  ) => (event?: BaseSyntheticEvent) => Promise<void>;
+  register: (name: keyof Values, params?: UseFormRegisterParams<Values>) => {
+    name: string;
+    onBlur: FocusEventHandler<UseFormElement>;
+    onChange: ChangeEventHandler<UseFormElement>;
+    ref: (node: UseFormElement | null | undefined) => void;
+  };
+  reset: (values?: Partial<Values>) => void;
+  setError: (name: keyof Values, error: string) => void;
+  setValue: <Name extends keyof Values>(name: Name, value: Values[Name]) => void;
+  trigger: (name?: (keyof Values)[] | keyof Values, options?: { shouldFocus?: boolean }) => Promise<boolean>;
+  watch: () => Values;
+}
+export declare const useForm: <Values extends Record<string, any>>(
+  options: UseFormOptions<Values>
+) => UseFormReturn<Values>;
+```
+
+### 7.11 useHash
+
 
 Manages URL hash value.
 
@@ -6939,7 +8505,8 @@ export interface UseHash {
 export declare const useHash: UseHash;
 ```
 
-### 7.10 useList
+### 7.12 useList
+
 
 Manages an array with helper methods.
 
@@ -6998,7 +8565,8 @@ export declare const useList: <Item>(initialList?: Item[]) => {
 };
 ```
 
-### 7.11 useLocalStorage
+### 7.13 useLocalStorage
+
 
 Manages a value in localStorage.
 
@@ -7084,7 +8652,8 @@ export declare const useLocalStorage: <Value>(
 };
 ```
 
-### 7.12 useMap
+### 7.14 useMap
+
 
 Manages a Map with helper methods.
 
@@ -7125,7 +8694,236 @@ export declare const useMap: <Key, Value>(
 ) => UseMapReturn<Key, Value>;
 ```
 
-### 7.13 useMergedRef
+### 7.15 useMask
+
+Keeps the DOM input value, raw value, display mask, cursor behavior, and validation callbacks aligned for masked text fields.
+
+#### Usage
+
+```ts
+import { useMask } from "@siberiacancode/reactuse";
+
+const phone = useMask("+9 (999) 999-99-99");
+```
+
+#### Example
+
+```tsx
+import { useMask } from "@siberiacancode/reactuse";
+
+export const PhoneField = () => {
+  const phone = useMask("+9 (999) 999-99-99", {
+    showMask: "focus",
+  });
+
+  return (
+    <label>
+      Phone
+      <input {...phone.register()} />
+      <span>{phone.watch().rawValue}</span>
+    </label>
+  );
+};
+```
+
+`tokens`:
+
+```tsx
+const serial = useMask("AA-999", { tokens: { A: /[A-Z]/ } });
+```
+
+`autoClear`:
+
+```tsx
+const phone = useMask("+9 (999) 999-99-99", { autoClear: true });
+```
+
+`beforeMaskedChange`:
+
+```tsx
+const phone = useMask("+9 (999) 999-99-99", {
+  beforeMaskedChange: ({ nextState }) => nextState,
+});
+```
+
+`initialValue`:
+
+```tsx
+const phone = useMask("+9 (999) 999-99-99", { initialValue: "79990000000" });
+```
+
+`mask` as array:
+
+```tsx
+const code = useMask(["#", /\d/, /\d/, "-", /\d/]);
+```
+
+`modify`:
+
+```tsx
+const card = useMask("9999 9999 9999 9999", {
+  modify: (value) => (value.startsWith("34") ? { mask: "9999 999999 99999" } : {}),
+});
+```
+
+`onChangeRaw`:
+
+```tsx
+const phone = useMask("+9 (999) 999-99-99", {
+  onChangeRaw: (rawValue) => console.log(rawValue),
+});
+```
+
+`onFilled`:
+
+```tsx
+const phone = useMask("+9 (999) 999-99-99", {
+  onFilled: (maskedValue) => console.log(maskedValue),
+});
+```
+
+`showMask`:
+
+```tsx
+const phone = useMask("+9 (999) 999-99-99", { showMask: "focus" });
+```
+
+`slot`:
+
+```tsx
+const date = useMask("99/99/9999", { slot: "_" });
+```
+
+`transform`:
+
+```tsx
+const serial = useMask("AA-999", {
+  transform: (char) => char.toUpperCase(),
+});
+```
+
+`register(params)`:
+
+```tsx
+<input {...phone.register({ onBlur: () => console.log(phone.getValue()) })} />;
+```
+
+`getValue(type)`:
+
+```tsx
+const raw = phone.getValue();
+const masked = phone.getValue("masked");
+const display = phone.getValue("display");
+```
+
+`sanitize(value, options)`:
+
+```tsx
+import { sanitize } from "@siberiacancode/reactuse";
+
+const raw = sanitize("+7 (999) 123-45-67", {
+  mask: "+9 (999) 999-99-99",
+});
+```
+
+#### Notes
+
+- Default tokens: `9` digit, `a` letter, `A` uppercase letter, `*` alphanumeric, `#` signed digit.
+- By default the hook stores the input value in refs and does not re-render on every edit. To render live masked state in JSX, subscribe via `watch()`: call it once per render, for example `const value = mask.watch()`, then the component will re-render when the masked value changes. Use `getValue()` for one-off reads.
+
+#### Type Declarations
+
+```ts
+import type {
+  ChangeEventHandler,
+  ClipboardEventHandler,
+  FocusEventHandler,
+  KeyboardEventHandler,
+  MouseEventHandler,
+  RefObject,
+} from "react";
+
+export type UseMaskPattern = string | Array<string | RegExp>;
+export type UseMaskShow = "always" | "filled" | "focus" | "never";
+export type UseMaskGetValueType = "display" | "masked" | "raw";
+export interface UseMaskOptions {
+  autoClear?: boolean;
+  initialValue?: string;
+  mask: UseMaskPattern;
+  showMask?: UseMaskShow;
+  slot?: string;
+  tokens?: Record<string, RegExp>;
+  beforeMaskedChange?: (states: {
+    previousState: MaskState;
+    currentState: MaskState;
+    nextState: MaskState;
+  }) => MaskState;
+  modify?: (
+    value: string
+  ) => Partial<Pick<UseMaskOptions, "mask" | "showMask" | "slot" | "tokens">>;
+  onChangeRaw?: (rawValue: string, maskedValue: string) => void;
+  onFilled?: (maskedValue: string, rawValue: string) => void;
+  transform?: (char: string) => string;
+}
+export interface MaskState {
+  selection: { start: number; end: number } | null;
+  value: string;
+}
+export interface UseMaskRegisterParams {
+  onBlur?: FocusEventHandler<HTMLInputElement>;
+  onChange?: ChangeEventHandler<HTMLInputElement>;
+  onFocus?: FocusEventHandler<HTMLInputElement>;
+  onKeyDown?: KeyboardEventHandler<HTMLInputElement>;
+  onMouseDown?: MouseEventHandler<HTMLInputElement>;
+  onMouseUp?: MouseEventHandler<HTMLInputElement>;
+  onPaste?: ClipboardEventHandler<HTMLInputElement>;
+}
+export interface UseMaskGetValueMap {
+  display: string;
+  masked: string;
+  raw: string;
+}
+export interface UseMaskValue {
+  displayValue: string;
+  filled: boolean;
+  maskedValue: string;
+  rawValue: string;
+  value: string;
+}
+export interface UseMaskReturn {
+  ref: RefObject<HTMLInputElement | null>;
+  getValue: <Type extends UseMaskGetValueType = "raw">(type?: Type) => UseMaskGetValueMap[Type];
+  register: (params?: UseMaskRegisterParams) => {
+    onBlur?: FocusEventHandler<HTMLInputElement>;
+    onChange?: ChangeEventHandler<HTMLInputElement>;
+    onFocus?: FocusEventHandler<HTMLInputElement>;
+    onKeyDown?: KeyboardEventHandler<HTMLInputElement>;
+    onMouseDown?: MouseEventHandler<HTMLInputElement>;
+    onMouseUp?: MouseEventHandler<HTMLInputElement>;
+    onPaste?: ClipboardEventHandler<HTMLInputElement>;
+    ref: (node: HTMLInputElement | null | undefined) => void;
+  };
+  reset: () => void;
+  setValue: (value: string) => void;
+  watch: () => UseMaskValue;
+}
+export type UseMaskReturnValue = UseMaskReturn;
+export declare const sanitize: (value: string, options: UseMaskOptions) => string;
+export declare const formatMask: (rawValue: string, options: UseMaskOptions) => string;
+export declare const unformatMask: (maskedValue: string, options: UseMaskOptions) => string;
+export declare const isMaskComplete: (maskedValue: string, options: UseMaskOptions) => boolean;
+export declare const generatePattern: (
+  mode: "full-inexact" | "full",
+  options: UseMaskOptions
+) => string;
+export declare const useMask: (
+  mask: UseMaskPattern,
+  options?: Omit<UseMaskOptions, "mask">
+) => UseMaskReturn;
+```
+
+### 7.16 useMergedRef
+
 
 Merges multiple refs into a single ref callback.
 
@@ -7166,7 +8964,8 @@ export declare const useMergedRef: <Element>(
 ) => RefCallback<Element>;
 ```
 
-### 7.14 useObject
+### 7.17 useObject
+
 
 Manages object state with helper methods for updates and key operations.
 
@@ -7219,7 +9018,8 @@ export declare function useObject<Value extends object>(
 ): UseObjectReturn<Value>;
 ```
 
-### 7.15 useOffsetPagination
+### 7.18 useOffsetPagination
+
 
 Manages pagination state for offset-based lists.
 
@@ -7300,7 +9100,8 @@ export declare const useOffsetPagination: (
 ) => UseOffsetPaginationReturn;
 ```
 
-### 7.16 useQueue
+### 7.19 useQueue
+
 
 Manages a queue with add/remove helpers.
 
@@ -7349,7 +9150,8 @@ export declare const useQueue: <Value>(
 ) => UseQueueReturn<Value>;
 ```
 
-### 7.17 useRafState
+### 7.20 useRafState
+
 
 Updates state inside `requestAnimationFrame`.
 
@@ -7387,7 +9189,8 @@ export declare const useRafState: <Value>(
 ) => readonly [Value, (value: Value) => void];
 ```
 
-### 7.18 useRefState
+### 7.21 useRefState
+
 
 Creates a ref-like state that updates on assignment.
 
@@ -7422,7 +9225,8 @@ export declare const useRefState: <Value>(
 ) => StateRef<Value>;
 ```
 
-### 7.19 useSessionStorage
+### 7.22 useSessionStorage
+
 
 Manages a value in sessionStorage.
 
@@ -7504,7 +9308,8 @@ export declare const useSessionStorage: <Value>(
 };
 ```
 
-### 7.20 useSet
+### 7.23 useSet
+
 
 Manages a Set with helper methods.
 
@@ -7549,7 +9354,8 @@ interface UseSetReturn<Value> {
 export declare const useSet: <Value>(values?: Value[]) => UseSetReturn<Value>;
 ```
 
-### 7.21 useStateHistory
+### 7.24 useStateHistory
+
 
 Keeps state with undo/redo history.
 
@@ -7613,7 +9419,8 @@ export declare const useStateHistory: <Value>(
 ) => UseStateHistoryReturn<Value>;
 ```
 
-### 7.22 useStep
+### 7.25 useStep
+
 
 Creates a stepper with next/back helpers.
 
@@ -7675,7 +9482,8 @@ export interface UseStepReturn {
 export declare const useStep: (params: number | UseStepParams) => UseStepReturn;
 ```
 
-### 7.23 useStorage
+### 7.26 useStorage
+
 
 Manages a value in Web Storage.
 
@@ -7762,7 +9570,8 @@ export interface UseStorage {
 export declare const useStorage: UseStorage;
 ```
 
-### 7.24 useToggle
+### 7.27 useToggle
+
 
 A boolean switcher with utility functions.
 
@@ -7806,7 +9615,8 @@ export type UseToggleReturn = [boolean, ToggleFn];
 export declare const useToggle: (initialValue?: boolean): UseToggleReturn;
 ```
 
-### 7.25 useUrlSearchParam
+### 7.28 useUrlSearchParam
+
 
 Syncs a single URL search param with state.
 
@@ -7902,7 +9712,8 @@ export interface UseUrlSearchParam {
 export declare const useUrlSearchParam: UseUrlSearchParam;
 ```
 
-### 7.26 useUrlSearchParams
+### 7.29 useUrlSearchParams
+
 
 Syncs multiple URL search params with state.
 
@@ -8026,7 +9837,78 @@ export interface UseUrlSearchParams {
 export declare const useUrlSearchParams: UseUrlSearchParams;
 ```
 
-### 7.27 useWizard
+### 7.30 useValidatedState
+
+Keeps a value, its current validity, and the last valid value together when invalid input should remain visible.
+
+#### Usage
+
+```ts
+import { useValidatedState } from "@siberiacancode/reactuse";
+
+const [{ value, valid }, setValue] = useValidatedState("", (value) => value.length >= 3);
+```
+
+#### Example
+
+```tsx
+import { useValidatedState } from "@siberiacancode/reactuse";
+
+export const UsernameField = () => {
+  const [username, setUsername] = useValidatedState(
+    "",
+    (value) => value.length >= 3
+  );
+
+  return (
+    <label>
+      Username
+      <input value={username.value} onChange={(event) => setUsername(event.target.value)} />
+      {!username.valid && <span>Use at least 3 characters</span>}
+    </label>
+  );
+};
+```
+
+`initialValue`:
+
+```tsx
+const [age, setAge] = useValidatedState(18, (value) => value >= 18);
+```
+
+`validate`:
+
+```tsx
+const [username, setUsername] = useValidatedState("", (value) => value.length >= 3);
+```
+
+`initialValidationState`:
+
+```tsx
+const [email, setEmail] = useValidatedState("", isEmail, false);
+```
+
+#### Type Declarations
+
+```ts
+export interface UseValidatedStateValue<Value> {
+  lastValidValue?: Value;
+  valid: boolean;
+  value: Value;
+}
+export type UseValidatedStateReturn<Value> = [
+  state: UseValidatedStateValue<Value>,
+  setValue: (value: Value) => void
+];
+export declare const useValidatedState: <Value>(
+  initialValue: Value,
+  validate: (value: Value) => boolean,
+  initialValidationState?: boolean
+) => UseValidatedStateReturn<Value>;
+```
+
+### 7.31 useWizard
+
 
 Manages wizard steps and history.
 
@@ -8108,6 +9990,7 @@ export declare const useWizard: <WizardStepId extends string>(
 
 ### 8.1 useBrowserLanguage
 
+
 Returns the current browser language.
 
 #### Usage
@@ -8136,6 +10019,7 @@ export declare const useBrowserLanguage: () => string;
 ```
 
 ### 8.2 useOperatingSystem
+
 
 Returns the user's operating system based on the user agent.
 
@@ -8173,6 +10057,7 @@ export declare const useOperatingSystem: () => OperatingSystem;
 
 ### 8.3 usePreferredColorScheme
 
+
 Returns the user's preferred color scheme.
 
 #### Usage
@@ -8198,6 +10083,7 @@ export declare const usePreferredColorScheme: () => UsePreferredColorSchemeRetur
 ```
 
 ### 8.4 usePreferredContrast
+
 
 Returns the user's contrast preference.
 
@@ -8231,6 +10117,7 @@ export declare const usePreferredContrast: () => UsePreferredContrastReturn;
 
 ### 8.5 usePreferredDark
 
+
 Returns whether the user prefers dark mode.
 
 #### Usage
@@ -8255,6 +10142,7 @@ export declare const usePreferredDark: () => boolean;
 ```
 
 ### 8.6 usePreferredLanguages
+
 
 Returns the user's preferred languages.
 
@@ -8284,6 +10172,7 @@ export declare const usePreferredLanguages: () => readonly string[];
 ```
 
 ### 8.7 usePreferredReducedMotion
+
 
 Returns the reduced motion preference.
 
@@ -8353,6 +10242,7 @@ const motion = useDeviceMotion({ onChange: (event) => console.log(event) });
 #### Notes
 
 - Hook uses the [DeviceMotionEvent API](https://developer.mozilla.org/en-US/docs/Web/API/Window/DeviceMotionEvent).
+- By default device motion updates `snapshot` and `onChange` without forcing a re-render. To render live motion data in JSX, subscribe via `watch()`: call it once per render, for example `const value = motion.watch()`, then the component will re-render on motion updates.
 
 #### Type Declarations
 
@@ -8379,6 +10269,7 @@ export declare const useDeviceMotion: UseDeviceMotion;
 ```
 
 ### 9.2 useDeviceOrientation
+
 
 Provides the current device orientation.
 
@@ -8425,7 +10316,7 @@ export declare const useDeviceOrientation: () => UseDeviceOrientationReturn;
 
 ### 9.3 useHotkeys
 
-Listens for keyboard shortcuts.
+Scopes keyboard shortcuts to a target or returned ref so command-style interactions can stay close to the component that owns them.
 
 #### Usage
 
@@ -8433,24 +10324,18 @@ Listens for keyboard shortcuts.
 import { useHotkeys } from "@siberiacancode/reactuse";
 
 const ref = useHotkeys<HTMLDivElement>("ctrl+k", () => console.log("hotkey"));
-//or
+// or
 useHotkeys(ref, "ctrl+k", () => console.log("hotkey"));
 ```
 
 #### Example
 
 ```tsx
-const ref = useHotkeys<HTMLDivElement>("mod+k", () => console.log("hotkey"));
+const ref = useHotkeys<HTMLDivElement>("mod+k,ctrl+/", () => {
+  console.log("open command menu");
+});
 
 return <div ref={ref}>Open</div>;
-```
-
-`alias`:
-
-```tsx
-const ref = useHotkeys<HTMLDivElement>("mod+k", () => {}, {
-  alias: { mod: "Control" },
-});
 ```
 
 `enabled`:
@@ -8459,15 +10344,37 @@ const ref = useHotkeys<HTMLDivElement>("mod+k", () => {}, {
 const ref = useHotkeys<HTMLDivElement>("ctrl+k", () => {}, { enabled: false });
 ```
 
+`alias`:
+
+```tsx
+const ref = useHotkeys<HTMLDivElement>("cmd+k", openMenu, {
+  alias: { Meta: "cmd" },
+});
+```
+
+`onChange`:
+
+```tsx
+const ref = useHotkeys<HTMLDivElement>("escape", {
+  onChange: (event) => console.log(event.key),
+});
+```
+
+`hotkeys` alternatives:
+
+```tsx
+const ref = useHotkeys<HTMLDivElement>("mod+k,ctrl+/", openMenu);
+```
+
 #### Type Declarations
 
 ```ts
-import type { HookTarget } from "@siberiacancode/reactuse";
-import type { StateRef } from "@siberiacancode/reactuse";
+import type { HookTarget, StateRef } from "@siberiacancode/reactuse";
 
 export interface UseHotkeysOptions {
   alias?: Record<string, string>;
   enabled?: boolean;
+  onChange?: (event: KeyboardEvent) => void;
 }
 export type UseHotkeysHotkeys = string;
 export interface UseHotkeysKey {
@@ -8475,27 +10382,37 @@ export interface UseHotkeysKey {
   code: string;
   key: string;
 }
-export type UseHotkeysTarget =
-  | Element
-  | React.RefObject<Element | null | undefined>;
+export declare const isHotkeyMatch: (
+  hotkey: string,
+  keys: UseHotkeysKey[]
+) => boolean;
 export interface UseHotkeys {
   (
-    target: UseHotkeysTarget,
+    target: HookTarget,
+    hotkeys: UseHotkeysHotkeys,
+    options?: UseHotkeysOptions
+  ): void;
+  (
+    target: HookTarget,
     hotkeys: UseHotkeysHotkeys,
     callback: (event: KeyboardEvent) => void,
     options?: UseHotkeysOptions
   ): void;
   <Target extends Element>(
     hotkeys: UseHotkeysHotkeys,
+    options?: UseHotkeysOptions
+  ): StateRef<Target>;
+  <Target extends Element>(
+    hotkeys: UseHotkeysHotkeys,
     callback: (event: KeyboardEvent) => void,
-    options?: UseHotkeysOptions,
-    target?: never
+    options?: UseHotkeysOptions
   ): StateRef<Target>;
 }
 export declare const useHotkeys: UseHotkeys;
 ```
 
 ### 9.4 useIdle
+
 
 Tracks whether the user is idle and last active time.
 
@@ -8505,6 +10422,12 @@ Tracks whether the user is idle and last active time.
 import { useIdle } from "@siberiacancode/reactuse";
 
 const idle = useIdle();
+```
+
+`callback`:
+
+```tsx
+const idle = useIdle(60000, (nextIdle) => console.log(nextIdle));
 ```
 
 #### Example
@@ -8523,15 +10446,11 @@ return (
 
 `milliseconds`:
 
-Idle timeout in milliseconds.
-
 ```tsx
 const idle = useIdle(30000);
 ```
 
 `initialValue`:
-
-Initial idle value.
 
 ```tsx
 const idle = useIdle(60000, { initialValue: true });
@@ -8539,111 +10458,138 @@ const idle = useIdle(60000, { initialValue: true });
 
 `events`:
 
-Events that reset idle state.
-
 ```tsx
 const idle = useIdle(60000, { events: ["mousemove", "keydown"] });
+```
+
+`onChange`:
+
+```tsx
+const idle = useIdle(60000, {
+  onChange: (nextIdle) => console.log(nextIdle),
+});
 ```
 
 #### Type Declarations
 
 ```ts
+export type UseIdleCallback = (idle: boolean) => void;
 export interface UseIdleOptions {
   events?: Array<keyof DocumentEventMap>;
   initialValue?: boolean;
+  onChange?: UseIdleCallback;
 }
 export interface UseIdleReturn {
   idle: boolean;
   lastActive: number;
 }
-export declare const useIdle: (
-  milliseconds?: number,
-  options?: UseIdleOptions
-) => UseIdleReturn;
+export interface UseIdle {
+  (): UseIdleReturn;
+  (milliseconds: number, callback: UseIdleCallback): UseIdleReturn;
+  (milliseconds: number, options?: UseIdleOptions): UseIdleReturn;
+}
+export declare const useIdle: UseIdle;
 ```
 
 ### 9.5 useInfiniteScroll
 
-Triggers a callback when scroll reaches an edge.
+Turns proximity to a scroll edge into a guarded loading callback for paginated lists and timelines.
 
 #### Usage
 
 ```ts
 import { useInfiniteScroll } from "@siberiacancode/reactuse";
 
-const infiniteScroll = useInfiniteScroll<HTMLDivElement>(() =>
-  console.log("load")
-);
+const infiniteScroll = useInfiniteScroll<HTMLDivElement>(async () => {
+  await loadMore();
+});
 // or
-const infiniteScroll = useInfiniteScroll(ref, () => console.log("load"));
+const infiniteScroll = useInfiniteScroll(ref, () => loadMore());
 ```
 
 #### Example
 
 ```tsx
-import { useRef } from "react";
 import { useInfiniteScroll } from "@siberiacancode/reactuse";
 
-const infiniteScroll = useInfiniteScroll<HTMLDivElement>(() =>
-  console.log("load")
+const infiniteScroll = useInfiniteScroll<HTMLDivElement>(
+  () => fetchNextPage(),
+  { hasMore, immediately: true }
 );
 
 return (
   <div ref={infiniteScroll.ref}>
     {items.map((item) => (
-      <div key={item}>Item {item}</div>
+      <div key={item.id}>{item.title}</div>
     ))}
     {infiniteScroll.loading && <div>Loading...</div>}
   </div>
 );
 ```
 
-`distance`:
-
-Trigger threshold.
+`direction`:
 
 ```tsx
-const infiniteScroll = useInfiniteScroll<HTMLDivElement>(() => {}, {
+const infiniteScroll = useInfiniteScroll<HTMLDivElement>(loadPrevious, {
+  direction: "top",
+});
+```
+
+`distance`:
+
+```tsx
+const infiniteScroll = useInfiniteScroll<HTMLDivElement>(loadMore, {
   distance: 50,
 });
 ```
 
-`direction`:
-
-Scroll edge.
+`hasMore`:
 
 ```tsx
-const infiniteScroll = useInfiniteScroll<HTMLDivElement>(() => {}, {
-  direction: "top",
+const infiniteScroll = useInfiniteScroll<HTMLDivElement>(loadMore, {
+  hasMore: hasNextPage,
+});
+```
+
+`immediately`:
+
+```tsx
+const infiniteScroll = useInfiniteScroll<HTMLDivElement>(loadMore, {
+  immediately: true,
 });
 ```
 
 #### Type Declarations
 
 ```ts
-import type { HookTarget } from "@siberiacancode/reactuse";
-import type { StateRef } from "@siberiacancode/reactuse";
+import type { HookTarget, StateRef } from "@siberiacancode/reactuse";
 
 export interface UseInfiniteScrollOptions {
   direction?: "bottom" | "left" | "right" | "top";
   distance?: number;
+  hasMore?: boolean;
+  immediately?: boolean;
+}
+export interface UseInfiniteScrollReturn {
+  loading: boolean;
+  ref: StateRef<Element>;
 }
 export interface UseInfiniteScroll {
   (
     target: HookTarget,
-    callback: (event: Event) => void,
+    callback: (event?: Event) => Promise<void> | void,
     options?: UseInfiniteScrollOptions
-  ): boolean;
+  ): UseInfiniteScrollReturn;
   <Target extends Element>(
-    callback: (event: Event) => void,
-    options?: UseInfiniteScrollOptions,
-    target?: never
-  ): { ref: StateRef<Target>; loading: boolean };
+    callback: (event?: Event) => Promise<void> | void,
+    options?: UseInfiniteScrollOptions
+  ): UseInfiniteScrollReturn & { ref: StateRef<Target> };
 }
 export declare const useInfiniteScroll: UseInfiniteScroll;
 ```
 
 ### 9.6 useIntersectionObserver
+
 
 Tracks intersection state for an element.
 
@@ -8763,6 +10709,7 @@ export declare const useIntersectionObserver: UseIntersectionObserver;
 
 ### 9.7 useKeyboard
 
+
 Registers keydown/keyup listeners on a target.
 
 #### Usage
@@ -8770,11 +10717,11 @@ Registers keydown/keyup listeners on a target.
 ```ts
 import { useKeyboard } from "@siberiacancode/reactuse";
 
-const keyboard = useKeyboard<HTMLInputElement>((event) =>
+const keyboardRef = useKeyboard<HTMLInputElement>((event) =>
   console.log(event.key)
 );
 // or
-const keyboard = useKeyboard(ref, (event) => console.log(event.key));
+useKeyboard(ref, (event) => console.log(event.key));
 ```
 
 #### Example
@@ -8783,11 +10730,11 @@ const keyboard = useKeyboard(ref, (event) => console.log(event.key));
 import { useKeyboard } from "@siberiacancode/reactuse";
 
 export const SearchInput = () => {
-  const keyboard = useKeyboard<HTMLInputElement>({
+  const keyboardRef = useKeyboard<HTMLInputElement>({
     onKeyDown: (event) => console.log(event.key),
   });
 
-  return <input ref={keyboard.ref} placeholder="Type..." />;
+  return <input ref={keyboardRef} placeholder="Type..." />;
 };
 ```
 
@@ -8824,16 +10771,17 @@ export interface UseKeyboard {
   <Target extends HTMLElement>(
     callback: KeyboardEventHandler,
     target?: never
-  ): { ref: StateRef<Target> };
+  ): StateRef<Target>;
   <Target extends HTMLElement>(
     options: UseKeyboardEventOptions,
     target?: never
-  ): { ref: StateRef<Target> };
+  ): StateRef<Target>;
 }
 export declare const useKeyboard: UseKeyboard;
 ```
 
 ### 9.8 useKeyPress
+
 
 Tracks whether specific keys are pressed.
 
@@ -8842,7 +10790,7 @@ Tracks whether specific keys are pressed.
 ```ts
 import { useKeyPress } from "@siberiacancode/reactuse";
 
-const pressed = useKeyPress<HTMLDivElement>("a");
+const keyPress = useKeyPress<HTMLDivElement>("a");
 // or
 const keyPress = useKeyPress(ref, "a");
 ```
@@ -8867,6 +10815,14 @@ export const Spacebar = () => {
 const keyPress = useKeyPress<HTMLDivElement>(["ArrowLeft", "ArrowRight"]);
 ```
 
+`callback`:
+
+```tsx
+const keyPress = useKeyPress<HTMLDivElement>("Escape", (pressed, event) => {
+  console.log(pressed, event.key);
+});
+```
+
 #### Type Declarations
 
 ```ts
@@ -8878,23 +10834,27 @@ export type UseKeyPressCallback = (
   pressed: boolean,
   event: KeyboardEvent
 ) => void;
+export interface UseKeyPressReturn {
+  pressed: boolean;
+  ref: StateRef<Element>;
+}
 export interface UseKeyPress {
   (
     target: HookTarget | Window,
     key: UseKeyPressKey,
     callback?: UseKeyPressCallback
-  ): boolean;
+  ): UseKeyPressReturn;
   <Target extends Element>(
     key: UseKeyPressKey,
     callback?: UseKeyPressCallback,
     target?: never
-  ): { pressed: boolean; ref: StateRef<Target> };
+  ): UseKeyPressReturn & { ref: StateRef<Target> };
 }
 export declare const useKeyPress: UseKeyPress;
 ```
 
+### 9.9 useKeysPressed
 
-### 9.10 useKeysPressed
 
 Tracks all currently pressed keys.
 
@@ -8903,9 +10863,9 @@ Tracks all currently pressed keys.
 ```ts
 import { useKeysPressed } from "@siberiacancode/reactuse";
 
-const keys = useKeysPressed<HTMLDivElement>();
+const keysPressed = useKeysPressed();
 // or
-const keys = useKeysPressed(ref, { enabled: true });
+const keysPressed = useKeysPressed(ref, { enabled: true });
 ```
 
 #### Example
@@ -8914,11 +10874,11 @@ const keys = useKeysPressed(ref, { enabled: true });
 import { useKeysPressed } from "@siberiacancode/reactuse";
 
 export const KeysPanel = () => {
-  const keys = useKeysPressed<HTMLDivElement>();
+  const keysPressed = useKeysPressed<HTMLDivElement>();
 
   return (
-    <div ref={keys.ref}>
-      {keys.map((item) => item.key).join(", ") || "None"}
+    <div ref={keysPressed.ref}>
+      {keysPressed.value.map((item) => item.key).join(", ") || "None"}
     </div>
   );
 };
@@ -8926,10 +10886,8 @@ export const KeysPanel = () => {
 
 `enabled`:
 
-Toggle tracking.
-
 ```tsx
-const keys = useKeysPressed<HTMLDivElement>({ enabled: false });
+const keysPressed = useKeysPressed<HTMLDivElement>({ enabled: false });
 ```
 
 #### Type Declarations
@@ -8941,22 +10899,24 @@ import type { StateRef } from "@siberiacancode/reactuse";
 export interface UseKeysPressedOptions {
   enabled?: boolean;
 }
+export interface UseKeysPressedReturn {
+  value: Array<{ key: string; code: string }>;
+}
 export interface UseKeysPressed {
-  (target: HookTarget | Window, options?: UseKeysPressedOptions): Array<{
-    key: string;
-    code: string;
-  }>;
-  <Target extends Element>(options?: UseKeysPressedOptions): {
-    value: Array<{ key: string; code: string }>;
-    ref: StateRef<Target>;
-  };
+  (
+    target: HookTarget | Window,
+    options?: UseKeysPressedOptions
+  ): UseKeysPressedReturn;
+  <Target extends Element>(
+    options?: UseKeysPressedOptions
+  ): UseKeysPressedReturn & { ref: StateRef<Target> };
 }
 export declare const useKeysPressed: UseKeysPressed;
 ```
 
-### 9.11 useMouse
+### 9.10 useMouse
 
-Tracks mouse coordinates relative to page and element.
+Tracks mouse coordinates relative to page and element. State is stored in a snapshot; the component re-renders only when you subscribe via `watch()` or use the optional callback.
 
 #### Usage
 
@@ -8966,22 +10926,50 @@ import { useMouse } from "@siberiacancode/reactuse";
 const mouse = useMouse<HTMLDivElement>();
 // or
 const mouse = useMouse(ref);
+// with callback (no re-render needed for side effects)
+const mouse = useMouse<HTMLDivElement>((value, event) =>
+  console.log(value.x, value.y)
+);
 ```
 
 #### Example
 
 ```tsx
-import { useMouse } from "@siberiacancode/reactuse";
+const mouse = useMouse<HTMLDivElement>((value) => {
+  document.body.style.setProperty("--mouse-x", String(value.clientX));
+  document.body.style.setProperty("--mouse-y", String(value.clientY));
+});
+return <div ref={mouse.ref}>Cursor position -> CSS vars</div>;
+```
 
-export const Cursor = () => {
-  const mouse = useMouse<HTMLDivElement>();
+Reading `snapshot` without re-renders (e.g. in a handler):
 
-  return (
-    <div ref={mouse.ref}>
-      {mouse.x}, {mouse.y} (element: {mouse.elementX}, {mouse.elementY})
-    </div>
-  );
-};
+```tsx
+const mouse = useMouse<HTMLDivElement>();
+return (
+  <div
+    ref={mouse.ref}
+    onClick={() => console.log(mouse.snapshot.clientX, mouse.snapshot.clientY)}
+  >
+    Click to log position
+  </div>
+);
+```
+
+#### Notes
+
+- By default the hook does not re-render on mouse move, only `snapshot` and the optional callback are updated. To render coordinates in JSX and react to movement, subscribe via `watch()`: call it once per render, for example `const state = mouse.watch()`, then the component will re-render on mouse move.
+
+If you do need to show position in the UI:
+
+```tsx
+const mouse = useMouse<HTMLDivElement>();
+const state = mouse.watch();
+return (
+  <div ref={mouse.ref}>
+    {state.clientX}, {state.clientY}
+  </div>
+);
 ```
 
 #### Type Declarations
@@ -8990,7 +10978,7 @@ export const Cursor = () => {
 import type { HookTarget } from "@siberiacancode/reactuse";
 import type { StateRef } from "@siberiacancode/reactuse";
 
-export interface UseMouseReturn {
+export interface UseMouseValue {
   clientX: number;
   clientY: number;
   elementPositionX: number;
@@ -9000,17 +10988,24 @@ export interface UseMouseReturn {
   x: number;
   y: number;
 }
+export interface UseMouseReturn {
+  snapshot: UseMouseValue;
+  watch: () => UseMouseValue;
+}
+export type UseMouseCallback = (value: UseMouseValue, event: Event) => void;
 export interface UseMouse {
-  (target: HookTarget): UseMouseReturn;
-  <Target extends Element>(target?: never): UseMouseReturn & {
-    ref: StateRef<Target>;
-  };
-  (target?: Window): UseMouseReturn;
+  (target: HookTarget, callback?: UseMouseCallback): UseMouseReturn;
+  <Target extends Element>(
+    callback?: UseMouseCallback,
+    target?: never
+  ): UseMouseReturn & { ref: StateRef<Target> };
+  (target?: Window, callback?: UseMouseCallback): UseMouseReturn;
 }
 export declare const useMouse: UseMouse;
 ```
 
-### 9.12 useMutationObserver
+### 9.11 useMutationObserver
+
 
 Observes DOM mutations on an element.
 
@@ -9137,7 +11132,8 @@ export interface UseMutationObserver {
 export declare const useMutationObserver: UseMutationObserver;
 ```
 
-### 9.13 useOrientation
+### 9.12 useOrientation
+
 
 Returns the current screen orientation and lock controls.
 
@@ -9147,6 +11143,14 @@ Returns the current screen orientation and lock controls.
 import { useOrientation } from "@siberiacancode/reactuse";
 
 const orientation = useOrientation();
+```
+
+`callback`:
+
+```tsx
+const orientation = useOrientation((value) => {
+  console.log(value.orientationType);
+});
 ```
 
 #### Example
@@ -9194,10 +11198,13 @@ export interface useOrientationReturn {
   lock: (orientation: OrientationLockType) => void;
   unlock: () => void;
 }
-export declare const useOrientation: () => useOrientationReturn;
+export declare const useOrientation: (
+  callback?: (value: UseOrientationValue) => void
+) => useOrientationReturn;
 ```
 
-### 9.14 usePageLeave
+### 9.13 usePageLeave
+
 
 Detects when the mouse leaves the page.
 
@@ -9222,7 +11229,8 @@ return <div>{left ? "Leaving" : "Here"}</div>;
 export declare const usePageLeave: (callback?: () => void) => boolean;
 ```
 
-### 9.15 useParallax
+### 9.14 useParallax
+
 
 Creates a parallax effect based on mouse or device orientation.
 
@@ -9326,7 +11334,8 @@ export interface UseParallax {
 export declare const useParallax: UseParallax;
 ```
 
-### 9.16 usePerformanceObserver
+### 9.15 usePerformanceObserver
+
 
 Observes performance entries.
 
@@ -9390,7 +11399,8 @@ export declare const usePerformanceObserver: (
 };
 ```
 
-### 9.17 useResizeObserver
+### 9.16 useResizeObserver
+
 
 Observes size changes for an element.
 
@@ -9488,7 +11498,7 @@ export interface UseResizeObserver {
 export declare const useResizeObserver: UseResizeObserver;
 ```
 
-### 9.18 useScroll
+### 9.17 useScroll
 
 Tracks scroll state and provides scroll helpers.
 
@@ -9505,27 +11515,20 @@ const scroll = useScroll(ref);
 #### Example
 
 ```tsx
-const scroll = useScroll<HTMLDivElement>();
+const scroll = useScroll<HTMLDivElement>({
+  onScroll: ({ arrived, y }) => {
+    if (arrived.bottom) console.log("reached bottom");
+  },
+});
 return (
   <div ref={scroll.ref}>
-    {scroll.arrived.bottom ? "Bottom" : `y: ${scroll.y}`}
+    <button onClick={() => scroll.scrollTo({ x: 0, y: 0 })}>Top</button>
+    <button onClick={() => scroll.scrollIntoView({ block: "end" })}>To end</button>
   </div>
 );
 ```
 
-`onScroll`:
-
-Scroll callback.
-
-```tsx
-const scroll = useScroll<HTMLDivElement>({
-  onScroll: ({ x, y }) => console.log(x, y),
-});
-```
-
 `onStop`:
-
-Stop callback.
 
 ```tsx
 const scroll = useScroll<HTMLDivElement>({
@@ -9533,36 +11536,27 @@ const scroll = useScroll<HTMLDivElement>({
 });
 ```
 
-`offset.left`:
-
-Left offset.
+`offset`:
 
 ```tsx
-const scroll = useScroll<HTMLDivElement>({ offset: { left: 10 } });
+const scroll = useScroll<HTMLDivElement>({ offset: { left: 10, top: 10 } });
 ```
 
-`offset.right`:
+#### Notes
 
-Right offset.
+- By default the hook does not re-render on scroll, only `snapshot` in a ref and `onScroll` are updated. To render scroll state in JSX and react to changes, subscribe via `watch()`: call it once per render, for example `const state = scroll.watch()`, then the component will re-render on scroll and `state` will stay in sync.
 
-```tsx
-const scroll = useScroll<HTMLDivElement>({ offset: { right: 10 } });
-```
-
-`offset.top`:
-
-Top offset.
+If you do need to show scroll position in the UI:
 
 ```tsx
-const scroll = useScroll<HTMLDivElement>({ offset: { top: 10 } });
-```
+const scroll = useScroll<HTMLDivElement>();
+const state = scroll.watch();
 
-`offset.bottom`:
-
-Bottom offset.
-
-```tsx
-const scroll = useScroll<HTMLDivElement>({ offset: { bottom: 10 } });
+return (
+  <div ref={scroll.ref}>
+    Scroll: {state.y}px · {state.arrived.bottom ? "Bottom" : "scrolling"}
+  </div>
+);
 ```
 
 #### Type Declarations
@@ -9572,18 +11566,16 @@ import type { HookTarget } from "@siberiacancode/reactuse";
 import type { StateRef } from "@siberiacancode/reactuse";
 
 export interface UseScrollOptions {
-  onScroll?: (params: UseScrollCallbackParams, event: Event) => void;
-  onStop?: (event: Event) => void;
   offset?: {
     left?: number;
     right?: number;
     top?: number;
     bottom?: number;
   };
+  onScroll?: (params: UseScrollCallbackParams, event: Event) => void;
+  onStop?: (event: Event) => void;
 }
 export interface UseScrollCallbackParams {
-  x: number;
-  y: number;
   arrived: {
     left: boolean;
     right: boolean;
@@ -9596,6 +11588,8 @@ export interface UseScrollCallbackParams {
     top: boolean;
     bottom: boolean;
   };
+  x: number;
+  y: number;
 }
 export interface ScrollIntoViewParams {
   behavior?: ScrollBehavior;
@@ -9608,16 +11602,17 @@ export interface ScrollToParams {
   y: number;
 }
 export interface UseScrollReturn {
-  scrolling: boolean;
+  snapshot: UseScrollCallbackParams;
   scrollIntoView: (params?: ScrollIntoViewParams) => void;
   scrollTo: (params?: ScrollToParams) => void;
+  watch: () => UseScrollCallbackParams;
 }
 export interface UseScroll {
   (
     target?: HookTarget,
     callback?: (params: UseScrollCallbackParams, event: Event) => void
   ): UseScrollReturn;
-  (target?: HookTarget, options?: UseScrollOptions): UseScrollReturn;
+  (target: HookTarget, options?: UseScrollOptions): UseScrollReturn;
   <Target extends Element>(
     callback?: (params: UseScrollCallbackParams, event: Event) => void,
     target?: never
@@ -9630,7 +11625,8 @@ export interface UseScroll {
 export declare const useScroll: UseScroll;
 ```
 
-### 9.19 useScrollIntoView
+### 9.18 useScrollIntoView
+
 
 Scrolls an element into view and exposes a trigger.
 
@@ -9728,7 +11724,8 @@ export interface UseScrollIntoView {
 export declare const useScrollIntoView: UseScrollIntoView;
 ```
 
-### 9.20 useScrollTo
+### 9.19 useScrollTo
+
 
 Scrolls to a specific position with a trigger.
 
@@ -9823,7 +11820,122 @@ export interface UseScrollTo {
 export declare const useScrollTo: UseScrollTo;
 ```
 
+### 9.20 useSwipe
+
+Turns touch and pointer movement into swipe direction and distance state for gesture-driven UI.
+
+#### Usage
+
+```ts
+import { useSwipe } from "@siberiacancode/reactuse";
+
+const swipe = useSwipe<HTMLDivElement>((value) => console.log(value.direction));
+// or
+const swipe = useSwipe(ref, { threshold: 80 });
+```
+
+#### Example
+
+```tsx
+import { useSwipe } from "@siberiacancode/reactuse";
+
+export const SwipeCard = () => {
+  const swipe = useSwipe<HTMLDivElement>();
+  const value = swipe.watch();
+
+  return (
+    <div ref={swipe.ref}>
+      {swipe.swiping ? value.direction : "Swipe left or right"}
+    </div>
+  );
+};
+```
+
+`callback`:
+
+```tsx
+const swipe = useSwipe<HTMLDivElement>((value) => console.log(value.direction));
+```
+
+`target`:
+
+```tsx
+const swipe = useSwipe(target("#carousel"), { threshold: 80 });
+```
+
+`threshold`:
+
+```tsx
+const swipe = useSwipe<HTMLDivElement>({ threshold: 80 });
+```
+
+`onStart`:
+
+```tsx
+const swipe = useSwipe<HTMLDivElement>({
+  onStart: (value) => console.log(value.direction),
+});
+```
+
+`onMove`:
+
+```tsx
+const swipe = useSwipe<HTMLDivElement>({
+  onMove: (value) => console.log(value.lengthX),
+});
+```
+
+`onEnd`:
+
+```tsx
+const swipe = useSwipe<HTMLDivElement>({
+  onEnd: (value) => console.log(value.direction),
+});
+```
+
+#### Notes
+
+- By default gesture movement updates `snapshot` and callbacks without forcing a re-render. To render live swipe state in JSX, subscribe via `watch()`: call it once per render, for example `const value = swipe.watch()`, then the component will re-render while swiping.
+
+#### Type Declarations
+
+```ts
+import type { HookTarget, StateRef } from "@siberiacancode/reactuse";
+
+export type SwipeDirection = "down" | "left" | "none" | "right" | "up";
+export type SwipeEvent = PointerEvent | TouchEvent;
+export interface UseSwipeValue {
+  direction: SwipeDirection;
+  lengthX: number;
+  lengthY: number;
+}
+export type UseSwipeCallback = (value: UseSwipeValue, event: SwipeEvent) => void;
+export interface UseSwipeOptions {
+  onMove?: UseSwipeCallback;
+  threshold?: number;
+  onEnd?: (value: UseSwipeValue, event: SwipeEvent) => void;
+  onStart?: (value: UseSwipeValue, event: SwipeEvent) => void;
+}
+export interface UseSwipeReturn {
+  snapshot: UseSwipeValue;
+  swiping: boolean;
+  watch: () => UseSwipeValue;
+}
+export interface UseSwipe {
+  (target: HookTarget, callback?: UseSwipeCallback): UseSwipeReturn;
+  (target: HookTarget, options?: UseSwipeOptions): UseSwipeReturn;
+  <Target extends Element>(
+    callback?: UseSwipeCallback
+  ): UseSwipeReturn & { ref: StateRef<Target> };
+  <Target extends Element>(
+    options?: UseSwipeOptions
+  ): UseSwipeReturn & { ref: StateRef<Target> };
+}
+export declare const useSwipe: UseSwipe;
+```
+
 ### 9.21 useTextSelection
+
 
 Tracks text selection details.
 
@@ -9867,6 +11979,7 @@ export declare const useTextSelection: () => UseTextSelectionReturn;
 ```
 
 ### 9.22 useVisibility
+
 
 Tracks whether an element is visible in the viewport.
 
@@ -9970,6 +12083,7 @@ export declare const useVisibility: UseVisibility;
 
 ### 9.23 useWindowEvent
 
+
 Attaches an event listener to the window object.
 
 #### Usage
@@ -10013,6 +12127,7 @@ export declare const useWindowEvent: <Event extends keyof WindowEventMap>(
 ```
 
 ### 9.24 useWindowScroll
+
 
 Tracks window scroll position and exposes scrollTo.
 
@@ -10058,6 +12173,7 @@ export declare const useWindowScroll: () => {
 ## 10. Time
 
 ### 10.1 useInterval
+
 
 Creates an interval with controls to pause and resume it.
 
@@ -10128,7 +12244,140 @@ interface UseInterval {
 export declare const useInterval: UseInterval;
 ```
 
-### 10.2 useStopwatch
+### 10.2 useProgress
+
+
+Creates a lightweight progress state with auto-increment behavior.
+
+#### Usage
+
+```ts
+import { useProgress } from "@siberiacancode/reactuse";
+
+const { value, active, start, done, inc, remove } = useProgress(0, {
+  immediately: false,
+  maximum: 0.98,
+  speed: 250,
+  rate: 0.02,
+});
+```
+
+#### Example
+
+```tsx
+import { useProgress } from "@siberiacancode/reactuse";
+
+export const LoadingBar = () => {
+  const progress = useProgress(0);
+
+  const onLoad = async () => {
+    progress.start();
+    await new Promise((resolve) => setTimeout(resolve, 1200));
+    progress.done();
+  };
+
+  return (
+    <div>
+      <button onClick={onLoad}>Start</button>
+
+      {active && (
+        <div
+          style={{
+            width: "100%",
+            height: 4,
+            background: "#e5e7eb",
+            marginTop: 12,
+          }}
+        >
+          <div
+            style={{
+              width: `${Math.round(value * 100)}%`,
+              height: "100%",
+              background: "#2563eb",
+              transition: "width 200ms ease",
+            }}
+          />
+        </div>
+      )}
+    </div>
+  );
+};
+```
+
+`initialValue`:
+
+Initial progress value in the `0..1` range.
+
+```tsx
+const progress = useProgress(0.25);
+```
+
+`immediately`:
+
+Starts progress automatically on mount.
+
+```tsx
+const progress = useProgress(0, { immediately: true });
+```
+
+`maximum`:
+
+Upper bound for auto-increment while active.
+
+```tsx
+const progress = useProgress(0, { maximum: 0.95 });
+```
+
+`speed`:
+
+Auto-increment interval in milliseconds.
+
+```tsx
+const progress = useProgress(0, { speed: 150 });
+```
+
+`rate`:
+
+Additional random increment amount per tick.
+
+```tsx
+const progress = useProgress(0, { rate: 0.03 });
+```
+
+#### Use cases
+
+- Top-page loading bars for route/data transitions.
+
+#### Notes
+
+- `value` is expected in the `0..1` range.
+- `done()` sets progress to `1` and disables active state with a short delay.
+
+#### Type Declarations
+
+```ts
+export interface UseProgressOptions {
+  immediately?: boolean;
+  maximum?: number;
+  rate?: number;
+  speed?: number;
+}
+export interface UseProgressReturn {
+  active: boolean;
+  value: number;
+  done: (force?: boolean) => number | null;
+  inc: (amount?: number) => number | null;
+  remove: () => void;
+  start: (from?: number | null) => number;
+}
+export declare const useProgress: (
+  initialValue?: number,
+  options?: UseProgressOptions
+) => UseProgressReturn;
+```
+
+### 10.3 useStopwatch
+
 
 Creates a stopwatch with start, pause, and reset controls.
 
@@ -10203,7 +12452,8 @@ interface UseStopwatch {
 export declare const useStopwatch: UseStopwatch;
 ```
 
-### 10.3 useTime
+### 10.4 useTime
+
 
 Provides the current time split into multiple fields.
 
@@ -10248,7 +12498,8 @@ export interface UseTimeReturn {
 export declare const useTime: () => UseTimeReturn;
 ```
 
-### 10.4 useTimeout
+### 10.5 useTimeout
+
 
 Runs a callback after a delay and returns a `ready` flag.
 
@@ -10292,7 +12543,8 @@ export declare function useTimeout(
 ): UseTimeoutReturn;
 ```
 
-### 10.5 useTimer
+### 10.6 useTimer
+
 
 Creates a countdown timer with controls and callbacks.
 
@@ -10407,140 +12659,10 @@ export interface UseTimer {
 export declare const useTimer: UseTimer;
 ```
 
-### 10.6 useProgress
-
-Creates a lightweight progress state with auto-increment behavior.
-
-## Usage
-
-```ts
-import { useProgress } from "@siberiacancode/reactuse";
-
-const { value, active, start, done, inc, remove } = useProgress(0, {
-  immediately: false,
-  maximum: 0.98,
-  speed: 250,
-  rate: 0.02,
-});
-```
-
-## Example
-
-```tsx
-import { useProgress } from "@siberiacancode/reactuse";
-
-export const LoadingBar = () => {
-  const progress = useProgress(0);
-
-  const onLoad = async () => {
-    progress.start();
-    await new Promise((resolve) => setTimeout(resolve, 1200));
-    progress.done();
-  };
-
-  return (
-    <div>
-      <button onClick={onLoad}>Start</button>
-
-      {active && (
-        <div
-          style={{
-            width: "100%",
-            height: 4,
-            background: "#e5e7eb",
-            marginTop: 12,
-          }}
-        >
-          <div
-            style={{
-              width: `${Math.round(value * 100)}%`,
-              height: "100%",
-              background: "#2563eb",
-              transition: "width 200ms ease",
-            }}
-          />
-        </div>
-      )}
-    </div>
-  );
-};
-```
-
-`initialValue`:
-
-Initial progress value in the `0..1` range.
-
-```tsx
-const progress = useProgress(0.25);
-```
-
-`immediately`:
-
-Starts progress automatically on mount.
-
-```tsx
-const progress = useProgress(0, { immediately: true });
-```
-
-`maximum`:
-
-Upper bound for auto-increment while active.
-
-```tsx
-const progress = useProgress(0, { maximum: 0.95 });
-```
-
-`speed`:
-
-Auto-increment interval in milliseconds.
-
-```tsx
-const progress = useProgress(0, { speed: 150 });
-```
-
-`rate`:
-
-Additional random increment amount per tick.
-
-```tsx
-const progress = useProgress(0, { rate: 0.03 });
-```
-
-## Use cases
-
-- Top-page loading bars for route/data transitions.
-
-## Notes
-
-- `value` is expected in the `0..1` range.
-- `done()` sets progress to `1` and disables active state with a short delay.
-
-## Type Declarations
-
-```ts
-export interface UseProgressOptions {
-  immediately?: boolean;
-  maximum?: number;
-  rate?: number;
-  speed?: number;
-}
-export interface UseProgressReturn {
-  active: boolean;
-  value: number;
-  done: (force?: boolean) => number | null;
-  inc: (amount?: number) => number | null;
-  remove: () => void;
-  start: (from?: number | null) => number;
-}
-export declare const useProgress: (
-  initialValue?: number,
-  options?: UseProgressOptions
-) => UseProgressReturn;
-```
-
 ## 11. Debug
 
 ### 11.1 useLogger
+
 
 Logs mount, update, and unmount for a component.
 
@@ -10577,6 +12699,7 @@ export declare const useLogger: (name: string, params: unknown[]) => void;
 
 ### 11.2 useRenderCount
 
+
 Returns how many times a component has rendered.
 
 #### Usage
@@ -10612,6 +12735,7 @@ export declare const useRenderCount: () => number;
 ```
 
 ### 11.3 useRenderInfo
+
 
 Provides render count and timing info, with optional logging.
 
@@ -10659,6 +12783,7 @@ export declare const useRenderInfo: (
 
 ### 11.4 useRerender
 
+
 Forces a component rerender on demand.
 
 #### Usage
@@ -10696,9 +12821,3 @@ export const ManualRefresh = () => {
 ```ts
 export declare const useRerender: () => () => void;
 ```
-
-## References
-
-1. [https://react.dev](https://react.dev)
-2. [https://nextjs.org](https://nextjs.org)
-3. [https://reactuse.org](https://reactuse.org)

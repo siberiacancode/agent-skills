@@ -6,7 +6,7 @@ usage: high
 
 # useQuery
 
-Defines query logic with loading, error, success, and refetch state.
+Wraps an abortable async read in query state so components can express loading, refresh, retry, cancellation, and selected data without hand-rolling request bookkeeping.
 
 ## Usage
 
@@ -35,45 +35,46 @@ const query = useQuery(fetchUser, { keys: [userId] });
 `placeholderData`:
 
 ```tsx
-const query = useQuery(fetchUser, {
-  placeholderData: { name: "Loading..." },
-});
+const query = useQuery(fetchUser, { placeholderData: { name: "Loading..." } });
 ```
 
 `refetchInterval`:
+
+Use a number to refetch on a fixed interval.
 
 ```tsx
 const query = useQuery(fetchStats, { refetchInterval: 5000 });
 ```
 
-`retry`:
+Use a function to choose the interval dynamically or return `false`.
 
 ```tsx
-const query = useQuery(fetchUser, { retry: 2 });
+const query = useQuery(fetchStats, {
+  refetchInterval: () => (document.hidden ? false : 5000),
+});
+```
+
+`retry`:
+
+Use a number for a fixed retry count.
+
+```tsx
+const query = useQuery(fetchUser, { retry: 3, retryDelay: 500 });
+```
+
+Use a function to decide whether each failed request should retry.
+
+```tsx
+const query = useQuery(fetchUser, {
+  retry: (failureCount, error) => failureCount < 3 && error.message !== "401",
+  retryDelay: 500,
+});
 ```
 
 `retryDelay`:
 
 ```tsx
-const query = useQuery(fetchUser, {
-  retryDelay: (attempt) => attempt * 300,
-});
-```
-
-`onSuccess`:
-
-```tsx
-const query = useQuery(fetchUser, {
-  onSuccess: (data) => console.log(data),
-});
-```
-
-`onError`:
-
-```tsx
-const query = useQuery(fetchUser, {
-  onError: (error) => console.error(error),
-});
+const query = useQuery(fetchUser, { retry: 3, retryDelay: 500 });
 ```
 
 `select`:
@@ -84,11 +85,21 @@ const query = useQuery(fetchUser, {
 });
 ```
 
-## Notes
+`onError`:
 
-- The callback receives `{ signal, keys }` for cancellation and dependency awareness.
-- Use `refetch()` for fire-and-forget reloads.
-- Use `fetch()` when you need the same reload behavior but want a `Promise` you can `await`.
+```tsx
+const query = useQuery(fetchUser, {
+  onError: (error) => toast.error(error.message),
+});
+```
+
+`onSuccess`:
+
+```tsx
+const query = useQuery(fetchUser, {
+  onSuccess: (user) => console.log(user.id),
+});
+```
 
 ## Type Declarations
 
@@ -99,9 +110,9 @@ export interface UseQueryOptions<QueryData, Data> {
   enabled?: boolean;
   keys?: DependencyList;
   placeholderData?: (() => Data) | Data;
-  refetchInterval?: number;
-  retry?: boolean | number;
-  retryDelay?: ((retry: number, error: Error) => number) | number;
+  refetchInterval?: (() => number | false) | number | false;
+  retry?: ((failureCount: number, error: Error) => boolean) | boolean | number;
+  retryDelay?: number;
   onError?: (error: Error) => void;
   onSuccess?: (data: Data) => void;
   select?: (data: QueryData) => Data;

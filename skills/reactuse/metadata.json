@@ -1,8 +1,8 @@
 {
-  "version": "1.0.0",
-  "organization": "siberiacancode",
-  "date": "January 2026",
-  "abstract": "Comprehensive performance optimization guide for React and Next.js applications used in my products, designed for AI agents and LLMs. Contains 40+ rules across 8 categories, prioritized by impact from critical (eliminating waterfalls, reducing bundle size) to incremental (advanced patterns). Each rule includes detailed explanations, real-world examples comparing incorrect vs. correct implementations, and specific impact metrics to guide automated refactoring and code generation.",
+  "version": "1.0.12",
+  "organization": "Siberiacancode",
+  "date": "July 2026",
+  "abstract": "Reactuse hook and helper playbook for React and Next.js projects, designed for AI agents and LLMs. Contains concise rules for choosing production-ready hooks, browser APIs, state helpers, async flows, sensors, lifecycle utilities, and SSR-compatible implementation patterns.",
   "references": [
     "https://react.dev",
     "https://nextjs.org",

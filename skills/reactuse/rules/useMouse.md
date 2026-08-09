@@ -46,7 +46,11 @@ return (
 );
 ```
 
-**Reactivity.** By default the hook does not re-render on mouse move, only `snapshot` and the optional callback are updated. To render coordinates in JSX and react to movement, subscribe via `watch()`: call it once per render, for example `const state = mouse.watch()`, then the component will re-render on mouse move. If you do need to show position in the UI:
+## Notes
+
+- By default the hook does not re-render on mouse move, only `snapshot` and the optional callback are updated. To render coordinates in JSX and react to movement, subscribe via `watch()`: call it once per render, for example `const state = mouse.watch()`, then the component will re-render on mouse move.
+
+If you do need to show position in the UI:
 
 ```tsx
 const mouse = useMouse<HTMLDivElement>();

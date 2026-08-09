@@ -46,6 +46,7 @@ const motion = useDeviceMotion({ onChange: (event) => console.log(event) });
 ## Notes
 
 - Hook uses the [DeviceMotionEvent API](https://developer.mozilla.org/en-US/docs/Web/API/Window/DeviceMotionEvent).
+- By default device motion updates `snapshot` and `onChange` without forcing a re-render. To render live motion data in JSX, subscribe via `watch()`: call it once per render, for example `const value = motion.watch()`, then the component will re-render on motion updates.
 
 ## Type Declarations
 

@@ -1,8 +1,8 @@
 # Reactuse
 
-**Version 1.0.0**  
+**Version 1.0.12**
 Siberiacancode  
-January 2026
+July 2026
 
 This repository contains Reactuse guidance for agents and LLMs. It is optimized for automated code generation, refactoring, and consistency in React and Next.js projects.
 

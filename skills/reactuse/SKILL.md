@@ -4,8 +4,7 @@ description: Practical playbook for React teams to choose and apply reactuse hoo
 license: MIT
 metadata:
   author: siberiacancode
-  version: "1.0.0"
-compatibility: Requires React 18+ (or Next.js 13+)
+  version: "1.0.12"
 ---
 
 # Reactuse
@@ -34,11 +33,15 @@ IMPORTANT: Each hook entry includes a short `Description` and a detailed `Refere
 
 | Hook                  | Description                                                     | Invocation |
 | --------------------- | --------------------------------------------------------------- | ---------- |
+| cn | Normalizes conditional class names for React `className`. | HIGH |
 | createContext         | Creates a typed context with provider and selector hook.        | HIGH       |
+| createContextHook | Scopes one hook result to a React subtree. | LOW |
 | createEventEmitter    | Creates a type-safe event emitter with a subscription hook.     | LOW        |
 | createReactiveContext | Creates a typed context selector with optimized updates.        | LOW        |
+| createSharedHook | Shares one hook instance across consumers. | LOW |
 | createStore           | Creates a external store with state, subscriptions, and a hook. | MEDIUM     |
-| target                | Flexible helper to reference DOM targets for hooks.             | MEDIUM     |
+| makeDestructurable | Supports object and tuple consumption from one value. | LOW |
+| target | Wraps DOM targets in the shape Reactuse hooks expect. | MEDIUM |
 
 ### Elements
 
@@ -47,7 +50,9 @@ IMPORTANT: Each hook entry includes a short `Description` and a detailed `Refere
 | useActiveElement    | Tracks the currently focused element.                      | LOW        |
 | useAutoScroll       | Automatically scrolls a container to the bottom.           | LOW        |
 | useClickOutside     | Calls a callback when clicking outside the target element. | HIGH       |
+| useContextMenu | Converts secondary-click and long-press gestures to menu state. | LOW |
 | useDoubleClick      | Detects double-clicks with optional single-click handler.  | MEDIUM     |
+| useDraggable | Converts pointer movement into drag position state. | LOW |
 | useDropZone         | Creates a drag-and-drop area with file state.              | MEDIUM     |
 | useFileDialog       | Opens a file picker and returns selected files.            | LOW        |
 | useFocus            | Tracks focus state and provides focus/blur controls.       | MEDIUM     |
@@ -57,7 +62,6 @@ IMPORTANT: Each hook entry includes a short `Description` and a detailed `Refere
 | useLockScroll       | Locks scrolling on an element or the document body.        | MEDIUM     |
 | useLongPress        | Detects long press interactions.                           | MEDIUM     |
 | usePaint            | Draws on a canvas and exposes drawing controls.            | LOW        |
-| useRightClick       | Handles right-click and long press events.                 | LOW        |
 | useScript           | Loads a script and returns its status.                     | LOW        |
 | useSize             | Observes element width and height.                         | LOW        |
 | useSticky           | Detects whether a sticky element is stuck.                 | LOW        |
@@ -74,7 +78,7 @@ IMPORTANT: Each hook entry includes a short `Description` and a detailed `Refere
 | useLockCallback | Prevents a callback from running multiple times simultaneously.         | MEDIUM     |
 | useMutation     | Defines mutation logic with loading, error, and success state.          | HIGH       |
 | useOptimistic   | Allows showing an optimistic value before the async update resolves.    | MEDIUM     |
-| useQuery        | Defines query logic with loading, error, success, and refetch state.    | HIGH       |
+| useQuery | Wraps abortable async reads in query state and refresh controls. | HIGH |
 
 ### Lifecycle
 
@@ -101,7 +105,8 @@ IMPORTANT: Each hook entry includes a short `Description` and a detailed `Refere
 | useClipboard          | Reads and copies text from the clipboard.                                    | MEDIUM     |
 | useCopy               | Copies text and resets status after a delay.                                 | MEDIUM     |
 | useCssVar             | Reads and writes a CSS custom property.                                      | LOW        |
-| useDisplayMedia       | Provides screen sharing controls and stream state.                           | LOW        |
+| useDeviceList | Groups available media input and output devices for pickers. | MEDIUM |
+| useDisplayMedia | Connects a video element to a screen-capture stream. | LOW |
 | useDocumentEvent      | Attaches an event listener to the document.                                  | LOW        |
 | useDocumentTitle      | Reads and updates the document title.                                        | LOW        |
 | useDocumentVisibility | Returns the document visibility state.                                       | LOW        |
@@ -113,27 +118,31 @@ IMPORTANT: Each hook entry includes a short `Description` and a detailed `Refere
 | useFps                | Measures frames per second.                                                  | LOW        |
 | useFullscreen         | Controls fullscreen state for an element.                                    | LOW        |
 | useGamepad            | Returns connected gamepads and active status.                                | LOW        |
-| useGeolocation        | Returns the current geolocation and updates on changes.                      | MEDIUM     |
+| useGeolocation | Keeps the latest browser geolocation reading in React state. | MEDIUM |
 | useMeasure            | Measures an element's size and position.                                     | LOW        |
 | useMediaControls      | Provides controls and state for audio/video elements.                        | LOW        |
+| useMediaStream | Connects camera or microphone capture to a media element. | MEDIUM |
 | useMediaQuery         | Returns whether a media query matches.                                       | MEDIUM     |
 | useMemory             | Returns the current JS heap memory usage.                                    | LOW        |
 | useNetwork            | Tracks online status and connection information.                             | LOW        |
+| useNotification | Manages notification permission and the latest notification. | MEDIUM |
 | useOnline             | Returns whether the user is online.                                          | MEDIUM     |
 | useObjectUrl          | Creates and revokes an object URL                                            | LOW        |
 | useOtpCredential      | Requests an OTP credential from the user agent.                              | LOW        |
-| usePermission         | Returns the state of a given permission.                                     | MEDIUM     |
+| usePermission | Tracks browser permission query state. | MEDIUM |
 | usePictureInPicture   | Controls Picture-in-Picture mode for video elements.                         | LOW        |
 | usePointerLock        | Provides reactive pointer lock controls.                                     | LOW        |
 | usePostMessage        | Receives and posts messages between windows/frames.                          | LOW        |
 | useRaf                | Runs a callback on each animation frame.                                     | LOW        |
 | useShare              | Triggers the native share dialog.                                            | MEDIUM     |
-| useSpeechRecognition  | Provides speech-to-text recognition controls and state.                      | LOW        |
-| useSpeechSynthesis    | Provides text-to-speech controls and state.                                  | LOW        |
+| useSpeechRecognition | Turns browser speech recognition into transcript state. | LOW |
+| useSpeechSynthesis | Turns text into spoken output with playback state. | LOW |
 | useVibrate            | Triggers vibration with optional intervals.                                  | LOW        |
 | useVirtualKeyboard    | Tracks virtual keyboard state and exposes controls.                          | LOW        |
 | useWakeLock           | Controls the Wake Lock API state.                                            | LOW        |
-| useWebSocket          | Connects to a WebSocket server with retries and callbacks.                   | MEDIUM     |
+| useWebSocket | Keeps a component connected to a WebSocket endpoint. | MEDIUM |
+| useWebWorker | Connects a Web Worker to React data and lifecycle state. | LOW |
+| useWebWorkerCallback | Runs a self-contained function off the main thread. | LOW |
 
 ### Utilities
 
@@ -164,13 +173,16 @@ IMPORTANT: Each hook entry includes a short `Description` and a detailed `Refere
 | useCookie            | Reads and writes a cookie value.                                         | MEDIUM     |
 | useCookies           | Manages all cookies as a single object.                                  | MEDIUM     |
 | useCounter           | Manages a numeric counter with bounds.                                   | LOW        |
+| useCycleList | Models ordered choices as a current value plus navigation helpers. | MEDIUM |
 | useDefault           | Returns a value or a provided default when nullish.                      | MEDIUM     |
 | useDisclosure        | Manages open/close state with helpers.                                   | HIGH       |
-| useField             | Manages input state, validation, and helpers.                            | MEDIUM     |
+| useField | Connects one uncontrolled field to validation and helper state. | MEDIUM |
+| useForm | Coordinates typed uncontrolled form values and validation. | MEDIUM |
 | useHash              | Manages URL hash value.                                                  | LOW        |
 | useList              | Manages an array with helper methods.                                    | MEDIUM     |
 | useLocalStorage      | Manages a value in localStorage.                                         | HIGH       |
 | useMap               | Manages a Map with helper methods.                                       | HIGH       |
+| useMask | Keeps masked, raw, display, and cursor state aligned. | MEDIUM |
 | useMergedRef         | Merges multiple refs into a single ref callback.                         | MEDIUM     |
 | useObject            | Manages object state with helper methods for updates and key operations. | MEDIUM     |
 | useOffsetPagination  | Manages pagination state for offset-based lists.                         | MEDIUM     |
@@ -185,6 +197,7 @@ IMPORTANT: Each hook entry includes a short `Description` and a detailed `Refere
 | useToggle            | A boolean switcher with utility functions.                               | HIGH       |
 | useUrlSearchParam    | Syncs a single URL search param with state.                              | HIGH       |
 | useUrlSearchParams   | Syncs multiple URL search params with state.                             | HIGH       |
+| useValidatedState | Keeps a value together with validity and last valid value. | MEDIUM |
 | useWizard            | Manages wizard steps and history.                                        | MEDIUM     |
 
 ### User
@@ -205,9 +218,9 @@ IMPORTANT: Each hook entry includes a short `Description` and a detailed `Refere
 | ----------------------- | --------------------------------------------------------------- | ---------- |
 | useDeviceMotion         | Provides device motion data via `snapshot` and `watch()`.       | LOW        |
 | useDeviceOrientation    | Provides the current device orientation.                        | LOW        |
-| useHotkeys              | Listens for keyboard shortcuts.                                 | MEDIUM     |
+| useHotkeys | Scopes keyboard shortcuts to a target or returned ref. | MEDIUM |
 | useIdle                 | Tracks whether the user is idle and last active time.           | LOW        |
-| useInfiniteScroll       | Triggers a callback when scroll reaches an edge.                | MEDIUM     |
+| useInfiniteScroll | Triggers guarded loading near a scroll edge. | MEDIUM |
 | useIntersectionObserver | Tracks intersection state for an element.                       | MEDIUM     |
 | useKeyboard             | Registers keydown/keyup listeners on a target.                  | MEDIUM     |
 | useKeyPress             | Tracks whether specific keys are pressed.                       | MEDIUM     |
@@ -222,6 +235,7 @@ IMPORTANT: Each hook entry includes a short `Description` and a detailed `Refere
 | useScroll               | Tracks scroll state and provides scroll helpers.                | LOW        |
 | useScrollIntoView       | Scrolls an element into view and exposes a trigger.             | LOW        |
 | useScrollTo             | Scrolls to a specific position with a trigger.                  | LOW        |
+| useSwipe | Converts touch and pointer movement into swipe state. | LOW |
 | useTextSelection        | Tracks text selection details.                                  | LOW        |
 | useVisibility           | Tracks whether an element is visible in the viewport.           | MEDIUM     |
 | useWindowEvent          | Attaches an event listener to the window object.                | LOW        |

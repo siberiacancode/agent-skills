@@ -8,7 +8,7 @@ The section ID (in parentheses) is the filename prefix used to group rules.
 ## 1. Helpers
 
 **Impact:** AUTO  
-**Description:** Helper factories for contexts, stores, event emitters, and target utilities.
+**Description:** Helper factories for contexts, stores, event emitters, target utilities, class names, and destructurable values.
 
 ## 2. Elements
 

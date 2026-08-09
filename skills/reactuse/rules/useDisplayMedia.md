@@ -6,7 +6,7 @@ usage: low
 
 # useDisplayMedia
 
-Provides screen sharing controls and stream state.
+Connects a video element to a screen-capture stream and keeps capture state under React control.
 
 ## Usage
 
@@ -15,7 +15,9 @@ import { useDisplayMedia } from "@siberiacancode/reactuse";
 
 const displayMedia = useDisplayMedia<HTMLVideoElement>();
 // or
-const displayMedia = useDisplayMedia(ref);
+const displayMedia = useDisplayMedia(ref, {
+  constraints: { video: true, audio: false },
+});
 ```
 
 ## Example
@@ -24,40 +26,55 @@ const displayMedia = useDisplayMedia(ref);
 import { useDisplayMedia } from "@siberiacancode/reactuse";
 
 export const ScreenShare = () => {
-  const displayMedia = useDisplayMedia<HTMLVideoElement>({ video: true });
+  const displayMedia = useDisplayMedia<HTMLVideoElement>({
+    constraints: { video: true, audio: false },
+  });
 
   return (
     <div>
       <button onClick={() => displayMedia.start()}>Start</button>
       <button onClick={displayMedia.stop}>Stop</button>
       <video ref={displayMedia.ref} autoPlay muted />
+      {displayMedia.active && <span>Sharing</span>}
     </div>
   );
 };
 ```
 
-`audio`:
-
-Share audio.
+`start(constraints)`:
 
 ```tsx
-const displayMedia = useDisplayMedia<HTMLVideoElement>({ audio: true });
+await displayMedia.start({ video: { displaySurface: "browser" } });
 ```
 
-`video`:
-
-Share video.
+`constraints`:
 
 ```tsx
-const displayMedia = useDisplayMedia<HTMLVideoElement>({ video: true });
+const displayMedia = useDisplayMedia<HTMLVideoElement>({
+  constraints: { video: true, audio: false },
+});
 ```
 
 `immediately`:
 
-Auto-start.
+```tsx
+const displayMedia = useDisplayMedia(videoRef, { immediately: true });
+```
+
+`onStart`:
 
 ```tsx
-const displayMedia = useDisplayMedia<HTMLVideoElement>({ immediately: true });
+const displayMedia = useDisplayMedia<HTMLVideoElement>({
+  onStart: (stream) => console.log(stream),
+});
+```
+
+`onStop`:
+
+```tsx
+const displayMedia = useDisplayMedia<HTMLVideoElement>({
+  onStop: () => console.log("stopped"),
+});
 ```
 
 ## Notes
@@ -67,26 +84,29 @@ const displayMedia = useDisplayMedia<HTMLVideoElement>({ immediately: true });
 ## Type Declarations
 
 ```ts
-import type { HookTarget } from "@siberiacancode/reactuse";
-import type { StateRef } from "@siberiacancode/reactuse";
+import type { HookTarget, StateRef } from "@siberiacancode/reactuse";
 
+export interface UseDisplayMediaConstraints {
+  audio?: boolean | MediaTrackConstraints;
+  video?: boolean | MediaTrackConstraints;
+}
 export interface UseDisplayMediaReturn {
-  sharing: boolean;
+  active: boolean;
   stream: MediaStream | null;
   supported: boolean;
-  start: () => Promise<void>;
+  start: (constraints?: UseDisplayMediaConstraints) => Promise<MediaStream | undefined>;
   stop: () => void;
 }
 export interface UseDisplayMediaOptions {
-  audio?: boolean | MediaTrackConstraints;
+  constraints?: UseDisplayMediaConstraints;
   immediately?: boolean;
-  video?: boolean | MediaTrackConstraints;
+  onStart?: (stream: MediaStream) => void;
+  onStop?: (stream?: MediaStream) => void;
 }
 export interface UseDisplayMedia {
   (target: HookTarget, options?: UseDisplayMediaOptions): UseDisplayMediaReturn;
   <Target extends HTMLVideoElement>(
-    options?: UseDisplayMediaOptions,
-    target?: never
+    options?: UseDisplayMediaOptions
   ): UseDisplayMediaReturn & { ref: StateRef<Target> };
 }
 export declare const useDisplayMedia: UseDisplayMedia;

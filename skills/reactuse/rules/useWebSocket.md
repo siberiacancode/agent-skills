@@ -6,7 +6,7 @@ usage: medium
 
 # useWebSocket
 
-Connects to a WebSocket server with retries and callbacks.
+Keeps a component connected to a WebSocket endpoint while exposing a small control surface for manual open/close, message sending, retries, and connection lifecycle reactions.
 
 ## Usage
 
@@ -22,27 +22,63 @@ const socket = useWebSocket("wss://example.com");
 import { useWebSocket } from "@siberiacancode/reactuse";
 
 export const SocketPing = () => {
-  const socket = useWebSocket("wss://example.com");
+  const socket = useWebSocket("wss://example.com", {
+    heartbeat: (ws) => ws.send("ping"),
+    heartbeatDelay: 30000,
+  });
 
   return (
-    <button onClick={() => socket.send("ping")}>Status: {socket.status}</button>
+    <button onClick={() => socket.send("hello")}>Status: {socket.status}</button>
   );
 };
+```
+
+`url`:
+
+```tsx
+const socket = useWebSocket(() => `wss://example.com/${roomId}`);
+```
+
+`heartbeat`:
+
+```tsx
+const socket = useWebSocket("wss://example.com", {
+  heartbeat: (webSocket) => webSocket.send("ping"),
+});
+```
+
+`heartbeatDelay`:
+
+```tsx
+const socket = useWebSocket("wss://example.com", { heartbeatDelay: 30000 });
+```
+
+`immediately`:
+
+```tsx
+const socket = useWebSocket("wss://example.com", { immediately: false });
+socket.open();
+```
+
+`protocols`:
+
+```tsx
+const socket = useWebSocket("wss://example.com", { protocols: ["soap"] });
+```
+
+`onClose`:
+
+```tsx
+const socket = useWebSocket("wss://example.com", {
+  onClose: (event) => console.log(event.code),
+});
 ```
 
 `onConnected`:
 
 ```tsx
 const socket = useWebSocket("wss://example.com", {
-  onConnected: (ws) => console.log(ws),
-});
-```
-
-`onDisconnected`:
-
-```tsx
-const socket = useWebSocket("wss://example.com", {
-  onDisconnected: (event) => console.log(event),
+  onConnected: (webSocket) => console.log(webSocket.readyState),
 });
 ```
 
@@ -65,13 +101,18 @@ const socket = useWebSocket("wss://example.com", {
 `retry`:
 
 ```tsx
-const socket = useWebSocket("wss://example.com", { retry: 3 });
+const socket = useWebSocket("wss://example.com", {
+  retry: (failureCount) => failureCount < 3,
+});
 ```
 
-`protocols`:
+`retryDelay`:
 
 ```tsx
-const socket = useWebSocket("wss://example.com", { protocols: ["soap"] });
+const socket = useWebSocket("wss://example.com", {
+  retry: 3,
+  retryDelay: 1000,
+});
 ```
 
 ## Notes
@@ -83,18 +124,18 @@ const socket = useWebSocket("wss://example.com", { protocols: ["soap"] });
 ```ts
 export type UseWebSocketUrl = (() => string) | string;
 export interface UseWebSocketOptions {
+  heartbeatDelay?: number;
+  immediately?: boolean;
   protocols?: Array<"soap" | "wasm">;
-  retry?: boolean | number;
+  retry?: ((failureCount: number, event: CloseEvent) => boolean) | boolean | number;
+  retryDelay?: number;
+  heartbeat?: (webSocket: WebSocket) => void;
+  onClose?: (event: CloseEvent, webSocket: WebSocket) => void;
   onConnected?: (webSocket: WebSocket) => void;
-  onDisconnected?: (event: CloseEvent, webSocket: WebSocket) => void;
   onError?: (event: Event, webSocket: WebSocket) => void;
   onMessage?: (event: MessageEvent, webSocket: WebSocket) => void;
 }
-export type UseWebSocketStatus =
-  | "connected"
-  | "connecting"
-  | "disconnected"
-  | "failed";
+export type UseWebSocketStatus = "closed" | "connected" | "connecting" | "failed";
 export interface UseWebSocketReturn {
   client?: WebSocket;
   close: WebSocket["close"];

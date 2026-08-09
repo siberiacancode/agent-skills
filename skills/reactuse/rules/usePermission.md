@@ -6,7 +6,7 @@ usage: medium
 
 # usePermission
 
-Returns the state of a given permission.
+Tracks a browser permission query so UI can react when access is granted, prompted, or denied.
 
 ## Usage
 
@@ -19,14 +19,27 @@ const permission = usePermission("microphone");
 ## Example
 
 ```tsx
-const permission = usePermission("camera");
-return <div>{permission.state}</div>;
+import { usePermission } from "@siberiacancode/reactuse";
+
+export const CameraPermission = () => {
+  const permission = usePermission("camera", (state) => console.log(state));
+
+  return <div>{permission.supported ? permission.state : "unsupported"}</div>;
+};
 ```
 
-`enabled`:
+`onChange`:
 
 ```tsx
-const permission = usePermission("camera", { enabled: false });
+const permission = usePermission("notifications", {
+  onChange: (state) => console.log(state),
+});
+```
+
+`name`:
+
+```tsx
+const permission = usePermission("microphone");
 ```
 
 ## Notes
@@ -45,6 +58,7 @@ export type UsePermissionName =
   | "clipboard-read"
   | "clipboard-write"
   | "gyroscope"
+  | "local-fonts"
   | "magnetometer"
   | "microphone"
   | "notifications"
@@ -53,16 +67,18 @@ export type UsePermissionName =
   | "push"
   | "speaker"
   | PermissionName;
+export type UsePermissionCallback = (state: PermissionState) => void;
 export interface UsePermissionOptions {
-  enabled: boolean;
+  onChange?: UsePermissionCallback;
 }
 export interface UsePermissionReturn {
   state: PermissionState;
   supported: boolean;
   query: () => Promise<PermissionState>;
 }
-export declare const usePermission: (
-  permissionDescriptorName: UsePermissionName,
-  options?: UsePermissionOptions
-) => UsePermissionReturn;
+export interface UsePermission {
+  (name: UsePermissionName, callback?: UsePermissionCallback): UsePermissionReturn;
+  (name: UsePermissionName, options?: UsePermissionOptions): UsePermissionReturn;
+}
+export declare const usePermission: UsePermission;
 ```

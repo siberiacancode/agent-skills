@@ -6,7 +6,7 @@ usage: low
 
 # useSpeechSynthesis
 
-Provides text-to-speech controls and state.
+Turns text into spoken output while keeping playback status, errors, and pause/resume controls in React state.
 
 ## Usage
 
@@ -70,6 +70,13 @@ const speech = useSpeechSynthesis({ voice });
 const speech = useSpeechSynthesis({ volume: 0.6 });
 ```
 
+`speak(text)`:
+
+```tsx
+const speech = useSpeechSynthesis();
+speech.speak("Read this sentence");
+```
+
 ## Notes
 
 - Hook uses the [SpeechSynthesis API](https://developer.mozilla.org/en-US/docs/Web/API/SpeechSynthesis).
@@ -94,7 +101,7 @@ export interface UseSpeechSynthesisReturn {
   utterance: SpeechSynthesisUtterance | undefined;
   pause: () => void;
   resume: () => void;
-  speak: () => void;
+  speak: (text?: string) => void;
   stop: () => void;
   toggle: (value?: boolean) => void;
 }

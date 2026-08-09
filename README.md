@@ -6,6 +6,24 @@ Skills follow the [Agent Skills](https://agentskills.io/) format.
 
 ## Available Skills
 
+### react-hooks-best-practices
+
+React hooks best practices for React application code and custom hook design across DX, optimization, and logic.
+
+**Use when:**
+
+- Writing React application code that uses hooks
+- Creating or refactoring custom React hooks
+- Reviewing hook usage, dependencies, effects, state, refs, and callbacks
+- Designing hook APIs that should be clear, reusable, and hard to misuse
+- Checking hook code for DX, optimization, and logic issues
+
+**Categories covered:**
+
+- DX: ergonomic hook APIs, naming, typing, and composition
+- Optimization: render boundaries, subscriptions, memoization, and unnecessary updates
+- Logic: lifecycle correctness, cleanup, SSR, and stale-closure boundaries
+
 ### reactuse
 
 Reactuse delivers production-ready hooks that solve real-world problems. Built with a TypeScript-first approach, SSR compatibility, and tree-shaking optimization for modern React applications.

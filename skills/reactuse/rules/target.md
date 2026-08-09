@@ -6,7 +6,7 @@ usage: medium
 
 # target
 
-Flexible helper to reference DOM targets for hooks.
+Wraps DOM target references in the shape Reactuse hooks understand, especially when the target is not a React ref.
 
 ## Usage
 
@@ -18,30 +18,64 @@ useClickOutside(target("#container"), () => console.log("outside"));
 
 ## Example
 
-Selector and element targets:
+`string`:
 
 ```tsx
 import { target, useClickOutside } from "@siberiacancode/reactuse";
 
 useClickOutside(target("#container"), () => console.log("outside"));
+```
+
+`Element`:
+
+```tsx
 useClickOutside(target(document.getElementById("container")!), () =>
   console.log("outside")
 );
 ```
 
-### Parameters
+`Document`:
 
-| Name    | Type         | Required/Default | Description                           |
-| ------- | ------------ | ---------------- | ------------------------------------- |
-| `value` | `HookTarget` | required         | DOM target, selector, ref, or getter. |
+```tsx
+useClickOutside(target(document), () => console.log("document"));
+```
 
-### Return Values
+`Window`:
 
-| Name     | Type         | Description                            |
-| -------- | ------------ | -------------------------------------- |
-| `target` | `HookTarget` | Normalized target reference for hooks. |
+```tsx
+useClickOutside(target(window), () => console.log("window"));
+```
 
-## Notes
+`getter function`:
 
-- `target` accepts refs, DOM elements, functions returning elements, or selectors.
-- Use it when you want to avoid creating a ref callback from the hook.
+```tsx
+useClickOutside(target(() => document.querySelector("#container")), () => {
+  console.log("outside");
+});
+```
+
+## Type Declarations
+
+```ts
+import type { RefObject } from "react";
+
+export type Target =
+  | (() => Document | Element | Window)
+  | string
+  | Document
+  | Element
+  | Window;
+interface StateRef<Value> {
+  (node: Value): void;
+  current: Value;
+  state: Value;
+}
+export type HookTarget =
+  | ReturnType<typeof target>
+  | RefObject<Element | null | undefined>
+  | StateRef<Element | null | undefined>;
+export declare const target: (target: Target) => {
+  value: Target;
+  type: symbol;
+};
+```

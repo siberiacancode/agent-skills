@@ -6,7 +6,7 @@ usage: medium
 
 # useGeolocation
 
-Returns the current geolocation and updates on changes.
+Keeps the latest browser geolocation reading in React state and exposes controls for one-off reads and watch mode.
 
 ## Usage
 
@@ -30,17 +30,35 @@ const geolocation = useGeolocation((position) => {
 import { useGeolocation } from "@siberiacancode/reactuse";
 
 export const Location = () => {
-  const geolocation = useGeolocation();
+  const geolocation = useGeolocation({ immediately: false });
+  const { value } = geolocation;
 
-  if (geolocation.loading) return <p>Locating...</p>;
-  if (geolocation.error) return <p>Permission denied</p>;
+  if (value.loading) return <p>Locating...</p>;
+  if (value.error) return <p>Permission denied</p>;
 
   return (
-    <p>
-      {geolocation.latitude}, {geolocation.longitude}
-    </p>
+    <div>
+      <button onClick={geolocation.start}>Start</button>
+      <button onClick={geolocation.stop}>Stop</button>
+      <p>
+        {value.latitude}, {value.longitude}
+      </p>
+    </div>
   );
 };
+```
+
+`get`:
+
+```tsx
+const geolocation = useGeolocation({ immediately: false });
+geolocation.get();
+```
+
+`immediately`:
+
+```tsx
+const geolocation = useGeolocation({ immediately: false });
 ```
 
 `enableHighAccuracy`:
@@ -52,7 +70,7 @@ const geolocation = useGeolocation({ enableHighAccuracy: true });
 `maximumAge`:
 
 ```tsx
-const geolocation = useGeolocation({ maximumAge: 60000 });
+const geolocation = useGeolocation({ maximumAge: 10000 });
 ```
 
 `timeout`:
@@ -61,11 +79,18 @@ const geolocation = useGeolocation({ maximumAge: 60000 });
 const geolocation = useGeolocation({ timeout: 5000 });
 ```
 
-`onChange`, `onError`:
+`onChange`:
 
 ```tsx
 const geolocation = useGeolocation({
-  onChange: (position) => console.log(position.coords.longitude),
+  onChange: (position) => console.log(position.coords.latitude),
+});
+```
+
+`onError`:
+
+```tsx
+const geolocation = useGeolocation({
   onError: (error) => console.error(error.message),
 });
 ```
@@ -77,7 +102,7 @@ const geolocation = useGeolocation({
 ## Type Declarations
 
 ```ts
-export interface UseGeolocationReturn {
+export interface UseGeolocationValue {
   accuracy: number | null;
   altitude: number | null;
   altitudeAccuracy: number | null;
@@ -89,17 +114,23 @@ export interface UseGeolocationReturn {
   speed: number | null;
   timestamp: number | null;
 }
-export type UseGeolocationCallback = (
-  position: GeolocationPosition
-) => void;
+export interface UseGeolocationReturn {
+  value: UseGeolocationValue;
+  watching: boolean;
+  get: () => void;
+  start: () => void;
+  stop: () => void;
+}
+export type UseGeolocationCallback = (position: GeolocationPosition) => void;
 export interface UseGeolocationOptions extends PositionOptions {
+  immediately?: boolean;
   onChange?: UseGeolocationCallback;
   onError?: (error: GeolocationPositionError) => void;
 }
 export interface UseGeolocation {
   (
     callback?: UseGeolocationCallback,
-    options?: PositionOptions
+    options?: PositionOptions & { immediately?: boolean }
   ): UseGeolocationReturn;
   (options?: UseGeolocationOptions): UseGeolocationReturn;
 }

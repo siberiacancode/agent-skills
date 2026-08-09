@@ -6,7 +6,7 @@ usage: medium
 
 # useHotkeys
 
-Listens for keyboard shortcuts.
+Scopes keyboard shortcuts to a target or returned ref so command-style interactions can stay close to the component that owns them.
 
 ## Usage
 
@@ -14,24 +14,18 @@ Listens for keyboard shortcuts.
 import { useHotkeys } from "@siberiacancode/reactuse";
 
 const ref = useHotkeys<HTMLDivElement>("ctrl+k", () => console.log("hotkey"));
-//or
+// or
 useHotkeys(ref, "ctrl+k", () => console.log("hotkey"));
 ```
 
 ## Example
 
 ```tsx
-const ref = useHotkeys<HTMLDivElement>("mod+k", () => console.log("hotkey"));
+const ref = useHotkeys<HTMLDivElement>("mod+k,ctrl+/", () => {
+  console.log("open command menu");
+});
 
 return <div ref={ref}>Open</div>;
-```
-
-`alias`:
-
-```tsx
-const ref = useHotkeys<HTMLDivElement>("mod+k", () => {}, {
-  alias: { mod: "Control" },
-});
 ```
 
 `enabled`:
@@ -40,11 +34,32 @@ const ref = useHotkeys<HTMLDivElement>("mod+k", () => {}, {
 const ref = useHotkeys<HTMLDivElement>("ctrl+k", () => {}, { enabled: false });
 ```
 
+`alias`:
+
+```tsx
+const ref = useHotkeys<HTMLDivElement>("cmd+k", openMenu, {
+  alias: { Meta: "cmd" },
+});
+```
+
+`onChange`:
+
+```tsx
+const ref = useHotkeys<HTMLDivElement>("escape", {
+  onChange: (event) => console.log(event.key),
+});
+```
+
+`hotkeys` alternatives:
+
+```tsx
+const ref = useHotkeys<HTMLDivElement>("mod+k,ctrl+/", openMenu);
+```
+
 ## Type Declarations
 
 ```ts
-import type { HookTarget } from "@siberiacancode/reactuse";
-import type { StateRef } from "@siberiacancode/reactuse";
+import type { HookTarget, StateRef } from "@siberiacancode/reactuse";
 
 export interface UseHotkeysOptions {
   alias?: Record<string, string>;
@@ -57,6 +72,10 @@ export interface UseHotkeysKey {
   code: string;
   key: string;
 }
+export declare const isHotkeyMatch: (
+  hotkey: string,
+  keys: UseHotkeysKey[]
+) => boolean;
 export interface UseHotkeys {
   (
     target: HookTarget,
@@ -71,14 +90,12 @@ export interface UseHotkeys {
   ): void;
   <Target extends Element>(
     hotkeys: UseHotkeysHotkeys,
-    options?: UseHotkeysOptions,
-    target?: never
+    options?: UseHotkeysOptions
   ): StateRef<Target>;
   <Target extends Element>(
     hotkeys: UseHotkeysHotkeys,
     callback: (event: KeyboardEvent) => void,
-    options?: UseHotkeysOptions,
-    target?: never
+    options?: UseHotkeysOptions
   ): StateRef<Target>;
 }
 export declare const useHotkeys: UseHotkeys;
