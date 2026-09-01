@@ -1,8 +1,8 @@
 # Reactuse
 
-**Version 1.0.12**
+**Version 1.0.16**
 Siberiacancode  
-July 2026
+September 2026
 
 This repository contains Reactuse guidance for agents and LLMs. It is optimized for automated code generation, refactoring, and consistency in React and Next.js projects.
 
@@ -25,6 +25,8 @@ The rules are organized into the following sections (as in `_sections.md`):
 9. Sensors
 10. Time
 11. Debug
+
+The upstream `Humor` category is intentionally blocked for this skill and should not be added to the supported hook set.
 
 ## Structure
 

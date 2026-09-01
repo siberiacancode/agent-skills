@@ -6,7 +6,7 @@ usage: low
 
 # useImage
 
-Loads an image with query-style state.
+Loads an image in the browser and returns image-specific loading state.
 
 ## Usage
 
@@ -76,20 +76,14 @@ Referrer policy of the image.
 const image = useImage("/img.png", { referrerPolicy: "no-referrer" });
 ```
 
-`keys`:
-
-Keys of the image.
-
-```tsx
-const image = useImage("/img.png", { keys: [theme] });
-```
-
 `onSuccess`:
 
 On success callback.
 
 ```tsx
-const image = useImage("/img.png", { onSuccess: (img) => console.log(img) });
+const image = useImage("/img.png", {
+  onSuccess: (img) => console.log(img.src),
+});
 ```
 
 `onError`:
@@ -97,30 +91,18 @@ const image = useImage("/img.png", { onSuccess: (img) => console.log(img) });
 On error callback.
 
 ```tsx
-const image = useImage("/img.png", { onError: (err) => console.error(err) });
+const image = useImage("/img.png", {
+  onError: (err) => console.error(err.message),
+});
 ```
 
-`refetchInterval`:
+## Notes
 
-Refetch interval of the image.
-
-```tsx
-const image = useImage("/img.png", { refetchInterval: 5000 });
-```
-
-`retry`:
-
-Retry count of the image.
-
-```tsx
-const image = useImage("/img.png", { retry: 2 });
-```
+- Hook uses the [Image API](https://developer.mozilla.org/en-US/docs/Web/API/HTMLImageElement/Image).
 
 ## Type Declarations
 
 ```ts
-import type { UseQueryOptions, UseQueryReturn } from "@siberiacancode/reactuse";
-
 export interface UseImageOptions {
   alt?: string;
   class?: string;
@@ -129,14 +111,18 @@ export interface UseImageOptions {
   referrerPolicy?: HTMLImageElement["referrerPolicy"];
   sizes?: string;
   srcset?: string;
+  onError?: (error: Error) => void;
+  onSuccess?: (data: HTMLImageElement) => void;
 }
-export type UseImageReturn = UseQueryReturn<HTMLImageElement>;
+export interface UseImageReturn {
+  error?: Error;
+  isError: boolean;
+  isLoading: boolean;
+  isSuccess: boolean;
+  value?: HTMLImageElement;
+}
 export declare const useImage: (
   src: string,
-  options?: UseImageOptions &
-    Omit<
-      UseQueryOptions<HTMLImageElement, HTMLImageElement>,
-      "initialData" | "placeholderData" | "select"
-    >
+  options?: UseImageOptions
 ) => UseImageReturn;
 ```

@@ -41,6 +41,8 @@ const params = useUrlSearchParams({ initialValue: { page: 1, q: "" } });
 params.set({ q: "react" });
 ```
 
+Initial values are merged with the current URL values. Missing initial keys are written to the URL after mount, while existing URL values win.
+
 `mode`:
 
 ```tsx
@@ -98,9 +100,6 @@ export interface UseUrlSearchParamsSetOptions {
 }
 export type UseUrlSearchParamsInitialValue<Value> = (() => Value) | Value;
 export interface UseUrlSearchParamsOptions<Value> {
-  initialValue?: UseUrlSearchParamsInitialValue<
-    string | URLSearchParams | Value
-  >;
   mode?: UrlSearchParamsMode;
   write?: "push" | "replace";
   deserializer?: (value: string) => Value[keyof Value];
@@ -112,18 +111,16 @@ export interface UseUrlSearchParamsReturn<Value> {
 }
 export interface UseUrlSearchParams {
   <Value>(
-    key: string,
     options: UseUrlSearchParamsOptions<Value> & {
       initialValue: UseUrlSearchParamsInitialValue<Value>;
-    }
+    },
   ): UseUrlSearchParamsReturn<Value>;
-  <Value>(options?: UseUrlSearchParamsOptions<Value>): UseUrlSearchParamsReturn<
-    Value | undefined
-  >;
   <Value>(
-    initialValue: UseUrlSearchParamsInitialValue<Value>
+    options?: UseUrlSearchParamsOptions<Value>,
+  ): UseUrlSearchParamsReturn<Value | undefined>;
+  <Value>(
+    initialValue: UseUrlSearchParamsInitialValue<Value>,
   ): UseUrlSearchParamsReturn<Value>;
-  <Value>(key: string): UseUrlSearchParamsReturn<Value | undefined>;
 }
 export declare const useUrlSearchParams: UseUrlSearchParams;
 ```

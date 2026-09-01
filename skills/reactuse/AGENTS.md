@@ -1,8 +1,8 @@
 # Reactuse
 
-**Version 1.0.12**
+**Version 1.0.16**
 Siberiacancode  
-July 2026
+September 2026
 
 > **Note:**  
 > This document is mainly for agents and LLMs to follow when maintaining,  
@@ -15,6 +15,8 @@ July 2026
 ## Abstract
 
 Reactuse hook and helper playbook for React and Next.js projects, designed for AI agents and LLMs. Contains concise rules for choosing production-ready hooks, browser APIs, state helpers, async flows, sensors, lifecycle utilities, and SSR-compatible implementation patterns.
+
+The upstream `Humor` category is intentionally blocked for this skill and should not be added to the supported hook set.
 
 ---
 
@@ -1791,7 +1793,7 @@ export declare const useHover: UseHover;
 ### 2.12 useImage
 
 
-Loads an image with query-style state.
+Loads an image in the browser and returns image-specific loading state.
 
 #### Usage
 
@@ -1861,20 +1863,14 @@ Referrer policy of the image.
 const image = useImage("/img.png", { referrerPolicy: "no-referrer" });
 ```
 
-`keys`:
-
-Keys of the image.
-
-```tsx
-const image = useImage("/img.png", { keys: [theme] });
-```
-
 `onSuccess`:
 
 On success callback.
 
 ```tsx
-const image = useImage("/img.png", { onSuccess: (img) => console.log(img) });
+const image = useImage("/img.png", {
+  onSuccess: (img) => console.log(img.src),
+});
 ```
 
 `onError`:
@@ -1882,30 +1878,18 @@ const image = useImage("/img.png", { onSuccess: (img) => console.log(img) });
 On error callback.
 
 ```tsx
-const image = useImage("/img.png", { onError: (err) => console.error(err) });
+const image = useImage("/img.png", {
+  onError: (err) => console.error(err.message),
+});
 ```
 
-`refetchInterval`:
+#### Notes
 
-Refetch interval of the image.
-
-```tsx
-const image = useImage("/img.png", { refetchInterval: 5000 });
-```
-
-`retry`:
-
-Retry count of the image.
-
-```tsx
-const image = useImage("/img.png", { retry: 2 });
-```
+- Hook uses the [Image API](https://developer.mozilla.org/en-US/docs/Web/API/HTMLImageElement/Image).
 
 #### Type Declarations
 
 ```ts
-import type { UseQueryOptions, UseQueryReturn } from "@siberiacancode/reactuse";
-
 export interface UseImageOptions {
   alt?: string;
   class?: string;
@@ -1914,15 +1898,19 @@ export interface UseImageOptions {
   referrerPolicy?: HTMLImageElement["referrerPolicy"];
   sizes?: string;
   srcset?: string;
+  onError?: (error: Error) => void;
+  onSuccess?: (data: HTMLImageElement) => void;
 }
-export type UseImageReturn = UseQueryReturn<HTMLImageElement>;
+export interface UseImageReturn {
+  error?: Error;
+  isError: boolean;
+  isLoading: boolean;
+  isSuccess: boolean;
+  value?: HTMLImageElement;
+}
 export declare const useImage: (
   src: string,
-  options?: UseImageOptions &
-    Omit<
-      UseQueryOptions<HTMLImageElement, HTMLImageElement>,
-      "initialData" | "placeholderData" | "select"
-    >
+  options?: UseImageOptions
 ) => UseImageReturn;
 ```
 
@@ -9650,6 +9638,8 @@ export const PageParam = () => {
 const param = useUrlSearchParam("page", { initialValue: 1 });
 ```
 
+If the URL does not already contain the key, `initialValue` is returned immediately and written to the URL after mount.
+
 `mode`:
 
 ```tsx
@@ -9750,6 +9740,8 @@ const params = useUrlSearchParams({ initialValue: { page: 1, q: "" } });
 params.set({ q: "react" });
 ```
 
+Initial values are merged with the current URL values. Missing initial keys are written to the URL after mount, while existing URL values win.
+
 `mode`:
 
 ```tsx
@@ -9807,9 +9799,6 @@ export interface UseUrlSearchParamsSetOptions {
 }
 export type UseUrlSearchParamsInitialValue<Value> = (() => Value) | Value;
 export interface UseUrlSearchParamsOptions<Value> {
-  initialValue?: UseUrlSearchParamsInitialValue<
-    string | URLSearchParams | Value
-  >;
   mode?: UrlSearchParamsMode;
   write?: "push" | "replace";
   deserializer?: (value: string) => Value[keyof Value];
@@ -9821,7 +9810,6 @@ export interface UseUrlSearchParamsReturn<Value> {
 }
 export interface UseUrlSearchParams {
   <Value>(
-    key: string,
     options: UseUrlSearchParamsOptions<Value> & {
       initialValue: UseUrlSearchParamsInitialValue<Value>;
     }
@@ -9832,7 +9820,6 @@ export interface UseUrlSearchParams {
   <Value>(
     initialValue: UseUrlSearchParamsInitialValue<Value>
   ): UseUrlSearchParamsReturn<Value>;
-  <Value>(key: string): UseUrlSearchParamsReturn<Value | undefined>;
 }
 export declare const useUrlSearchParams: UseUrlSearchParams;
 ```
@@ -12509,6 +12496,7 @@ Runs a callback after a delay and returns a `ready` flag.
 import { useTimeout } from "@siberiacancode/reactuse";
 
 const timeout = useTimeout(() => {}, 5000);
+const paused = useTimeout(() => {}, undefined);
 ```
 
 #### Example
@@ -12539,7 +12527,7 @@ interface UseTimeoutReturn {
 }
 export declare function useTimeout(
   callback: () => void,
-  delay: number
+  delay?: number
 ): UseTimeoutReturn;
 ```
 

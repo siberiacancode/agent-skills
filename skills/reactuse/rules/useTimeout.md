@@ -44,6 +44,6 @@ interface UseTimeoutReturn {
 }
 export declare function useTimeout(
   callback: () => void,
-  delay: number
+  delay?: number,
 ): UseTimeoutReturn;
 ```

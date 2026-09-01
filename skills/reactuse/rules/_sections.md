@@ -59,3 +59,7 @@ The section ID (in parentheses) is the filename prefix used to group rules.
 
 **Impact:** AUTO  
 **Description:** Hooks for logging, render diagnostics, and debugging helpers.
+
+## Blocked Upstream Categories
+
+Reactuse exports a `Humor` category in recent releases, currently `useFul`, `useLess`, and `useOnce`. Keep it blocked for this skill: do not add those rules or recommend those hooks unless the user explicitly asks to document unsupported upstream exports. Upstream marks them as jokes or non-production utilities.

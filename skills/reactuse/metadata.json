@@ -1,7 +1,7 @@
 {
-  "version": "1.0.12",
+  "version": "1.0.16",
   "organization": "Siberiacancode",
-  "date": "July 2026",
+  "date": "September 2026",
   "abstract": "Reactuse hook and helper playbook for React and Next.js projects, designed for AI agents and LLMs. Contains concise rules for choosing production-ready hooks, browser APIs, state helpers, async flows, sensors, lifecycle utilities, and SSR-compatible implementation patterns.",
   "references": [
     "https://react.dev",

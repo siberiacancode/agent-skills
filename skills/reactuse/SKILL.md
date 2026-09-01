@@ -4,7 +4,7 @@ description: Practical playbook for React teams to choose and apply reactuse hoo
 license: MIT
 metadata:
   author: siberiacancode
-  version: "1.0.12"
+  version: "1.0.16"
 ---
 
 # Reactuse
@@ -28,6 +28,8 @@ This skill is a decision-and-implementation guide for reactuse library for react
 All hooks listed below are part of the [reactuse](https://reactuse.org/) library. Each section categorizes hooks based on their functionality.
 
 IMPORTANT: Each hook entry includes a short `Description` and a detailed `Reference`. When using any hook, always consult the corresponding document in `./references` for usage details and type declarations.
+
+Blocked upstream category: Reactuse also exports `Humor` hooks (`useFul`, `useLess`, `useOnce`) in recent releases. This skill intentionally does not support or recommend them because upstream marks them as jokes or non-production utilities.
 
 ### Helpers
 
@@ -58,7 +60,7 @@ IMPORTANT: Each hook entry includes a short `Description` and a detailed `Refere
 | useFocus            | Tracks focus state and provides focus/blur controls.       | MEDIUM     |
 | useFocusTrap        | Traps focus within a given element.                        | MEDIUM     |
 | useHover            | Tracks hover state for an element.                         | MEDIUM     |
-| useImage            | Loads an image with query-style state.                     | LOW        |
+| useImage            | Loads an image in the browser and returns image-specific loading state. | LOW        |
 | useLockScroll       | Locks scrolling on an element or the document body.        | MEDIUM     |
 | useLongPress        | Detects long press interactions.                           | MEDIUM     |
 | usePaint            | Draws on a canvas and exposes drawing controls.            | LOW        |

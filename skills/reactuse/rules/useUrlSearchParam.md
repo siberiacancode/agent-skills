@@ -38,6 +38,8 @@ export const PageParam = () => {
 const param = useUrlSearchParam("page", { initialValue: 1 });
 ```
 
+If the URL does not already contain the key, `initialValue` is returned immediately and written to the URL after mount.
+
 `mode`:
 
 ```tsx
