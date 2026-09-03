@@ -9,6 +9,23 @@ tags: testing, unit, naming, coverage, ssr, conventions
 
 These conventions apply to every unit test. Read them before the subject-specific rule for [plain functions](./unit-test-function.md), [React hooks](./unit-test-react-hook.md), [standalone UI components](./unit-test-ui-component-standalone.md), or [compound UI components](./unit-test-ui-component-compound.md).
 
+## 0. Repository first
+
+Do not write abstractly ideal unit tests. Continue the repository's existing test culture.
+
+Use sources in this order:
+
+1. an existing test for the same module;
+2. tests for the most similar subjects in the same project;
+3. neighboring tests from the same layer or subject type;
+4. existing test helpers, fixtures, factories, and utilities;
+5. the implementation under test;
+6. generic unit-testing preferences.
+
+Existing repository conventions override generic testing preferences. Before writing or changing tests, infer naming, `describe` structure, setup/cleanup, fixtures, data creation, initialization, assertion style, spies/mocks, lifecycle/error/async style, import structure, verbosity, and the usual number of scenarios for comparable subjects.
+
+When an existing or neighboring pattern can be adapted, make the smallest structural change necessary. Do not redesign the suite, introduce a new testing style, or refactor tests while adding coverage.
+
 ## 1. Naming
 
 Place the test next to its source and preserve the source extension: `name.test.ts` next to `name.ts`, and `name.test.tsx` next to `name.tsx`.
@@ -21,7 +38,7 @@ Do not wrap the whole file in a `describe` named after the subject. Use `describ
 
 Inspect existing tests before writing new ones. Prefer tests for the same subject, then subjects with a similar public contract.
 
-Reuse established naming, ordering, helpers, setup, mocks, and interaction patterns. Treat related tests as project context, not as a suite template: repeat behavior across input forms only when that behavior depends on the form.
+Reuse established naming, ordering, helpers, setup, mocks, and interaction patterns. If comparable tests consistently use white-box spies, lifecycle assertions, direct implementation setup, or a specific helper, keep that approach. If they test only through public behavior, keep that approach.
 
 When no relevant tests exist, use these conventions as the default.
 
@@ -48,6 +65,8 @@ Test independent input dimensions separately. Use one representative value while
 
 Do not force unreachable defensive branches or add arbitrary values that only retest the language, runtime, or an external platform. Coverage percentages support the review but do not define completeness.
 
+Add a scenario only when it comes from public behavior, an implementation branch this project normally covers, an analogous existing test, an explicit contract, a user request, a regression, or the coverage pattern for comparable subjects. Do not add cases just because they are possible, comprehensive, or generally considered best practice.
+
 ## 5. Observable behavior
 
 Use test tools to drive the environment, then assert results available through the public contract: output, state, DOM, callbacks, events, or errors.
@@ -56,7 +75,7 @@ Do not assert internal timers, listener registration, effect order, private stat
 
 For cancellation and cleanup, trigger the relevant condition after cancellation or unmount and verify that no new public effect occurs.
 
-Assert an infrastructure interaction only when that interaction is itself part of the public contract and has no reliable behavioral substitute.
+Assert an infrastructure interaction only when that interaction is itself part of the public contract, has no reliable behavioral substitute, or matches the established style of the closest related tests.
 
 ## 6. SSR by default
 

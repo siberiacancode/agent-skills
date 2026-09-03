@@ -63,11 +63,11 @@ Read [integration-locator-testids](rules/integration-locator-testids.md) when ad
 
 ## Automated Test Defaults
 
-- Test titles use `Should <observable behavior>`.
-- Put tests next to their source and follow nearby project setup.
-- Prefer direct tests over factories unless an existing helper removes real repetition.
-- Use value tables only when setup and assertions are genuinely the same.
-- Add combined cases only when dimensions interact to create distinct behavior.
+- Existing repository conventions override generic testing preferences.
+- Inspect the same module's tests first, then the closest comparable tests, neighboring layer tests, existing helpers, and only then the implementation.
+- Imitate the closest working pattern with the smallest structural change necessary; do not redesign the suite or add new abstractions unless comparable tests already use them or correctness requires it.
+- Add scenarios only from explicit behavior, implementation branches the project normally covers, analogous tests, user requirements, regressions, or established coverage patterns.
+- When no relevant project convention exists, use `Should <observable behavior>`, colocated tests, direct setup, `forEach` only for truly repeated cases, and combined cases only when dimensions interact.
 
 ## Full Compiled Document
 
