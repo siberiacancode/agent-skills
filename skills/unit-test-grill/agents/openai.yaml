@@ -1,0 +1,7 @@
+interface:
+  display_name: "Unit Test Grill"
+  short_description: "List focused unit-test scenarios before coding"
+  default_prompt: "Use $unit-test-grill to describe the unit-test scenarios for this implementation."
+
+policy:
+  allow_implicit_invocation: false
