@@ -11,7 +11,7 @@ For a component that can be tested independently. For a public family of compone
 
 > **First read [unit-test-conventions](./unit-test-conventions.md).** This rule adds only what is specific to standalone UI components.
 
-**Related tests** — inspect tests for components with a similar public contract to reuse project helpers, test-ID conventions, render setup, naming, and assertions. Use them as context, not as a suite template: repeat checks only when the current component exposes the same contract.
+**Related tests** — inspect tests for components with a similar public contract to reuse project helpers, test-ID conventions, render setup, naming, assertions, and scenario count. Follow the closest pattern unless the current component exposes a different contract.
 
 For application integration-test locators, use [integration-locator-testids](./integration-locator-testids.md). Keep UI-kit unit-test IDs local; do not apply the integration semantic schema here.
 

@@ -11,7 +11,7 @@ For a public family of components that compose together and share state, behavio
 
 > **First read [unit-test-conventions](./unit-test-conventions.md) and [unit-test-ui-component-standalone](./unit-test-ui-component-standalone.md).** This rule adds only compound structure and relationships.
 
-**Related tests** — inspect tests for compound components with similar composition or context behavior to reuse project helpers, part ordering, test-ID conventions, and render setup. Use them as context, not as a suite template: test only the parts and relationships exposed by the current component.
+**Related tests** — inspect tests for compound components with similar composition or context behavior to reuse project helpers, part ordering, test-ID conventions, render setup, assertions, and scenario count. Follow the closest pattern while testing only the parts and relationships exposed by the current component.
 
 For application integration-test locators, use [integration-locator-testids](./integration-locator-testids.md). Keep UI-kit unit-test IDs local to the component suite.
 

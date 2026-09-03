@@ -24,7 +24,7 @@ For a hook that subscribes to listeners or reads a browser API, also read [hook-
 
 ## Build the scenario list
 
-Inspect the implementation, public types, overloads, and existing suite conventions. Include checks for observable behavior created by:
+Inspect existing tests first, then the implementation, public types, and overloads. Include checks only when they are supported by repository conventions and by behavior created through:
 
 - implementation branches, guards, and early returns;
 - meaningful overloads and input forms;
@@ -43,7 +43,7 @@ Treat independent input dimensions separately. If a hook accepts both multiple t
 - never nest parameterization for independent input dimensions;
 - add a combined case only when the implementation contains behavior or a branch specific to that combination.
 
-Every overload and meaningful input form must appear in at least one scenario, but it does not need a copy of every unrelated behavior check.
+Every overload and meaningful input form should appear in at least one scenario only when comparable tests in this repository cover that axis or the contract makes it explicit. Do not copy every unrelated behavior check.
 
 ## Output format
 

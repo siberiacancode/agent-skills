@@ -11,7 +11,7 @@ For React hooks.
 
 > **First read [unit-test-conventions](./unit-test-conventions.md).** This rule adds only what is specific to hooks.
 
-**Related tests** — inspect tests for hooks with a similar public API to reuse project-specific input forms, helpers, naming, and setup. Use them as context, not as a suite template: repeat behavior across forms only when that behavior depends on the form.
+**Related tests** — inspect tests for hooks with a similar public API to reuse project-specific input forms, helpers, naming, setup, assertion style, lifecycle checks, and scenario count. Follow the closest pattern unless the current hook's contract requires a clear deviation.
 
 **Form-dependent behavior** — a behavior depends on an input form when that form changes how the hook resolves, connects to, updates, or cleans up the input. Run those behaviors for every supported form. Keep unrelated arguments, callbacks, and options outside that loop.
 

@@ -11,7 +11,7 @@ For pure functions, utils, and helpers with no React.
 
 > **First read [unit-test-conventions](./unit-test-conventions.md).** This rule adds only what is specific to plain functions.
 
-**Related tests** — inspect tests for functions with a similar public contract or responsibility to reuse project-specific input forms, helpers, naming, and setup. Use them as context, not as a suite template: repeat cases only when behavior depends on the input form.
+**Related tests** — inspect tests for functions with a similar public contract or responsibility to reuse project-specific input forms, helpers, naming, setup, assertion style, and scenario count. Follow the closest pattern unless the current function's contract requires a clear deviation.
 
 ## Test order
 
