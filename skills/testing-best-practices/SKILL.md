@@ -5,7 +5,7 @@ description: "Support QA and testing work across formats: planning checks, writi
 
 # Testing Best Practices
 
-Practical QA guidance for turning product behavior, requirements, and code paths into useful checks. Use this skill for manual test cases, test plans, coverage reviews, automation scenarios, unit tests, locators for integration tests, and `/unit-test-grill`.
+Practical QA guidance for turning product behavior, requirements, and code paths into useful checks. Use this skill for manual test cases, test plans, coverage reviews, automation scenarios, unit tests, locators for integration tests, `/unit-test-grill`, and `/testcase-grill`.
 
 The central idea is not a specific framework. The central idea is testing discipline:
 
@@ -16,19 +16,21 @@ The central idea is not a specific framework. The central idea is testing discip
 - Preserve project reality by reading nearby tests, existing QA artifacts, product flows, schemas, and automation conventions before adding new structure.
 - Treat integration-test locators and test data as maintained testing APIs, changing schema, implementation, and affected checks together.
 
-Use the specific rule files after choosing the testing subject. The current detailed rules focus on automated unit tests and semantic integration locators; for other QA formats, apply the core defaults in this file and keep the output concrete enough for a tester or automation engineer to execute.
+Use the specific rule files after choosing the testing subject. The current detailed rules cover automated unit tests, semantic integration locators, and repository-stored product test cases; for other QA formats, apply the core defaults in this file and keep the output concrete enough for a tester or automation engineer to execute.
 
 ## When to Apply
 
 Reference these guidelines when:
 
 - Creating manual test cases, smoke checks, regression suites, acceptance scenarios, or exploratory charters.
+- Generating, revising, reviewing, or reorganizing structured test cases stored in the repository's test-case catalog.
 - Planning or reviewing automation coverage for application behavior.
 - Adding or reviewing automated tests for code.
 - Looking for missing behavioral coverage, branch coverage, state transitions, cleanup checks, or error paths.
 - Deciding how to name, order, and scope checks inside a test file or QA checklist.
 - Creating or reviewing a locator for integration tests, including the semantic name, schema path, JSX attribute, and affected checks.
 - Invoking `/unit-test-grill` to turn code behavior into a checklist without writing test code.
+- Invoking `/testcase-grill` to turn a page or block into a list of owned test cases without writing them into the catalog.
 
 ## QA Defaults
 
@@ -50,16 +52,25 @@ Read [unit-test-conventions](rules/unit-test-conventions.md) before any subject-
 - [unit-test-ui-component-compound](rules/unit-test-ui-component-compound.md) - Public parts and the state, context, behavior, and accessibility relationships between them.
 - [unit-test-grill](rules/unit-test-grill.md) - Scenario-planning mode for `/unit-test-grill`.
 
-Read [integration-locator-testids](rules/integration-locator-testids.md) when adding or reviewing locators for application integration tests.
+Read [integration-test-locator-testids](rules/integration-test-locator-testids.md) when adding or reviewing locators for application integration tests.
+
+Read [testcase-conventions](rules/testcase-conventions.md) before any subject-specific test-case rule.
+
+- [testcase-file-structure](rules/testcase-file-structure.md) - Folder and file ownership, coverage duplication, and where child screens and reusable blocks live.
+- [testcase-naming](rules/testcase-naming.md) - Dot-separated hierarchy, exact interface labels, and fixed forms for loading, empty-list, and data cases.
+- [testcase-content](rules/testcase-content.md) - Atomic cases, user-oriented actions, concrete expected results, and the split between design, functional, and data checks.
+- [testcase-preconditions](rules/testcase-preconditions.md) - Case-file, folder, and global precondition scope.
+- [testcase-grill](rules/testcase-grill.md) - Case-planning mode for `/testcase-grill`.
 
 ## How to Use
 
-1. Identify the testing goal: manual QA, test-case design, coverage review, automation planning, automated test implementation, or locator design.
+1. Identify the testing goal: manual QA, test-case design, coverage review, automation planning, automated test implementation, or integration-test design.
 2. Identify the object under test: product flow, requirement, API, data state, function, UI behavior, hook, component, or cross-component integration.
 3. Choose the output format that matches the request. For manual QA, write executable test cases or a prioritized checklist. For automation, write stable scenarios or code-level tests.
 4. For unit tests, read the shared conventions and then exactly the subject rule that matches the code under test.
 5. For browser-API or listener hooks, read the linked reference from the hook rule only when that behavior is present.
-6. For locators, read the locator rule when the user wants to create or review a locator for integration tests; update schema, JSX, and affected tests together when a new semantic ID is needed.
+6. For integration tests, read the matching integration-test rule. When the work adds or reviews semantic locators, use the locator rule and update schema, JSX, and affected tests together when a new semantic ID is needed.
+7. For repository-stored test cases, read the test-case conventions and then exactly the rule that matches the task: structure when choosing or reorganizing files, naming when writing `name`, content when writing steps and expected results, preconditions when adding or moving setup, and the grill rule when listing cases before writing them.
 
 ## Automated Test Defaults
 

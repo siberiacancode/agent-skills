@@ -1,6 +1,6 @@
 # Testing Best Practices
 
-Best practices for writing, reviewing, and planning tests. Includes Vitest unit-test rules and semantic locator rules for application integration tests.
+Best practices for writing, reviewing, and planning tests. Includes Vitest unit-test rules, semantic locator rules for application integration tests, and rules for repository-stored product test cases.
 
 UI-kit component tests use explicit module-level `data-testid` constants with `getByTestId` / `queryByTestId` as the consistent component-selection contract.
 
@@ -14,8 +14,15 @@ UI-kit component tests use explicit module-level `data-testid` constants with `g
   - [Standalone UI components](rules/unit-test-ui-component-standalone.md)
   - [Compound UI components](rules/unit-test-ui-component-compound.md)
   - [Unit test grill](rules/unit-test-grill.md)
-- Integration locator rules:
-  - [Semantic test IDs](rules/integration-locator-testids.md)
+- Integration test rules:
+  - [Locator semantic test IDs](rules/integration-test-locator-testids.md)
+- Test case rules:
+  - [Test case conventions](rules/testcase-conventions.md) - Shared rules that every test-case rule links back to
+  - [File structure](rules/testcase-file-structure.md)
+  - [Naming](rules/testcase-naming.md)
+  - [Content](rules/testcase-content.md)
+  - [Preconditions](rules/testcase-preconditions.md)
+  - [Test case grill](rules/testcase-grill.md)
 - Hook references:
   - [Browser APIs](rules/references/hook-web-api.md)
   - [Listeners and multiple targets](rules/references/hook-listeners.md)
@@ -32,7 +39,8 @@ UI-kit component tests use explicit module-level `data-testid` constants with `g
 1. Copy `rules/_template.md` to `rules/category-description.md`
 2. Choose the appropriate category prefix:
    - `unit-test-` for unit tests (functions, hooks, components)
-   - `integration-locator-` for integration-test locator rules
+   - `integration-test-` for integration-test rules
+   - `testcase-` for repository-stored product test cases
 3. Fill in the frontmatter and guide content
 4. Include Incorrect/Correct examples where they clarify the pattern
 

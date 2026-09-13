@@ -1,0 +1,7 @@
+interface:
+  display_name: "Test Case Grill"
+  short_description: "List focused product test cases before writing them"
+  default_prompt: "Use $testcase-grill to describe the test cases for this page or block."
+
+policy:
+  allow_implicit_invocation: false

@@ -13,8 +13,6 @@ For a public family of components that compose together and share state, behavio
 
 **Related tests** — inspect tests for compound components with similar composition or context behavior to reuse project helpers, part ordering, test-ID conventions, render setup, assertions, and scenario count. Follow the closest pattern while testing only the parts and relationships exposed by the current component.
 
-For application integration-test locators, use [integration-locator-testids](./integration-locator-testids.md). Keep UI-kit unit-test IDs local to the component suite.
-
 ## Structure
 
 - Give each public part its own `describe` and keep parts in a stable order.

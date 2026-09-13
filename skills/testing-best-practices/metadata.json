@@ -2,7 +2,7 @@
   "version": "1.0.0",
   "organization": "siberiacancode",
   "date": "September 2026",
-  "abstract": "Testing best practices for Vitest unit tests and semantic data-testid locators used by application integration tests. Includes a /unit-test-grill mode for implementation-grounded unit-test scenarios.",
+  "abstract": "Testing best practices for covering application quality through Vitest unit tests, application integration-test conventions, semantic data-testid locators, and repository-stored product test cases. Includes /unit-test-grill and /testcase-grill modes for implementation-grounded scenario planning.",
   "references": [
     "https://vitest.dev",
     "https://testing-library.com",

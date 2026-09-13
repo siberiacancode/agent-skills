@@ -11,7 +11,7 @@ September 2026
 
 ## Abstract
 
-Testing best practices for writing and reviewing Vitest unit tests and semantic `data-testid` locators used by application integration tests.
+Testing best practices for covering application quality through Vitest unit tests, application integration-test conventions, semantic `data-testid` locators, and repository-stored product test cases. Includes `/unit-test-grill` and `/testcase-grill` modes for implementation-grounded scenario planning.
 
 ---
 
@@ -24,8 +24,15 @@ Testing best practices for writing and reviewing Vitest unit tests and semantic 
    - 1.4 [Unit test standalone UI components](#14-unit-test-standalone-ui-components)
    - 1.5 [Unit test compound UI components](#15-unit-test-compound-ui-components)
    - 1.6 [Unit test grill](#16-unit-test-grill)
-2. [Integration Locator](#2-integration-locator)
+2. [Integration Test](#2-integration-test)
    - 2.1 [Integration locator test IDs](#21-integration-locator-test-ids)
+3. [Test Cases](#3-test-cases)
+   - 3.1 [Test case conventions](#31-test-case-conventions)
+   - 3.2 [Test case file structure](#32-test-case-file-structure)
+   - 3.3 [Test case naming](#33-test-case-naming)
+   - 3.4 [Test case content](#34-test-case-content)
+   - 3.5 [Test case preconditions](#35-test-case-preconditions)
+   - 3.6 [Test case grill](#36-test-case-grill)
 
 ---
 
@@ -65,7 +72,7 @@ A public family of parts sharing state, behavior, or context. Inspect related co
 
 Invoke with `/unit-test-grill` to describe checks without writing test code. Read the shared conventions, the grill rule, and the matching function, hook, standalone-component, or compound-component rule. Return one title in the form `🐛 **Unit Test Grill: \`<subject>\`**`, followed by a list whose items use `- **Should <behavior>\*\* — <description>`, with an empty line between items. Put the emoji only in the title. Derive scenarios from existing suite conventions first, then from branches, guards, overloads, input forms, state transitions, owned transformations, errors, and lifecycle behavior. Exclude arbitrary edge values that only retest native behavior, and never create a Cartesian product of independent input dimensions.
 
-## 2. Integration Locator
+## 2. Integration Test
 
 ### 2.1 Integration locator test IDs
 
@@ -80,4 +87,30 @@ For application integration tests, treat `data-testid` values as a small semanti
 - Avoid `$ID`, `SELF_ID`, and branch-and-leaf collisions by placing each target under its actual semantic element type.
 - Add IDs only for interaction, observable assertions, or stable scoping required by current integration tests.
 
-This rule does not define E2E locators and does not replace module-level IDs in isolated UI-kit unit tests. Read [integration-locator-testids](rules/integration-locator-testids.md) for the complete rule.
+This rule does not define E2E locators and does not replace module-level IDs in isolated UI-kit unit tests. Read [integration-test-locator-testids](rules/integration-test-locator-testids.md) for the complete rule.
+
+## 3. Test Cases
+
+### 3.1 Test case conventions
+
+Shared rules for generating, revising, reviewing, and reorganizing structured product test cases stored in the repository's case catalog. Do not assume a layout: locate the catalog root, shared case type, statuses, and precondition modules before writing, and agree a layout with the user when no catalog exists. Continue the project's existing catalog instead of writing abstractly ideal cases: read the closest existing cases, the shared types, statuses, and preconditions, comparable pages or blocks, and then the relevant application code. Write only behavior confirmed by the project or the user, and ask when requirements, labels, routes, design links, API behavior, validation messages, or user states are missing. Use existing statuses only. Deduplicate against existing names and file ownership before writing. Write `steps` as `{ action, expected }` with `expected` as an array of concrete results, and write internal URLs without the domain or base path. Match the catalog's own format and imports. Preserve unrelated cases and configuration.
+
+### 3.2 Test case file structure
+
+Choose folders and files by user-facing interface structure and coverage ownership, not by internal components. Folders follow root pages or reusable major system blocks; files follow the main semantic element such as a step, header, or footer. Keep child elements, validation, loading, empty, error, selected, and disabled states in the file of their block or form. Put child screens inside the parent feature folder when reached only through that feature. Navigation checks belong to layout and navigation files; page files cover behavior inside the page. Opening a popup and checking the opened popup are different scenarios. Design cases belong in the relevant page or block file.
+
+### 3.3 Test case naming
+
+Use the existing dot-separated hierarchy with the most precise confirmed user-facing terms, matching interface text exactly. Drop redundant segments already implied by the file or parent segment, and drop control-type prefixes such as `Кнопка "..."` in favor of the exact label. Use precise names for unlabeled controls. Fixed forms: loading design cases put the state before the check type (`Лоадер. Дизайн. Мобилка`), the mobile viewport segment is always `Мобилка`, an empty list state is always `Пустой список`, and value-vs-API checks are always `Данные`.
+
+### 3.4 Test case content
+
+Write atomic cases: one element, scenario, or functionality each, with reusable setup in preconditions and one-off setup in the action. Phrase actions as user or tester actions rather than implementation setup. Keep `expected` limited to the direct result of the current action, stated as concrete observable effects and positive state phrasing; avoid vague outcomes, negative phrasing, and quantities unless that absence or count is the behavior under test. Do not prove the same thing twice, such as checking both a click and its link attribute, or both navigation and its request. Design cases are single-step content checks against a confirmed design link; data cases check values derived from request or API data and omit static content. Prefer one `Данные` case per stable field set, and split only for mutually exclusive conditional content.
+
+### 3.5 Test case preconditions
+
+Use the narrowest reusable scope. Add reusable preconditions only for setup shared by several cases; keep one-off setup in the action, preserving setup order and removing obsolete keys. Define file-local preconditions in the case file, folder-level ones in that folder's shared preconditions module, and catalog-wide ones in the shared location with the shared type. Do not add folder-level keys to the shared type, and do not inline a reusable precondition inside a case.
+
+### 3.6 Test case grill
+
+Invoke with `/testcase-grill` to list the cases that should exist without writing them into the catalog. Read the test-case conventions, then the structure, naming, content, and precondition rules the subject needs. Inspect the existing catalog and the relevant application code first, and deduplicate against existing names, file ownership, and confirmed planned cases. Return one title in the form `🐛 **Test Case Grill: \`<subject>\`**`, then the cases grouped under their owning file, each item as `- **<dot-separated name>** — <setup, action, observable result>`, with an empty line between items. Put the emoji only in the title. Propose cases only from confirmed scenarios, conditional states, validation, navigation and requests, API-derived values, and design composition; list unconfirmed requirements as open questions instead of inventing cases. Avoid per-field cases, unnecessary viewport variants, and duplicate proofs of the same behavior.

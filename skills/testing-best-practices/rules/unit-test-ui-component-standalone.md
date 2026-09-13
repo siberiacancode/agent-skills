@@ -13,8 +13,6 @@ For a component that can be tested independently. For a public family of compone
 
 **Related tests** — inspect tests for components with a similar public contract to reuse project helpers, test-ID conventions, render setup, naming, assertions, and scenario count. Follow the closest pattern unless the current component exposes a different contract.
 
-For application integration-test locators, use [integration-locator-testids](./integration-locator-testids.md). Keep UI-kit unit-test IDs local; do not apply the integration semantic schema here.
-
 ## Test order
 
 - **Baseline contract** — verify the shared component contracts supported by the subject.
