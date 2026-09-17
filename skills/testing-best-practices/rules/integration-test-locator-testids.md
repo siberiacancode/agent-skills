@@ -17,6 +17,13 @@ This rule is not an E2E-testing convention and does not define local test IDs fo
 - **Relevant UI** — inspect the integration scenarios, schema, and rendered JSX before changing an ID.
 - **Existing conventions** — preserve the project's attribute name, exported constant style, separator, and serializer. When redesigning an inconsistent schema, do not treat its existing semantic names as authoritative.
 
+## Project test ID utilities
+
+- When the project already installs and configures `@siberiacancode/testids`, use it for the test-ID schema, generation, and exported constants instead of building overlapping local infrastructure.
+- Change the source schema and run the project's configured generator; do not hand-edit generated test-ID files.
+- Use generated `TESTIDS` constants in application code and tests instead of repeating string literals.
+- Do not install `@siberiacancode/testids` solely to satisfy this rule. When it is absent, preserve the semantic grouping, naming, reuse, and change-together concepts through the project's existing locator infrastructure.
+
 ## When to add an ID
 
 - **Interaction** — add an ID when a scenario must operate an element through a stable locator.

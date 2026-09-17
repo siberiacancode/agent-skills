@@ -13,7 +13,7 @@ The section ID in parentheses is the filename prefix used to group rules.
 ## 2. Integration Test (integration-test)
 
 **Impact:** HIGH
-**Description:** How to design and maintain application integration-test conventions, starting with stable semantic `data-testid` locators that avoid coupling tests to pages, modules, visual placement, or DOM structure.
+**Description:** How to design, plan, write, and review Playwright application integration tests from confirmed product cases. Integration rules cover browser-versus-component boundaries, realistic wrappers, scenario-owned mocks and case IDs, async synchronization, project-provided testing utilities, and stable semantic `data-testid` locators.
 
 ## 3. Test Cases (testcase)
 

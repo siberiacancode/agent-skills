@@ -1,11 +1,11 @@
 ---
 name: testing-best-practices
-description: "Support QA and testing work across formats: planning checks, writing test cases, reviewing coverage, designing automation, creating locators for integration tests, and keeping automated tests focused on observable product behavior."
+description: "Support QA and testing work across formats: planning checks, writing test cases, reviewing coverage, designing Playwright browser and component integration tests, creating locators, and keeping automated tests focused on observable product behavior."
 ---
 
 # Testing Best Practices
 
-Practical QA guidance for turning product behavior, requirements, and code paths into useful checks. Use this skill for manual test cases, test plans, coverage reviews, automation scenarios, unit tests, locators for integration tests, `/unit-test-grill`, and `/testcase-grill`.
+Practical QA guidance for turning product behavior, requirements, and code paths into useful checks. Use this skill for manual test cases, test plans, coverage reviews, automation scenarios, unit tests, Playwright browser and component integration tests, locators, `/unit-test-grill`, `/integration-test-grill`, and `/testcase-grill`.
 
 The central idea is not a specific framework. The central idea is testing discipline:
 
@@ -30,6 +30,7 @@ Reference these guidelines when:
 - Deciding how to name, order, and scope checks inside a test file or QA checklist.
 - Creating or reviewing a locator for integration tests, including the semantic name, schema path, JSX attribute, and affected checks.
 - Invoking `/unit-test-grill` to turn code behavior into a checklist without writing test code.
+- Invoking `/integration-test-grill` to map confirmed product cases to browser or component automation without writing test code.
 - Invoking `/testcase-grill` to turn a page or block into a list of owned test cases without writing them into the catalog.
 
 ## QA Defaults
@@ -52,7 +53,13 @@ Read [unit-test-conventions](rules/unit-test-conventions.md) before any subject-
 - [unit-test-ui-component-compound](rules/unit-test-ui-component-compound.md) - Public parts and the state, context, behavior, and accessibility relationships between them.
 - [unit-test-grill](rules/unit-test-grill.md) - Scenario-planning mode for `/unit-test-grill`.
 
-Read [integration-test-locator-testids](rules/integration-test-locator-testids.md) when adding or reviewing locators for application integration tests.
+Read [integration-test-conventions](rules/integration-test-conventions.md) before any application integration-test rule.
+
+- [integration-test-browser](rules/integration-test-browser.md) - When a case requires navigation, browser-owned state, application bootstrap, or another full-browser boundary.
+- [integration-test-component](rules/integration-test-component.md) - Realistic mounted feature boundaries, wrappers, providers, and observable component integration behavior.
+- [integration-test-mocks](rules/integration-test-mocks.md) - Scenario-owned mock state, case IDs, handlers, and colocated file structure.
+- [integration-test-locator-testids](rules/integration-test-locator-testids.md) - Semantic test-ID schema, reuse, generated constants, and conditional `@siberiacancode/testids` usage.
+- [integration-test-grill](rules/integration-test-grill.md) - Test-case-driven automation planning and browser-versus-component selection.
 
 Read [testcase-conventions](rules/testcase-conventions.md) before any subject-specific test-case rule.
 
@@ -69,7 +76,7 @@ Read [testcase-conventions](rules/testcase-conventions.md) before any subject-sp
 3. Choose the output format that matches the request. For manual QA, write executable test cases or a prioritized checklist. For automation, write stable scenarios or code-level tests.
 4. For unit tests, read the shared conventions and then exactly the subject rule that matches the code under test.
 5. For browser-API or listener hooks, read the linked reference from the hook rule only when that behavior is present.
-6. For integration tests, read the matching integration-test rule. When the work adds or reviews semantic locators, use the locator rule and update schema, JSX, and affected tests together when a new semantic ID is needed.
+6. For integration tests, read the shared conventions, then exactly the rules needed for the chosen browser or component boundary, mocks, locators, or grill mode.
 7. For repository-stored test cases, read the test-case conventions and then exactly the rule that matches the task: structure when choosing or reorganizing files, naming when writing `name`, content when writing steps and expected results, preconditions when adding or moving setup, and the grill rule when listing cases before writing them.
 
 ## Automated Test Defaults

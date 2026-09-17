@@ -47,18 +47,18 @@ When requirements, labels, routes, design links, API behavior, validation messag
 
 ## Output format
 
-Return one title, then the cases grouped by their owning file. Put the caterpillar emoji only in the title. Use an empty line between every list item.
+Return one title, then the cases grouped by their owning file. Put the caterpillar emoji only in the title. Use a numbered list for cases so the user can refer to specific points later. Use an empty line between every list item.
 
 ```md
 🐛 **Test Case Grill: `Хэдер`**
 
 **`<owning folder>/<owning file>`**
 
-- **Хэдер. Дизайн. Десктоп** — Открыть любую страницу за авторизованного пользователя и сверить хэдер с макетом.
+1. **Хэдер. Дизайн. Десктоп** — Открыть любую страницу за авторизованного пользователя и сверить хэдер с макетом.
 
-- **Хэдер. Данные** — Открыть страницу за пользователя с заполненным профилем и проверить email и баланс из ответа API.
+2. **Хэдер. Данные** — Открыть страницу за пользователя с заполненным профилем и проверить email и баланс из ответа API.
 
-- **Хэдер. Выйти** — Нажать кнопку и проверить редирект на `/login` и очистку токена.
+3. **Хэдер. Выйти** — Нажать кнопку и проверить редирект на `/login` и очистку токена.
 ```
 
 Requirements:
@@ -66,5 +66,6 @@ Requirements:
 - Keep every proposed `name` in the project's dot-separated hierarchy, with interface text matched exactly.
 - Follow each name with one concise description of the setup, action, and observable expected result.
 - Name the target file for every group, using the folder and file the case would actually own.
+- Number cases inside each owning-file group with `1.`, `2.`, `3.`, and so on.
 - List unconfirmed requirements as open questions after the case list.
 - Do not add an introduction, table, case code, or conclusion unless the user requests it.

@@ -47,19 +47,20 @@ Every overload and meaningful input form should appear in at least one scenario 
 
 ## Output format
 
-Return one title followed by a list. Put the caterpillar emoji only in the title. Use an empty line between every list item.
+Return one title followed by a numbered list. Put the caterpillar emoji only in the title. Use an empty line between every list item so the user can refer to specific points later.
 
 ```md
 🐛 **Unit Test Grill: `formatProductDate`**
 
-- **Should format product date** — Call the function with a representative timestamp and assert the exact formatted date.
+1. **Should format product date** — Call the function with a representative timestamp and assert the exact formatted date.
 
-- **Should format leap day** — Pass a leap-day timestamp and assert that the calendar date is preserved.
+2. **Should format leap day** — Pass a leap-day timestamp and assert that the calendar date is preserved.
 ```
 
 Requirements:
 
 - Keep every proposed test name in the established `Should <observable behavior>` form.
+- Number proposed tests with `1.`, `2.`, `3.`, and so on.
 - Follow each name with one concise description of the setup, action, and observable assertion.
 - Use the user's language for descriptions while preserving English test titles when the suite uses English titles.
 - Do not add an introduction, table, implementation code, or conclusion unless the user requests it.

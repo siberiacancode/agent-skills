@@ -1,6 +1,6 @@
 # Testing Best Practices
 
-Best practices for writing, reviewing, and planning tests. Includes Vitest unit-test rules, semantic locator rules for application integration tests, and rules for repository-stored product test cases.
+Best practices for writing, reviewing, and planning tests. Includes Vitest unit-test rules, Playwright browser and component integration-test rules, semantic locator rules, and rules for repository-stored product test cases.
 
 UI-kit component tests use explicit module-level `data-testid` constants with `getByTestId` / `queryByTestId` as the consistent component-selection contract.
 
@@ -15,7 +15,12 @@ UI-kit component tests use explicit module-level `data-testid` constants with `g
   - [Compound UI components](rules/unit-test-ui-component-compound.md)
   - [Unit test grill](rules/unit-test-grill.md)
 - Integration test rules:
+  - [Integration test conventions](rules/integration-test-conventions.md) - Test-case sources, project utilities, async behavior, and shared automation decisions
+  - [Browser tests](rules/integration-test-browser.md)
+  - [Component tests](rules/integration-test-component.md)
+  - [Mocks](rules/integration-test-mocks.md)
   - [Locator semantic test IDs](rules/integration-test-locator-testids.md)
+  - [Integration test grill](rules/integration-test-grill.md)
 - Test case rules:
   - [Test case conventions](rules/testcase-conventions.md) - Shared rules that every test-case rule links back to
   - [File structure](rules/testcase-file-structure.md)

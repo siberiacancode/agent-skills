@@ -5,13 +5,13 @@ siberiacancode
 September 2026
 
 > **Note:**  
-> This document is optimized for agents and LLMs writing and reviewing Vitest unit tests and application integration-test locators.
+> This document is optimized for agents and LLMs writing and reviewing Vitest unit tests, Playwright application integration tests, and repository-stored product test cases.
 
 ---
 
 ## Abstract
 
-Testing best practices for covering application quality through Vitest unit tests, application integration-test conventions, semantic `data-testid` locators, and repository-stored product test cases. Includes `/unit-test-grill` and `/testcase-grill` modes for implementation-grounded scenario planning.
+Testing best practices for covering application quality through Vitest unit tests, Playwright browser and component integration tests, semantic `data-testid` locators, and repository-stored product test cases. Includes `/unit-test-grill`, `/integration-test-grill`, and `/testcase-grill` modes for grounded scenario planning.
 
 ---
 
@@ -25,7 +25,12 @@ Testing best practices for covering application quality through Vitest unit test
    - 1.5 [Unit test compound UI components](#15-unit-test-compound-ui-components)
    - 1.6 [Unit test grill](#16-unit-test-grill)
 2. [Integration Test](#2-integration-test)
-   - 2.1 [Integration locator test IDs](#21-integration-locator-test-ids)
+   - 2.1 [Integration test conventions](#21-integration-test-conventions)
+   - 2.2 [Browser integration tests](#22-browser-integration-tests)
+   - 2.3 [Component integration tests](#23-component-integration-tests)
+   - 2.4 [Integration test mocks](#24-integration-test-mocks)
+   - 2.5 [Integration locator test IDs](#25-integration-locator-test-ids)
+   - 2.6 [Integration test grill](#26-integration-test-grill)
 3. [Test Cases](#3-test-cases)
    - 3.1 [Test case conventions](#31-test-case-conventions)
    - 3.2 [Test case file structure](#32-test-case-file-structure)
@@ -70,11 +75,29 @@ A public family of parts sharing state, behavior, or context. Inspect related co
 
 ### 1.6 Unit test grill
 
-Invoke with `/unit-test-grill` to describe checks without writing test code. Read the shared conventions, the grill rule, and the matching function, hook, standalone-component, or compound-component rule. Return one title in the form `🐛 **Unit Test Grill: \`<subject>\`**`, followed by a list whose items use `- **Should <behavior>\*\* — <description>`, with an empty line between items. Put the emoji only in the title. Derive scenarios from existing suite conventions first, then from branches, guards, overloads, input forms, state transitions, owned transformations, errors, and lifecycle behavior. Exclude arbitrary edge values that only retest native behavior, and never create a Cartesian product of independent input dimensions.
+Invoke with `/unit-test-grill` to describe checks without writing test code. Read the shared conventions, the grill rule, and the matching function, hook, standalone-component, or compound-component rule. Return one title in the form `🐛 **Unit Test Grill: \`<subject>\`**`, followed by a numbered list whose items use `1. **Should <behavior>\*\* — <description>`, with an empty line between items. Put the emoji only in the title. Derive scenarios from existing suite conventions first, then from branches, guards, overloads, input forms, state transitions, owned transformations, errors, and lifecycle behavior. Exclude arbitrary edge values that only retest native behavior, and never create a Cartesian product of independent input dimensions.
 
 ## 2. Integration Test
 
-### 2.1 Integration locator test IDs
+### 2.1 Integration test conventions
+
+Start automation from the feature's confirmed test cases, then inspect existing autotests, helpers, mocks, locators, runner configuration, and relevant product code. If a suitable case does not exist, design it through the test-case conventions before implementing automation. Follow the nearest project structure and choose the smallest boundary that faithfully proves the case: component when a realistic mount is enough, browser only for browser-owned or full-application behavior.
+
+Prefer project utilities already installed and configured. When available, use `@siberiacancode/playwright` helpers such as `waitRequest`, `waitResponse`, `snapshot`, and `cookie`; do not install the package solely for this convention. Await Playwright operations, keep dependent actions sequential, and use `Promise.all` when request, response, navigation, or transient-state waits must be active before the action that triggers them. Do not use floating promises, `forEach(async ...)`, or arbitrary timeout-based synchronization.
+
+### 2.2 Browser integration tests
+
+Use a browser test for navigation, redirects, URL and history state, reload behavior, browser storage or cookies, downloads and permissions, application bootstrap, cross-page flows, and production-like network behavior that a mounted boundary cannot represent faithfully. Configure startup state before navigation, wait for a stable page signal, synchronize side-effect waiters with their trigger, and assert the browser-owned or cross-page outcome. Keep local validation and component state in component tests when that boundary is sufficient.
+
+### 2.3 Component integration tests
+
+Use a component integration test for behavior owned by one realistically mounted screen or feature boundary. Mount the smallest product boundary that owns the scenario, provide required production-like contexts and dependencies through a feature wrapper, and replace only external boundaries or scenario-controlled state. Exact router, query client, hook, and provider setup remains project-specific. Interact through the rendered interface and assert observable behavior rather than wrapper internals.
+
+### 2.4 Integration test mocks
+
+Build deterministic mock behavior from the selected test case. When the project's mock server selects scenarios through case IDs, give each distinct scenario a stable product-oriented case ID and configure it before navigation or mount. Keep case IDs, constants, request handlers, and scenario data beside the owning autotest feature; create only the files actually needed. Prefer explicit scenario handlers over hidden branches for unrelated cases, and reuse generated routes, types, fakers, and existing mock helpers.
+
+### 2.5 Integration locator test IDs
 
 For application integration tests, treat `data-testid` values as a small semantic API required by current scenarios.
 
@@ -86,8 +109,13 @@ For application integration tests, treat `data-testid` values as a small semanti
 - Give fields and errors independent semantic paths instead of deriving `-field` or `-error` from an input ID.
 - Avoid `$ID`, `SELF_ID`, and branch-and-leaf collisions by placing each target under its actual semantic element type.
 - Add IDs only for interaction, observable assertions, or stable scoping required by current integration tests.
+- When `@siberiacancode/testids` is already installed and configured, use it for schema, generation, and exported `TESTIDS`; change the source schema rather than generated files. When absent, preserve these semantic concepts through the project's existing locator infrastructure, and do not install the package solely for this rule.
 
 This rule does not define E2E locators and does not replace module-level IDs in isolated UI-kit unit tests. Read [integration-test-locator-testids](rules/integration-test-locator-testids.md) for the complete rule.
+
+### 2.6 Integration test grill
+
+Invoke with `/integration-test-grill` to plan automation without writing test code. Inspect existing test cases and autotests, deduplicate existing coverage, and design a missing scenario through the test-case conventions before proposing automation. Group proposals by future owning file and number scenarios inside each group. For every item, name the source test case, choose `browser` or `component` with a behavior-based reason, identify required mocks and case ID when applicable, and state the trigger, meaningful async observations, and final user-visible result. Route missing semantic locators through the locator rule and list ambiguous product behavior as open questions.
 
 ## 3. Test Cases
 
@@ -113,4 +141,4 @@ Use the narrowest reusable scope. Add reusable preconditions only for setup shar
 
 ### 3.6 Test case grill
 
-Invoke with `/testcase-grill` to list the cases that should exist without writing them into the catalog. Read the test-case conventions, then the structure, naming, content, and precondition rules the subject needs. Inspect the existing catalog and the relevant application code first, and deduplicate against existing names, file ownership, and confirmed planned cases. Return one title in the form `🐛 **Test Case Grill: \`<subject>\`**`, then the cases grouped under their owning file, each item as `- **<dot-separated name>** — <setup, action, observable result>`, with an empty line between items. Put the emoji only in the title. Propose cases only from confirmed scenarios, conditional states, validation, navigation and requests, API-derived values, and design composition; list unconfirmed requirements as open questions instead of inventing cases. Avoid per-field cases, unnecessary viewport variants, and duplicate proofs of the same behavior.
+Invoke with `/testcase-grill` to list the cases that should exist without writing them into the catalog. Read the test-case conventions, then the structure, naming, content, and precondition rules the subject needs. Inspect the existing catalog and the relevant application code first, and deduplicate against existing names, file ownership, and confirmed planned cases. Return one title in the form `🐛 **Test Case Grill: \`<subject>\`**`, then the cases grouped under their owning file, each item as `1. **<dot-separated name>** — <setup, action, observable result>`, with an empty line between items. Put the emoji only in the title. Propose cases only from confirmed scenarios, conditional states, validation, navigation and requests, API-derived values, and design composition; list unconfirmed requirements as open questions instead of inventing cases. Avoid per-field cases, unnecessary viewport variants, and duplicate proofs of the same behavior.
