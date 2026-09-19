@@ -1,0 +1,7 @@
+interface:
+  display_name: "Integration Test Grill"
+  short_description: "Plan browser and component integration coverage"
+  default_prompt: "Use $integration-test-grill to plan the integration-test coverage for this product flow."
+
+policy:
+  allow_implicit_invocation: false

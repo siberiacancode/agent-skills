@@ -51,7 +51,7 @@ Read [unit-test-conventions](rules/unit-test-conventions.md) before any subject-
 - [unit-test-react-hook](rules/unit-test-react-hook.md) - Public hook contract, changing arguments, async work, cleanup, and browser/listener behavior.
 - [unit-test-ui-component-standalone](rules/unit-test-ui-component-standalone.md) - Independent component DOM, props, state, interactions, and accessibility.
 - [unit-test-ui-component-compound](rules/unit-test-ui-component-compound.md) - Public parts and the state, context, behavior, and accessibility relationships between them.
-- [unit-test-grill](rules/unit-test-grill.md) - Scenario-planning mode for `/unit-test-grill`.
+- [unit-test-grill](rules/unit-test-grill.md) - Scenario-planning mode for `/unit-test-grill`, split into existing tests to improve and new tests to create.
 
 Read [integration-test-conventions](rules/integration-test-conventions.md) before any application integration-test rule.
 
@@ -59,7 +59,7 @@ Read [integration-test-conventions](rules/integration-test-conventions.md) befor
 - [integration-test-component](rules/integration-test-component.md) - Realistic mounted feature boundaries, wrappers, providers, and observable component integration behavior.
 - [integration-test-mocks](rules/integration-test-mocks.md) - Scenario-owned mock state, case IDs, handlers, and colocated file structure.
 - [integration-test-locator-testids](rules/integration-test-locator-testids.md) - Semantic test-ID schema, reuse, generated constants, and conditional `@siberiacancode/testids` usage.
-- [integration-test-grill](rules/integration-test-grill.md) - Test-case-driven automation planning and browser-versus-component selection.
+- [integration-test-grill](rules/integration-test-grill.md) - Test-case-driven automation planning, split into existing autotests to improve and new browser or component tests to create.
 
 Read [testcase-conventions](rules/testcase-conventions.md) before any subject-specific test-case rule.
 
@@ -67,7 +67,7 @@ Read [testcase-conventions](rules/testcase-conventions.md) before any subject-sp
 - [testcase-naming](rules/testcase-naming.md) - Dot-separated hierarchy, exact interface labels, and fixed forms for loading, empty-list, and data cases.
 - [testcase-content](rules/testcase-content.md) - Atomic cases, user-oriented actions, concrete expected results, and the split between design, functional, and data checks.
 - [testcase-preconditions](rules/testcase-preconditions.md) - Case-file, folder, and global precondition scope.
-- [testcase-grill](rules/testcase-grill.md) - Case-planning mode for `/testcase-grill`.
+- [testcase-grill](rules/testcase-grill.md) - Case-planning mode for `/testcase-grill`, split into existing cases to improve and new cases to create.
 
 ## How to Use
 

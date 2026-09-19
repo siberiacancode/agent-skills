@@ -1,7 +1,7 @@
 ---
 title: Unit test grill
 impact: HIGH
-impactDescription: produces an implementation-grounded list of unit-test checks without writing tests or multiplying independent input dimensions
+impactDescription: separates implementation-grounded unit-test improvements from new checks without writing tests or multiplying independent input dimensions
 tags: testing, unit, planning, scenarios, grill
 ---
 
@@ -9,7 +9,7 @@ tags: testing, unit, planning, scenarios, grill
 
 Use this rule when the user invokes `/unit-test-grill`, writes `unit-test-grill`, or asks to list unit-test scenarios before writing tests.
 
-Describe the checks that should exist. Do not write test code unless the user explicitly asks for it afterward.
+Describe the checks that should exist. Separate changes to existing tests from tests that do not exist yet. Do not write test code unless the user explicitly asks for it afterward.
 
 ## Route to the subject rule
 
@@ -45,22 +45,36 @@ Treat independent input dimensions separately. If a hook accepts both multiple t
 
 Every overload and meaningful input form should appear in at least one scenario only when comparable tests in this repository cover that axis or the contract makes it explicit. Do not copy every unrelated behavior check.
 
+## Classify the work
+
+Compare every supported scenario with the existing suite before writing the final list:
+
+- **Improvements** — an existing test already owns the behavior but needs a concrete correction, assertion, state, branch, or lifecycle check. Name the existing test or file and describe only the missing delta.
+- **New Tests** — no existing test owns the behavior, so a new test is required.
+
+Do not classify a scenario as **Improvements** merely because its future test belongs in an existing file. Classification depends on whether an existing test already owns the behavior. Omit scenarios that are already covered adequately.
+
 ## Output format
 
-Return one title followed by a numbered list. Put the caterpillar emoji only in the title. Use an empty line between every list item so the user can refer to specific points later.
+Return one title followed by `### Improvements` and `### New Tests`. Use a numbered list inside each section. Put the caterpillar emoji only in the title. Use an empty line between every list item so the user can refer to specific points later. Keep both sections visible; write `_No suggestions._` when a section is empty.
 
 ```md
 🐛 **Unit Test Grill: `formatProductDate`**
 
-1. **Should format product date** — Call the function with a representative timestamp and assert the exact formatted date.
+### Improvements
 
-2. **Should format leap day** — Pass a leap-day timestamp and assert that the calendar date is preserved.
+1. **Should format product date** — Existing test in `format-product-date.test.ts`: add an exact output assertion instead of checking only that a string is returned.
+
+### New Tests
+
+1. **Should format leap day** — Pass a leap-day timestamp and assert that the calendar date is preserved.
 ```
 
 Requirements:
 
 - Keep every proposed test name in the established `Should <observable behavior>` form.
-- Number proposed tests with `1.`, `2.`, `3.`, and so on.
+- Number proposed tests inside each section with `1.`, `2.`, `3.`, and so on.
+- For **Improvements**, identify the existing test or file and the exact coverage change.
 - Follow each name with one concise description of the setup, action, and observable assertion.
 - Use the user's language for descriptions while preserving English test titles when the suite uses English titles.
 - Do not add an introduction, table, implementation code, or conclusion unless the user requests it.
