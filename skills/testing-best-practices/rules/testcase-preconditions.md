@@ -16,8 +16,14 @@ Use the narrowest reusable scope.
 ## When a precondition is reusable
 
 - Add a reusable precondition only when several cases share the same preliminary setup, such as an opened page, an authenticated state, a viewport, or a repeated navigation path.
+- Assume each case starts independently with a clean context; do not
+  restate this default. Specify prior actions or state only when required.
+- Require only setup needed for the checked behavior; omit item counts,
+  pagination, or other data conditions unless the check depends on them.
 - Do not create reusable precondition constants for truly one-off setup used by a single case. Put those setup details in the case action.
-- When moving one-off setup into an action, preserve setup order: establish the required user state before opening dependent pages, tabs, or popups. Remove obsolete keys from precondition constants and types.
+- Establish user and data states before opening dependent pages, tabs,
+  or popups. Preserve this order when moving setup, and remove obsolete
+  precondition keys and types.
 - Do not inline a reusable precondition inside a test case.
 
 ## Scope
@@ -25,6 +31,9 @@ Use the narrowest reusable scope.
 - **Case file** — if a precondition is reused only inside one case file, define it locally in that file and type it there.
 - **Folder** — if a precondition is reused across several files of one folder, define it in that folder's shared preconditions module and type it in the same place.
 - **Global** — keep the catalog's shared preconditions for setup reused across several case folders, and keep the shared precondition type aligned only with them.
+- Reuse folder-level page opening separately from scenario-specific data
+  conditions. Keep conditions used by one file local, without repeating
+  page opening.
 
 ## Imports and updates
 
