@@ -1,21 +1,23 @@
 ---
 title: Unit test compound UI components
 impact: HIGH
-impactDescription: guards every public part and the state, context, and behavior connecting them
+impactDescription: guards every public part and the state, context, composition, and behavior connecting them
 tags: testing, unit, react, components, compound, context, accessibility, testids
 ---
 
 # Unit test compound UI components
 
-For a public family of components that compose together and share state, behavior, or context.
+For a public family of components whose parts are connected by shared state, behavior, context, or a required composition contract.
+
+If the parts are independent and their composition does not change their behavior, test each part as a standalone component and add only the composition check that is part of the public contract.
 
 > **First read [unit-test-conventions](./unit-test-conventions.md) and [unit-test-ui-component-standalone](./unit-test-ui-component-standalone.md).** This rule adds only compound structure and relationships.
 
-**Related tests** — inspect tests for compound components with similar composition or context behavior to reuse project helpers, part ordering, test-ID conventions, render setup, assertions, and scenario count. Follow the closest pattern while testing only the parts and relationships exposed by the current component.
+**Related tests** — inspect tests for compound components with similar composition, context, or state behavior to reuse project helpers, part ordering, test-ID conventions, render setup, assertions, and scenario count. Follow the closest pattern while testing only the parts and relationships exposed by the current component.
 
 ## Structure
 
-- Give each public part its own `describe` and keep parts in a stable order.
+- Give each independently addressable public part its own `describe` and keep parts in a stable order. A conditional, portal-only, or root part may instead be covered in the state or composition group that exposes its contract.
 - Test each part's independent public contract before testing relationships between parts.
 - Give every queried part its own module-level test-ID constant; use a named function for repeated parts.
 

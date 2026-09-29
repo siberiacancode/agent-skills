@@ -1,8 +1,8 @@
 ---
 title: Unit test conventions
 impact: HIGH
-impactDescription: the single source of truth for naming, ordering, coverage, SSR, imports, and parametrization shared by every unit test
-tags: testing, unit, naming, coverage, ssr, conventions
+impactDescription: the single source of truth for naming, ordering, coverage, imports, parametrization, and isolation shared by every unit test
+tags: testing, unit, naming, coverage, conventions
 ---
 
 # Unit test conventions
@@ -30,9 +30,9 @@ When an existing or neighboring pattern can be adapted, make the smallest struct
 
 Place the test next to its source and preserve the source extension: `name.test.ts` next to `name.ts`, and `name.test.tsx` next to `name.tsx`.
 
-Name every test `Should <observable behavior>`. Describe what the subject does, not how it is implemented. One `it` should cover one behavior.
+New tests should use `Should <observable behavior>`. Describe what the subject does, not how it is implemented. Preserve established wording in existing tests unless the test is being changed. One `it` should cover one independently meaningful behavior; equivalent input values may be checked in one test.
 
-Do not wrap the whole file in a `describe` named after the subject. Use `describe` only when the grouping adds meaning, such as an independently addressable part or a genuinely shared parametrized context.
+Keep one outer `describe('<subject>')` when this is the repository convention. Use nested `describe` only when the grouping adds meaning, such as an independently addressable part or a genuinely shared parametrized context.
 
 ## 2. Related tests
 
@@ -44,22 +44,21 @@ When no relevant tests exist, use these conventions as the default.
 
 ## 3. Ordering
 
-Arrange tests in this order:
+For plain functions, factories, utilities, and handlers, arrange tests in this order:
 
-1. **Shape / default** — base output and public API surface.
-2. **SSR** — server-side behavior.
-3. **Inputs** — parameters, props, options, and supported input forms.
-4. **Behavior** — actions, transitions, events, and condition-dependent behavior.
-5. **Edge & error** — boundaries, failures, cleanup, and teardown.
+1. **Default** — base output and default options.
+2. **Inputs and variants** — parameters, overloads, and supported input forms.
+3. **Behavior** — transformations, branches, actions, and condition-dependent behavior.
+4. **Errors and cleanup** — failures, boundaries, teardown, and other observable side effects.
 
-Subject-specific rules may refine this order without replacing it.
+Subject-specific rules may refine this order. Hooks and components may add SSR, rerender, interaction, or accessibility checks where those are part of their contract.
 
 ## 4. Coverage
 
 Use two passes when identifying scenarios:
 
 - **Public contract** — cover supported input forms, meaningful input changes, returned capabilities, observable behavior, and failure paths.
-- **Reachable logic** — inspect the implementation and cover each caller-reachable conditional, guard, early return, and alternative path.
+- **Reachable logic** — inspect the implementation and cover caller-reachable branches, guards, early returns, and alternative paths when they change the public result or side effect, or when this project normally covers them.
 
 Test independent input dimensions separately. Use one representative value while testing another dimension, and add a combined case only when their interaction creates distinct behavior.
 
@@ -77,23 +76,29 @@ For cancellation and cleanup, trigger the relevant condition after cancellation 
 
 Assert an infrastructure interaction only when that interaction is itself part of the public contract, has no reliable behavioral substitute, or matches the established style of the closest related tests.
 
-## 6. SSR by default
+For callback, delegation, middleware, and interceptor APIs, calls, arguments, and call order are observable behavior when they are part of the function's contract.
 
-Hooks and components that support server rendering get an SSR test by default, placed immediately after the shape test. Use the project's existing SSR helper and conventions.
+## 6. Isolation
 
-## 7. Explicit imports
+First check the test runner's automatic clear, reset, and restore settings. Explicitly restore only state not covered by that configuration: fake timers, `vi.stubGlobal`, direct writes to browser globals, storage, history, and shared fixtures. Clear or reset other shared mock state using the repository's established lifecycle hooks.
 
-Import test primitives explicitly from the project's test library. Do not rely on globals, and import only what the file uses.
+## 7. SSR when applicable
 
-## 8. Parametrize repeated cases
+Hooks and components that support server rendering get an SSR test when the contract or nearby tests cover it. Use the project's existing SSR helper and conventions. Plain server-side functions do not need an SSR test.
 
-Use `forEach` when the same setup, action, and assertion apply to multiple values. Do not use `test.each` / `it.each` or copy nearly identical tests.
+## 8. Explicit imports
+
+Import test primitives explicitly when required by the test runner's configuration, and import only what the file uses. When globals are enabled, do not add redundant imports to new tests; preserve explicit imports when extending a neighboring file that already uses them.
+
+## 9. Parametrize repeated cases
+
+Use `forEach` when the same setup, action, and assertion apply to equivalent values. Do not use `test.each` / `it.each` or copy nearly identical tests unless that is already the repository convention.
 
 Treat independent input dimensions separately. Use one representative value while testing another dimension, and add a combined case only when the combination has distinct behavior.
 
 Do not parameterize cases whose setup or expected behavior differs materially.
 
-## 9. Keep simple tests direct
+## 10. Keep simple tests direct
 
 Do not introduce helpers, factories, or abstractions unless they remove meaningful repetition or encode established project setup. Prefer direct setup, action, and assertion for simple cases.
 

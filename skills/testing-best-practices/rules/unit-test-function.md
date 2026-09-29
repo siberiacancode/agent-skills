@@ -1,13 +1,13 @@
 ---
 title: Unit test plain functions
 impact: HIGH
-impactDescription: keeps utility tests flat, behavior-focused, and consistent with the rest of the suite
+impactDescription: keeps function, factory, and handler tests direct, behavior-focused, and consistent with the rest of the suite
 tags: testing, unit, functions, utils, coverage
 ---
 
 # Unit test plain functions
 
-For pure functions, utils, and helpers with no React.
+For plain functions, factories, utilities, and handlers with no React.
 
 > **First read [unit-test-conventions](./unit-test-conventions.md).** This rule adds only what is specific to plain functions.
 
@@ -17,13 +17,13 @@ For pure functions, utils, and helpers with no React.
 
 - **Default behavior** — cover omitted arguments and default options.
 - **Inputs and overloads** — cover every meaningful input form and public overload.
-- **Conditionals and transformations** — walk each branch and verify transformations owned by the function.
+- **Conditionals and transformations** — cover branches that change the public result or side effect, and verify transformations owned by the function.
 - **Errors** — cover thrown errors, rejected results, and handled invalid input where applicable.
 
 ## Assertions
 
-Prefer exact assertions for known values. For composite outputs, inspect their meaningful parts independently and verify that omitted optional parts remain absent.
+Follow the repository's matcher style. Use exact assertions for known values; use `toBe` for primitives and the repository's strict structural matcher (for example, `toStrictEqual`) when an object or array shape matters. Verify that omitted optional parts remain absent. For callback or delegation contracts, assert calls, arguments, and order when they are the observable behavior.
 
 ## Async functions
 
-When a function depends on an API or another async collaborator, mock that boundary and cover the fulfilled and rejected behavior the function owns.
+When a function depends on an API or another async collaborator, mock that boundary and cover the fulfilled and rejected behavior the function owns. Await async calls, and restore fake timers or global spies through the established cleanup hooks.

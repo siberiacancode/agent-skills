@@ -26,7 +26,7 @@ For React hooks.
 
 ## State and rerenders
 
-- Run updates through the renderer's state-update utility and read `result.current` again after each update; do not cache a returned snapshot across renders.
+- Run updates through the renderer's state-update utility and read the new state from `result.current` after each update. It is fine to retain a method or callback when testing its stable identity or invoking it; do not use a cached state snapshot for assertions after a render.
 - Use `initialProps` and `rerender` for arguments whose changes should affect an already mounted hook.
 - Treat initialization-only arguments separately; do not require a rerender test when the public contract does not react to later changes.
 - Verify that changing callbacks or options uses their latest values when the hook promises that behavior.
