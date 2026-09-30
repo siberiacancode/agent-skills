@@ -18,7 +18,7 @@ Use evidence in this order:
 3. Shared test helpers, fixtures, mock infrastructure, generated locators, and runner configuration.
 4. The relevant product code when a case is missing, incomplete, or ambiguous.
 
-Automate confirmed test cases rather than deriving a new scenario catalog from implementation branches. If no suitable case exists, design the scenario first using [testcase-conventions](./testcase-conventions.md), then implement the automation from that case. Do not silently invent expected behavior from code.
+Automate confirmed test cases rather than deriving a new scenario catalog from implementation branches. If no suitable case exists, design the scenario first using [testcase-conventions](../testcase/testcase-conventions.md), then implement the automation from that case. Do not silently invent expected behavior from code.
 
 ## Scenario and file ownership
 

@@ -7,7 +7,7 @@ tags: testing, unit, naming, coverage, conventions
 
 # Unit test conventions
 
-These conventions apply to every unit test. Read them before the subject-specific rule for [plain functions](./unit-test-function.md), [React hooks](./unit-test-react-hook.md), [standalone UI components](./unit-test-ui-component-standalone.md), or [compound UI components](./unit-test-ui-component-compound.md).
+These conventions apply to every unit test. Read them before the subject-specific rule for [plain functions](./unit-test-function.md), [React hooks](./unit-test-react-hook.md), [standalone React components](./unit-test-react-component-standalone.md), or [compound React components](./unit-test-react-component-compound.md).
 
 ## 0. Repository first
 

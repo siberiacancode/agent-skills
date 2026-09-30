@@ -1,15 +1,15 @@
 ---
-title: Unit test standalone UI components
+title: Unit test standalone React components
 impact: HIGH
 impactDescription: guards a component's public DOM, state, interactions, and accessibility contracts
 tags: testing, unit, react, components, accessibility, testids
 ---
 
-# Unit test standalone UI components
+# Unit test standalone React components
 
-For a component that can be tested independently. For a public family of components sharing state or context, use [unit-test-ui-component-compound](./unit-test-ui-component-compound.md).
+For a component that can be tested independently. For a public family of components sharing state or context, use [unit-test-react-component-compound](./unit-test-react-component-compound.md).
 
-> **First read [unit-test-conventions](./unit-test-conventions.md).** This rule adds only what is specific to standalone UI components.
+> **First read [unit-test-conventions](./unit-test-conventions.md).** This rule adds only what is specific to standalone React components.
 
 **Related tests** — inspect tests for components with a similar public contract to reuse project helpers, test-ID conventions, render setup, naming, assertions, and scenario count. Follow the closest pattern unless the current component exposes a different contract.
 

@@ -17,8 +17,8 @@ Read [unit-test-conventions](./unit-test-conventions.md) first, then classify th
 
 - Plain function, utility, or helper → [unit-test-function](./unit-test-function.md)
 - React hook → [unit-test-react-hook](./unit-test-react-hook.md)
-- Standalone React component → [unit-test-ui-component-standalone](./unit-test-ui-component-standalone.md)
-- Compound React component → [unit-test-ui-component-compound](./unit-test-ui-component-compound.md)
+- Standalone React component → [unit-test-react-component-standalone](./unit-test-react-component-standalone.md)
+- Compound React component → [unit-test-react-component-compound](./unit-test-react-component-compound.md)
 
 For a hook that subscribes to listeners or reads a browser API, also read [hook-listeners](./references/hook-listeners.md) or [hook-web-api](./references/hook-web-api.md).
 
