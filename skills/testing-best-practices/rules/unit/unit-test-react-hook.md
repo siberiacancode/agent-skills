@@ -11,10 +11,6 @@ For React hooks.
 
 > **First read [unit-test-conventions](./unit-test-conventions.md).** This rule adds only what is specific to hooks.
 
-**Related tests** — inspect tests for hooks with a similar public API to reuse project-specific input forms, helpers, naming, setup, assertion style, lifecycle checks, and scenario count. Follow the closest pattern unless the current hook's contract requires a clear deviation.
-
-**Form-dependent behavior** — a behavior depends on an input form when that form changes how the hook resolves, connects to, updates, or cleans up the input. Run those behaviors for every supported form. Keep unrelated arguments, callbacks, and options outside that loop.
-
 ## Test order
 
 - **Initial contract** — assert the initial public value, state, and methods the hook actually exposes.
@@ -30,21 +26,18 @@ For React hooks.
 - Use `initialProps` and `rerender` for arguments whose changes should affect an already mounted hook.
 - Treat initialization-only arguments separately; do not require a rerender test when the public contract does not react to later changes.
 - Verify that changing callbacks or options uses their latest values when the hook promises that behavior.
-- Cover every meaningful overload and input form, but test independent dimensions with canonical representatives instead of building a Cartesian product.
+- Run behavior for every input form that changes how the hook resolves, connects, updates, or cleans up the input. Keep independent arguments, callbacks, and options outside that loop.
 
 ## Async and lifecycle
 
 - Assert the synchronous initial contract before waiting for an asynchronous result.
 - Cover both fulfilled and rejected outcomes when the hook handles both paths.
-- Prove cleanup and unmount behavior through the absence of further public effects whenever possible.
 
-## Mocks and resets
+## Timers and events
 
-- Mock external boundaries and environment state only when needed to drive observable behavior.
+- Mock external boundaries and environment state only when needed to drive observable behavior; use the shared isolation rules for cleanup.
 - Use the project's timer, async, and rendering utilities rather than prescribing a test framework implementation.
-- Restore fake timers, spies, stubbed globals, browser state, and other shared mutations after each test that changes them.
 - Advance time and dispatch events through the rendering update boundary when they can trigger state changes.
-- Assert public state, returned values, callbacks, errors, or emitted effects; do not assert timer counts or other internal machinery when behavior proves the same contract.
 
 ## Browser APIs and listeners
 
