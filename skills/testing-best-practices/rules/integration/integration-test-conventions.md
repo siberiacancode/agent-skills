@@ -36,10 +36,10 @@ Reference each selected case through the repository's established traceability f
 ## Project testing utilities
 
 - First inspect the existing integration tests and their imports to determine which Playwright utilities the project already uses.
-- If existing tests use `@korona-core/playwright`, continue using its matching utilities, such as `waitRequest`, `waitResponse`, and `snapshot`; do not recreate them as local helpers or introduce a competing utility layer.
-- If existing tests use another established approach without `@korona-core/playwright`, preserve that approach and do not install the package merely to rewrite the project's testing style.
-- If the project has no established Playwright utility approach, add `@korona-core/playwright` and use it instead of creating local equivalents.
-- Import only the utilities required by the current test. Using `@korona-core/playwright` does not make snapshot coverage mandatory.
+- If existing tests use `@siberiacancode/playwright`, continue using its matching utilities, such as `waitRequest`, `waitResponse`, and `snapshot`; do not recreate them as local helpers or introduce a competing utility layer.
+- If existing tests use another established approach without `@siberiacancode/playwright`, preserve that approach and do not install the package merely to rewrite the project's testing style.
+- If the project has no established Playwright utility approach, add `@siberiacancode/playwright` and use it instead of creating local equivalents.
+- Import only the utilities required by the current test. Using `@siberiacancode/playwright` does not make snapshot coverage mandatory.
 - Inspect the chosen utility API and nearby usage before creating any helper that it does not provide.
 - Follow the project's existing locator infrastructure and the dedicated locator rule.
 
