@@ -21,8 +21,8 @@ Testing best practices for covering application quality through Vitest unit test
    - 1.1 [Unit test conventions](#11-unit-test-conventions)
    - 1.2 [Unit test plain functions](#12-unit-test-plain-functions)
    - 1.3 [Unit test React hooks](#13-unit-test-react-hooks)
-   - 1.4 [Unit test standalone UI components](#14-unit-test-standalone-ui-components)
-   - 1.5 [Unit test compound UI components](#15-unit-test-compound-ui-components)
+   - 1.4 [Unit test standalone React components](#14-unit-test-standalone-react-components)
+   - 1.5 [Unit test compound React components](#15-unit-test-compound-react-components)
    - 1.6 [Unit test grill](#16-unit-test-grill)
 2. [Integration Test](#2-integration-test)
    - 2.1 [Integration test conventions](#21-integration-test-conventions)
@@ -65,11 +65,11 @@ Pure functions and utils with no React. Inspect tests for functions with a simil
 
 Inspect tests for hooks with a similar public API to reuse project-specific forms, helpers, naming, setup, assertion style, lifecycle checks, and scenario count. Follow the closest pattern unless the current hook's contract requires a clear deviation. Order hook tests as: initial public contract → SSR when supported → arguments and overloads → behavior and conditionals → reaction to changing arguments → async and lifecycle, unless nearby hook tests order them differently. Use `initialProps` + `rerender` only for arguments whose later changes are part of the contract or are normally covered in comparable tests. Test meaningful input forms and overloads without creating a Cartesian product. Mock and spy in the same style as nearby tests, restore shared mutations, and prefer public effects unless comparable tests assert lifecycle/infrastructure directly. Open the matching reference for browser-API or listener hooks.
 
-### 1.4 Unit test standalone UI components
+### 1.4 Unit test standalone React components
 
 A component tested independently. Inspect related component tests for project helpers, test-ID conventions, render setup, naming, assertions, and scenario count. Follow the closest pattern unless the current component exposes a different contract. Order: supported baseline contract → default render → meaningful props and variants → state → interaction → accessibility, unless nearby component tests order them differently. Use the repository's locator and assertion style; when no pattern exists, give the component a module-level local `data-testid` and assert public DOM, state, and interactions.
 
-### 1.5 Unit test compound UI components
+### 1.5 Unit test compound React components
 
 A public family of parts sharing state, behavior, or context. Inspect related compound tests for project helpers, part ordering, test-ID conventions, render setup, assertions, and scenario count. Follow the closest pattern while testing only relationships exposed by the current component. Give every public part its own stable `describe` when that matches local structure, cover its supported independent contract, then test context inheritance, explicit overrides, cross-part behavior, and composed accessibility that the component actually exposes. Use one canonical composition per relationship instead of multiplying parts, props, and variants.
 
@@ -111,7 +111,7 @@ For application integration tests, treat `data-testid` values as a small semanti
 - Add IDs only for interaction, observable assertions, or stable scoping required by current integration tests.
 - When `@siberiacancode/testids` is already installed and configured, use it for schema, generation, and exported `TESTIDS`; change the source schema rather than generated files. When absent, preserve these semantic concepts through the project's existing locator infrastructure, and do not install the package solely for this rule.
 
-This rule does not define E2E locators and does not replace module-level IDs in isolated UI-kit unit tests. Read [integration-test-locator-testids](rules/integration-test-locator-testids.md) for the complete rule.
+This rule does not define E2E locators and does not replace module-level IDs in isolated UI-kit unit tests. Read [integration-test-locator-testids](rules/integration/integration-test-locator-testids.md) for the complete rule.
 
 ### 2.6 Integration test grill
 

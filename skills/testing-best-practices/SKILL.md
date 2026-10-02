@@ -45,29 +45,29 @@ Reference these guidelines when:
 
 ## Rule Map
 
-Read [unit-test-conventions](rules/unit-test-conventions.md) before any subject-specific unit-test rule.
+Read [unit-test-conventions](rules/unit/unit-test-conventions.md) before any subject-specific unit-test rule.
 
-- [unit-test-function](rules/unit-test-function.md) - Public inputs, owned transformations, branches, errors, and async collaborator boundaries.
-- [unit-test-react-hook](rules/unit-test-react-hook.md) - Public hook contract, changing arguments, async work, cleanup, and browser/listener behavior.
-- [unit-test-ui-component-standalone](rules/unit-test-ui-component-standalone.md) - Independent component DOM, props, state, interactions, and accessibility.
-- [unit-test-ui-component-compound](rules/unit-test-ui-component-compound.md) - Public parts and the state, context, behavior, and accessibility relationships between them.
-- [unit-test-grill](rules/unit-test-grill.md) - Scenario-planning mode for `/unit-test-grill`, split into existing tests to improve and new tests to create.
+- [unit-test-function](rules/unit/unit-test-function.md) - Public inputs, owned transformations, branches, errors, and async collaborator boundaries.
+- [unit-test-react-hook](rules/unit/unit-test-react-hook.md) - Public hook contract, changing arguments, async work, cleanup, and browser/listener behavior.
+- [unit-test-react-component-standalone](rules/unit/unit-test-react-component-standalone.md) - Independent component DOM, props, state, interactions, and accessibility.
+- [unit-test-react-component-compound](rules/unit/unit-test-react-component-compound.md) - Public parts and the state, context, behavior, and accessibility relationships between them.
+- [unit-test-grill](rules/unit/unit-test-grill.md) - Scenario-planning mode for `/unit-test-grill`, split into existing tests to improve and new tests to create.
 
-Read [integration-test-conventions](rules/integration-test-conventions.md) before any application integration-test rule.
+Read [integration-test-conventions](rules/integration/integration-test-conventions.md) before any application integration-test rule.
 
-- [integration-test-browser](rules/integration-test-browser.md) - When a case requires navigation, browser-owned state, application bootstrap, or another full-browser boundary.
-- [integration-test-component](rules/integration-test-component.md) - Realistic mounted feature boundaries, wrappers, providers, and observable component integration behavior.
-- [integration-test-mocks](rules/integration-test-mocks.md) - Scenario-owned mock state, case IDs, handlers, and colocated file structure.
-- [integration-test-locator-testids](rules/integration-test-locator-testids.md) - Semantic test-ID schema, reuse, generated constants, and conditional `@siberiacancode/testids` usage.
-- [integration-test-grill](rules/integration-test-grill.md) - Test-case-driven automation planning, split into existing autotests to improve and new browser or component tests to create.
+- [integration-test-browser](rules/integration/integration-test-browser.md) - When a case requires navigation, browser-owned state, application bootstrap, or another full-browser boundary.
+- [integration-test-component](rules/integration/integration-test-component.md) - Realistic mounted feature boundaries, wrappers, providers, and observable component integration behavior.
+- [integration-test-mocks](rules/integration/integration-test-mocks.md) - Scenario-owned mock state, case IDs, handlers, and colocated file structure.
+- [integration-test-locator-testids](rules/integration/integration-test-locator-testids.md) - Semantic test-ID schema, reuse, generated constants, and conditional `@siberiacancode/testids` usage.
+- [integration-test-grill](rules/integration/integration-test-grill.md) - Test-case-driven automation planning, split into existing autotests to improve and new browser or component tests to create.
 
-Read [testcase-conventions](rules/testcase-conventions.md) before any subject-specific test-case rule.
+Read [testcase-conventions](rules/testcase/testcase-conventions.md) before any subject-specific test-case rule.
 
-- [testcase-file-structure](rules/testcase-file-structure.md) - Folder and file ownership, coverage duplication, and where child screens and reusable blocks live.
-- [testcase-naming](rules/testcase-naming.md) - Dot-separated hierarchy, exact interface labels, and fixed forms for loading, empty-list, and data cases.
-- [testcase-content](rules/testcase-content.md) - Atomic cases, user-oriented actions, concrete expected results, and the split between design, functional, and data checks.
-- [testcase-preconditions](rules/testcase-preconditions.md) - Case-file, folder, and global precondition scope.
-- [testcase-grill](rules/testcase-grill.md) - Case-planning mode for `/testcase-grill`, split into existing cases to improve and new cases to create.
+- [testcase-file-structure](rules/testcase/testcase-file-structure.md) - Folder and file ownership, coverage duplication, and where child screens and reusable blocks live.
+- [testcase-naming](rules/testcase/testcase-naming.md) - Dot-separated hierarchy, exact interface labels, and fixed forms for loading, empty-list, and data cases.
+- [testcase-content](rules/testcase/testcase-content.md) - Atomic cases, user-oriented actions, concrete expected results, and the split between design, functional, and data checks.
+- [testcase-preconditions](rules/testcase/testcase-preconditions.md) - Case-file, folder, and global precondition scope.
+- [testcase-grill](rules/testcase/testcase-grill.md) - Case-planning mode for `/testcase-grill`, split into existing cases to improve and new cases to create.
 
 ## How to Use
 
