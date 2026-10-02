@@ -41,7 +41,6 @@ Create only files the scenario needs. The example expresses ownership and separa
 ## Mock boundaries
 
 - Keep scenario-specific response data and handlers local to that scenario.
-- Share a mock only when several scenarios intentionally depend on the same product state and contract.
 - Avoid one handler with hidden branches for unrelated cases; prefer explicit scenario selection through the project's existing mechanism.
 - Reuse generated API routes, response types, fakers, and existing mock-server helpers when available.
 - Use explicit fixtures when exact values are asserted and handler functions when a response depends on request input. Include every endpoint required to reach the scenario and export it through the established mock registry.
