@@ -19,10 +19,10 @@ This rule is not an E2E-testing convention and does not define local test IDs fo
 
 ## Project test ID utilities
 
-- When the project already installs and configures `@siberiacancode/testids`, use it for the test-ID schema, generation, and exported constants instead of building overlapping local infrastructure.
+- Use the project's existing test-ID schema, generator, and exported constants instead of building overlapping local infrastructure.
 - Change the source schema and run the project's configured generator; do not hand-edit generated test-ID files.
 - Use generated `TESTIDS` constants in application code and tests instead of repeating string literals.
-- Do not install `@siberiacancode/testids` solely to satisfy this rule. When it is absent, preserve the semantic grouping, naming, reuse, and change-together concepts through the project's existing locator infrastructure.
+- When the project has no generator, preserve the semantic grouping, naming, reuse, and change-together concepts through its existing locator infrastructure.
 
 ## When to add an ID
 
@@ -125,3 +125,9 @@ CLICKABLE.BUTTON.MODAL.SIGN_IN
 - **Preserve scope** — do not rename unrelated IDs or tests outside the requested feature.
 - **Validate** — run the schema generator or validator and the narrowest relevant integration checks.
 - **Report ambiguity** — surface semantic choices that cannot be determined consistently from the scenarios and UI.
+
+## Semantic and special locators
+
+Use role or label locators for accessible controls, portal content, and third-party UI when no stable project ID exists. Scope them through a stable parent.
+
+For iframe-hosted widgets, locate the stable iframe boundary, enter its content frame, and then use semantic locators inside it. Reserve raw CSS for a native sub-element or third-party boundary with no project locator; do not use long class or DOM-structure chains for primary elements.

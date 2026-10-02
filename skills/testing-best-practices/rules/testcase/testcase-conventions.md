@@ -11,54 +11,64 @@ These conventions apply to every written test case. Read them before the subject
 
 Use this group when generating, revising, reviewing, or reorganizing structured test cases stored in the repository's case catalog.
 
-Do not assume a catalog layout. Locate the catalog root, the shared case type, the status vocabulary, and the precondition modules in the repository before writing, and follow what you find. When no catalog exists yet, say so and agree on a layout with the user instead of inventing one.
+## Project first
 
-## 0. Project first
+Continue the project's existing case catalog. Before writing, inspect the closest cases and comparable flows, shared case configuration, relevant application behavior, and confirmed requirements.
 
-Do not write abstractly ideal test cases. Continue the project's existing case catalog.
+- Follow the catalog's established layout, naming, ownership, statuses, preconditions, step granularity, and language. If no catalog exists, agree on a layout with the user instead of inventing one.
+- Follow explicit user instructions. Report conflicts between requirements, existing cases, and code instead of resolving them silently.
+- Determine case count from distinct confirmed scenarios, not neighboring catalog size.
 
-Use sources in this order:
+## Confirmed behavior only
 
-1. existing cases in the closest folder and file;
-2. the catalog's shared configuration: case types, statuses, and preconditions;
-3. cases for the most similar page, block, or workflow;
-4. the relevant application code — routes, components, labels, validation, API calls, redirects, permissions, links, UI states, and viewport-specific controls;
-5. user-confirmed requirements and design links;
-6. generic QA preferences.
+Write cases only from behavior confirmed by the project or by the user.
 
-Existing project conventions override generic preferences. Before writing, infer the naming hierarchy, folder ownership, status vocabulary, precondition scope, step granularity, language, and the usual number of cases for comparable subjects.
-
-## 1. Confirmed behavior only
-
-Write cases only from behavior confirmed by the project or by the user. Ask before writing when requirements, labels, routes, design links, expected behavior, API behavior, validation messages, or user states are missing or ambiguous.
-
-For design cases, use a user-provided or previously confirmed design link. If none is available, ask for it.
+- In planning or grill mode, report unresolved requirements as open questions.
+- When writing catalog cases, use the project's existing needs-rework status only if incomplete cases are explicitly allowed.
+- Use only user-provided or previously confirmed design and validation links. Treat missing links as unknown requirements.
 
 Use existing statuses only, unless the user explicitly confirms a new one.
 
-## 2. Workflow
+## Coverage economy
 
-1. Inspect the closest existing cases and the relevant source code.
-2. Before proposing or writing new cases, compare the target coverage with existing names, file ownership, and confirmed planned cases. Remove exact and semantic duplicates unless the user explicitly asks to keep overlap.
-3. Choose the target folder and file by [file structure](./testcase-file-structure.md).
-4. Choose case scope and write atomic cases by [content](./testcase-content.md).
-5. Reuse precise existing preconditions, and add or move them by [preconditions](./testcase-preconditions.md).
-6. Name the cases by [naming](./testcase-naming.md).
-7. Preserve unrelated cases and shared configuration. Change existing cases only when requested or confirmed by the user.
+Prefer the smallest set of cases that covers distinct behavior and meaningful risk.
 
-## 3. Case shape
+- Do not split one behavior only because it has multiple observable effects.
+- Split when scenarios have different preconditions, outcomes, independent failure risk, or requirements.
+
+## Product priority
+
+Assign every new case one product priority. Use the catalog's language: `Highest`, `High`, `Medium`, `Low`, or `Lowest` in English; `Самый высокий`, `Высокий`, `Средний`, `Низкий`, or `Самый низкий` in Russian. Base it on confirmed product risk — business impact, affected users and usage frequency, and whether a practical workaround exists — not on how difficult the case is to execute.
+
+- `Highest` / `Самый высокий` — failure blocks a critical path or risks money, security, data loss, or core-product availability without a workaround.
+- `High` / `Высокий` — failure seriously disrupts an important or frequent flow, while the product remains usable.
+- `Medium` / `Средний` — failure has limited product impact or a practical workaround.
+- `Low` / `Низкий` — failure affects a secondary, infrequent, or mainly visual scenario.
+- `Lowest` / `Самый низкий` — failure has negligible product impact, such as minor cosmetics or optional polish.
+
+Do not infer priority from positive versus negative case type, and do not confuse execution priority with defect severity. Preserve an existing case's priority during refinement unless confirmed changes alter its product risk. When the available evidence does not support one level confidently, propose the best-supported priority and list the uncertainty for confirmation.
+
+## Workflow
+
+1. Establish confirmed behavior and existing coverage.
+2. Apply the rules for [file structure](./testcase-file-structure.md), [content](./testcase-content.md), [preconditions](./testcase-preconditions.md), and [naming](./testcase-naming.md).
+3. Assign product priority using the scale above.
+4. Preserve unrelated cases and shared configuration. Change existing cases only when requested or confirmed by the user.
+
+## Case shape
 
 - Cases live under the catalog root and conform to its shared case type.
 - Each case file exposes one case collection, in whatever form the catalog already uses.
 - Write `steps` as `{ action, expected }`, with `expected` as an array of concrete expected results.
 - Write internal page URLs without the domain or application base path, for example `/`, `/profile`, or `/history/{orderId}`. Keep external URLs complete. These shortened paths are test-case notation, not requirements for literal DOM `href` values.
 
-## 4. Output
+## Output
 
 When producing cases, match the catalog's own format and imports:
 
 - reference statuses and preconditions the way neighboring case files already do;
 - add or move preconditions according to the preconditions rule;
+- include product priority for every new case;
 - use an existing confirmed status.
 
 When proposing changes in chat, include the target folder and file, changed preconditions or statuses if any, and the case content. If the user asks to revise a proposed list, do not edit existing files unless implementation is explicitly requested.
