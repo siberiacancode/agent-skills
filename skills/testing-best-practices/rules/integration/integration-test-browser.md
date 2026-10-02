@@ -11,7 +11,7 @@ Read [integration-test-conventions](integration-test-conventions.md) first. Use 
 
 ## Choose the browser boundary
 
-Choose a browser test when the scenario requires the full application context and must start through `page.goto()`, including:
+Choose a browser test when the scenario requires full application bootstrap or context, regardless of whether the established harness starts it through `page.goto()`, a navigation helper, or an authenticated fixture. This includes:
 
 - application bootstrap, authentication startup, or production route integration;
 - navigation, redirects, history, or reload behavior across separately loaded pages;

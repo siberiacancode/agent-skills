@@ -26,7 +26,7 @@ Reference each selected case through the repository's established traceability f
 
 - Keep each test focused on one test-case scenario and its observable result.
 - Follow the nearest established naming, `describe` structure, setup helpers, fixtures, and file layout.
-- Keep feature-specific setup and mocks beside the owning autotests. Share them only when multiple features genuinely own the same contract.
+- Keep feature-specific setup and mock data beside the owning autotests. Do not share mock data across features, even when they use the same contract; copy and adapt the data locally so each feature owns its scenario.
 - Prefer the smallest integration boundary that faithfully proves the case: use a component test when a realistic mounted boundary is enough, and a browser test only when the full application context is part of the behavior.
 - Use [integration-test-browser](./integration-test-browser.md) or [integration-test-component](./integration-test-component.md) after choosing the boundary.
 - Use [integration-test-server](./integration-test-server.md) for a public server entry point or service orchestration.

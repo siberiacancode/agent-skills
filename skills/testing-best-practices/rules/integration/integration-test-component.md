@@ -13,7 +13,7 @@ Read [integration-test-conventions](integration-test-conventions.md) first. Use 
 
 Prefer a component integration test when an isolated component, screen, or feature mounted with its required dependencies can prove the scenario without starting the full application. This includes validation, input behavior, local transitions, conditional rendering, forms, overlays, tables, controlled requests, retry states, interaction with nearest application dependencies, and browser-owned APIs that the mounted environment can faithfully exercise.
 
-Move the scenario to a browser test when its contract requires application bootstrap, interaction between application parts, navigation across separately loaded pages, or another behavior that requires `page.goto()` and cannot be represented faithfully through `mount()`.
+Move the scenario to a browser test when its contract requires application bootstrap, interaction between application parts, navigation across separately loaded pages, or another behavior that requires the full application context and cannot be represented faithfully through `mount()`.
 
 ## Inspect the component harness
 
