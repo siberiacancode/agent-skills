@@ -17,7 +17,7 @@ Do not assume a catalog layout. Locate the catalog root, the shared case type, t
 
 Do not write abstractly ideal test cases. Continue the project's existing case catalog.
 
-Use sources in this order:
+Inspect sources in this order; this does not define conflict precedence:
 
 1. existing cases in the closest folder and file;
 2. the catalog's shared configuration: case types, statuses, and preconditions;
@@ -26,13 +26,18 @@ Use sources in this order:
 5. user-confirmed requirements and design links;
 6. generic QA preferences.
 
-Existing project conventions override generic preferences. Before writing, infer the naming hierarchy, folder ownership, status vocabulary, precondition scope, step granularity, language, and the usual number of cases for comparable subjects.
+- Follow explicit user instructions. Flag conflicts between requirements, existing cases, and code instead of silently treating one as correct.
+
+Existing project conventions override generic preferences. Before writing, infer the naming hierarchy, folder ownership, status vocabulary, precondition scope, step granularity, and language.
+
+- Determine case count from distinct confirmed scenarios, not neighboring catalog size.
 
 ## 1. Confirmed behavior only
 
-Write cases only from behavior confirmed by the project or by the user. Ask before writing when requirements, labels, routes, design links, expected behavior, API behavior, validation messages, or user states are missing or ambiguous.
+Write cases only from behavior confirmed by the project or by the user.
 
-For design cases, use a user-provided or previously confirmed design link. If none is available, ask for it.
+- Ask about missing or ambiguous requirements before writing, unless the user explicitly allows incomplete cases. For those cases, use an existing needs-rework status and record unknowns without inventing them.
+- Use only user-provided or previously confirmed design links. Treat missing links as unknown requirements.
 
 Use existing statuses only, unless the user explicitly confirms a new one.
 

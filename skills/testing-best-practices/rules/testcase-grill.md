@@ -7,9 +7,9 @@ tags: testing, test-cases, qa, planning, scenarios, grill
 
 # Test case grill
 
-Use this rule when the user invokes `/testcase-grill`, writes `testcase-grill`, or asks to list test cases before writing them into the catalog.
+Use this rule only when the user invokes `/testcase-grill` or explicitly requests grill mode. A request to list cases alone does not activate it.
 
-Describe the cases that should exist and where they belong. Separate changes to existing cases from cases that do not exist yet. Do not write case files, case code, or `steps` unless the user explicitly asks for them afterward.
+Describe the cases that should exist and where they belong. Separate changes to existing cases from cases that do not exist yet. Do not write case files, case code, or steps unless explicitly requested.
 
 ## Route to the rules
 
@@ -49,7 +49,7 @@ When requirements, labels, routes, design links, API behavior, validation messag
 
 Classify every supported proposal after inspecting the existing catalog:
 
-- **Improvements** — an existing case already owns the scenario but needs a concrete correction or missing setup, action, expected result, state, or confirmed requirement. Keep its current `name`, identify the owning file, and describe only the required delta.
+- **Improvements** — an existing case already owns the scenario but needs a concrete correction or missing setup, action, expected result, state, or confirmed requirement. Identify improvements by the existing case name. When renaming is needed, include the proposed name and reason. Identify the owning file and describe only the required delta.
 - **New Test Cases** — no existing case owns the scenario, so a new catalog entry is required.
 
 Do not classify a case as **Improvements** merely because a new case belongs in an existing file. Classification depends on whether an existing case already owns the scenario. Omit cases that are already complete and adequate.
@@ -82,6 +82,6 @@ Requirements:
 - Follow each name with one concise description of the setup, action, and observable expected result.
 - Name the target file for every group, using the folder and file the case would actually own.
 - Number cases inside each owning-file group and section with `1.`, `2.`, `3.`, and so on.
-- For **Improvements**, keep the existing case name and state the exact catalog change.
+- For **Improvements**, identify improvements by the existing case name. When renaming is needed, include the proposed name and reason. State the exact catalog change.
 - List unconfirmed requirements as open questions after the case list.
 - Do not add an introduction, table, case code, or conclusion unless the user requests it.
