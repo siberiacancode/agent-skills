@@ -27,7 +27,7 @@ Use the narrowest reusable scope.
 - **Case file** — if a precondition is reused only inside one case file, define it locally in that file and type it there.
 - **Folder** — if a precondition is reused across several files of one folder, define it in that folder's shared preconditions module and type it in the same place.
 - **Global** — keep the catalog's shared preconditions for setup reused across several case folders, and keep the shared precondition type aligned only with them.
-- Reuse folder-level page opening separately from scenario-specific data conditions. Keep conditions used by one file local, without repeating page opening.
+- When a case needs setup shared at different scopes, reference each precondition at its own reuse level. Keep conditions used by only one file local, without duplicating broader shared setup.
 
 ## Imports and updates
 
