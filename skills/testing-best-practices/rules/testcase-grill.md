@@ -24,7 +24,7 @@ Read [testcase-conventions](./testcase-conventions.md) first, then read the rule
 
 Inspect the existing catalog first, then the relevant application code: routes, components, labels, validation, API calls, redirects, permissions, links, UI states, and viewport-specific controls.
 
-Before proposing anything, compare the target coverage with existing `name`s, file ownership, and confirmed planned cases. Drop exact and semantic duplicates that are already adequate.
+Before proposing anything, compare the target coverage with existing `name`s, file ownership, confirmed planned cases, and the behavior those cases actually prove. Drop exact and semantic duplicates when the behavior already has sufficient coverage, including implicit coverage, following [Do not double-check the same proof](./testcase-content.md#do-not-double-check-the-same-proof).
 
 Include a case only when it is supported by confirmed behavior created through:
 
@@ -35,9 +35,11 @@ Include a case only when it is supported by confirmed behavior created through:
 - values rendered from request or API data;
 - static composition that belongs to a design case.
 
-When requirements, labels, routes, design links, API behavior, validation messages, or user states are unconfirmed, list the open question instead of inventing the case.
+When requirements, labels, routes, API behavior, validation messages, or user states are unconfirmed, list the open question instead of inventing the case. A missing design link does not prevent proposing a design case with a defined scope; flag the missing link without inventing it.
 
 ## Avoid a bloated list
+
+Before proposing a separate case, check whether the check belongs to an already proposed scenario, following [Atomicity](./testcase-content.md#atomicity).
 
 - Propose one `Данные` case per stable field set; split only for mutually exclusive conditional content.
 - Do not propose a case per displayed field unless the field has independent behavior, validation, formatting, visibility rules, or standalone risk.

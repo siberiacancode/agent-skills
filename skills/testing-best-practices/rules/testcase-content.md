@@ -15,9 +15,9 @@ Write atomic test cases with focused setup, user-oriented actions, and concrete 
 
 ## Atomicity
 
-- One element, scenario, or functionality per case.
+- Each case checks one behavior or scenario and fully covers the expectations stated by its name and scope. Atomicity does not mean one action: write sequential actions within one scenario as separate steps, each with its own expected results. Split independent scenarios into separate cases.
 - Keep reusable setup in preconditions and one-off setup in the case action, following [testcase-preconditions](./testcase-preconditions.md). Keep steps focused on the checked behavior.
-- Check operation-related button spinners, loading, and disabled states, including other affected form buttons, within the action case when relevant; do not create separate cases.
+- Check related conditions and results of one scenario within that case, establishing the required initial state. Create a separate case for independent behavior, a branch, or a distinct scope. Do not combine independent checks merely to reduce the number of cases.
 - Prefer narrow checks over broad end-to-end flows.
 - Write for testers who understand IT and frontend terminology.
 
@@ -40,7 +40,7 @@ Write atomic test cases with focused setup, user-oriented actions, and concrete 
 
 ## Expected results
 
-- Keep `expected` limited to the direct result of the current action. Do not add unchanged surrounding state, cleanup state, or adjacent behavior unless it is the core checked outcome.
+- Check all direct results of the current action needed to confirm the stated behavior. Do not stop at an intermediate effect when the case scope includes the final outcome. Do not add adjacent behavior or detailed checks owned by other cases.
 - State exact expected results for transitions, requests, toasts, validation, selected filters, and UI states.
 - Specify the source request, response object/array, and field for expected values, including navigation parameters.
 - Avoid vague system outcomes such as "пользователь разлогинен" unless the exact observable effect is confirmed. Prefer concrete effects such as a request, redirect, storage or cookie change, cache reset, toast, or visible UI state.
@@ -51,6 +51,7 @@ Write atomic test cases with focused setup, user-oriented actions, and concrete 
 
 ## Do not double-check the same proof
 
+- Compare checks by the behavior they prove. Do not add a separate check when other cases already provide sufficient evidence for the same behavior, including evidence implicit in their result checks or in applying their actions or preconditions. Merely performing an action or listing it in preconditions does not prove that the behavior is correct.
 - If a click check proves link behavior, do not also check the link attribute unless it adds value.
 - If navigation is proven by the opened page, do not also check the request caused by that navigation unless the request itself is the feature under test.
 
