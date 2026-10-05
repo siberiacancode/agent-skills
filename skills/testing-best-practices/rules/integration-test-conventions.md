@@ -57,7 +57,7 @@ Create only files the scenario needs. The example expresses ownership and separa
 ## Project testing utilities
 
 - First inspect the existing integration tests and their imports to determine which Playwright utilities the project already uses.
-- If existing tests use `@korona-core/playwright`, continue using its matching utilities, such as `waitRequest`, `waitResponse`, and `snapshot`; do not recreate them as local helpers or introduce a competing utility layer.
+- If existing tests use `@siberiacancode/playwright`, continue using its matching utilities, such as `waitRequest`, `waitResponse`, and `snapshot`; do not recreate them as local helpers or introduce a competing utility layer.
 - Inspect the chosen utility API and nearby usage before creating any helper that it does not provide.
 - Follow the project's existing locator infrastructure and the dedicated locator rule.
 
