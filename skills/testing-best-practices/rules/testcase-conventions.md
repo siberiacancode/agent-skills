@@ -15,7 +15,7 @@ Do not assume a catalog layout. Locate the catalog root, the shared case type, t
 
 ## 0. Project first
 
-Do not write abstractly ideal test cases. Continue the project's existing case catalog.
+Do not write abstractly ideal test cases. Continue the project's existing case catalog. Check the application within its intended area of responsibility. The scope and expected results of each case must stay within that boundary.
 
 Inspect sources in this order; this does not define conflict precedence:
 
@@ -26,7 +26,7 @@ Inspect sources in this order; this does not define conflict precedence:
 5. user-confirmed requirements and design links;
 6. generic QA preferences.
 
-- Follow explicit user instructions. Flag conflicts between requirements, existing cases, and code instead of silently treating one as correct.
+- Follow explicit user instructions. Flag conflicts between requirements, existing cases, and code instead of silently treating one as correct. Implementation confirms current behavior, but not necessarily its correctness. If you find a contradiction or behavior that appears incorrect, state it explicitly and ask the user to confirm the expected result before recording it in a case.
 
 Existing project conventions override generic preferences. Before writing, infer the naming hierarchy, folder ownership, status vocabulary, precondition scope, step granularity, and language.
 
@@ -36,8 +36,8 @@ Existing project conventions override generic preferences. Before writing, infer
 
 Write cases only from behavior confirmed by the project or by the user.
 
-- Ask about missing or ambiguous requirements before writing, unless the user explicitly allows incomplete cases. For those cases, use an existing needs-rework status and record unknowns without inventing them.
-- Use only user-provided or previously confirmed design links. Treat missing links as unknown requirements.
+- Ask about missing or ambiguous requirements before writing, unless the user explicitly allows incomplete cases. For those cases, use the existing `needs-rework` status by default unless the user explicitly specifies another existing status, and record unknowns without inventing them.
+- Use only user-provided or previously confirmed design links. A missing design link does not prevent proposing a design case with a defined scope. When writing the case, do not invent a link: use the agreed placeholder and status, or ask for the missing details.
 
 Use existing statuses only, unless the user explicitly confirms a new one.
 
