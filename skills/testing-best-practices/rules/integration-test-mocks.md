@@ -7,7 +7,9 @@ tags: testing, integration-tests, mocks, case-id, playwright
 
 # Integration test mocks
 
-Read [integration-test-conventions](./integration-test-conventions.md) first. Use this rule when an integration scenario requires deterministic server state, requests, or responses.
+Read [integration-test-conventions](./integration-test-conventions.md) first. Use this rule when a browser or component integration scenario requires deterministic backend state, requests, or responses.
+
+Use `mock-config-server` for mock-server scenarios. Follow the project's existing package configuration, scenario registry, case-ID selection, and handler APIs instead of introducing another mock-server implementation or parallel infrastructure.
 
 ## Scenario ownership
 
@@ -47,19 +49,4 @@ Create only files the scenario needs. The example expresses ownership and separa
 - Make request expectations concrete only when the request itself is part of the test case. Do not assert both a request and an equivalent visible result merely for extra coverage.
 - Keep mock data minimal but realistic enough to produce the state under test.
 
-Use a narrow inline override only when the project has an established mechanism and the response is local to one test. Register it before the request can start. Prefer a scenario-owned mock when several endpoints or tests share the same state.
-
-For an in-flight scenario, install the controlled pending response before the action, trigger the action, assert the pending UI, release and await the response, then assert the final visible result. Do not stop at request verification when the case also requires a user-visible outcome.
-
 Case IDs are required by this rule only when the project's mock architecture uses them; do not introduce a new case-ID mechanism into a project that selects scenarios differently.
-
-## Server dependency mocks
-
-For server integration tests, keep the public handler or orchestrating service real and replace the first boundary outside it, such as a remote API, repository service, cache backend, framework-only module, logger, clock, or production environment value.
-
-- Spy on the same adapter instance or module export used by production code. Fully mock a module only when importing or running it would cross the selected boundary.
-- Assert only meaningful collaboration, such as an exact write, selected adapter method, cache invalidation, or absence of a write in a no-op path.
-- Capture a `structuredClone()` inside the spy when production mutates an argument after the call.
-- Reset mutable captures and explicitly restore environment variables, globals, timers, and implementations at their owning scope.
-
-Use fake timers and fixed system time for time-dependent orchestration. Silence expected logger output narrowly, and never load production secrets into test fixtures.

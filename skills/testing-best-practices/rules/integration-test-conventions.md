@@ -30,7 +30,7 @@ Reference each selected case through the repository's established traceability f
 - Prefer the smallest integration boundary that faithfully proves the case: use a component test when a realistic mounted boundary is enough, and a browser test only when the full application context is part of the behavior.
 - Use [integration-test-browser](./integration-test-browser.md) or [integration-test-component](./integration-test-component.md) after choosing the boundary.
 - Use [integration-test-server](./integration-test-server.md) for a public server entry point or service orchestration.
-- Use [integration-test-mocks](./integration-test-mocks.md) when the scenario needs controlled server state or responses.
+- Use [integration-test-mocks](./integration-test-mocks.md) when a browser or component scenario needs controlled backend state or responses.
 - Use [integration-test-locator-testids](./integration-test-locator-testids.md) when adding or reviewing semantic locators. Keep all test-ID naming and schema rules there.
 
 ## Project testing utilities
@@ -104,8 +104,8 @@ const versionsAmountLocators = await page
   .getByTestId(new RegExp(IDS.STATIC.PROJECT_CARD.VERSIONS_AMOUNT))
   .all();
 
-await snapshot(page, 'home-page', {
+await snapshot(page, "home-page", {
   locator: getDataTestIdLocator(IDS.STATIC.MAIN.$ID),
-  mask: [...updatedDateLocators, ...versionsAmountLocators]
+  mask: [...updatedDateLocators, ...versionsAmountLocators],
 });
 ```

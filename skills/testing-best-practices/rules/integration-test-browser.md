@@ -16,10 +16,9 @@ Choose a browser test when the scenario requires full application bootstrap or c
 - application bootstrap, authentication startup, or production route integration;
 - navigation, redirects, history, or reload behavior across separately loaded pages;
 - a user flow spanning pages, features, or application boundaries whose integration is part of the contract;
-- browser state or browser-owned behavior whose contract depends on application startup, navigation, or coordination between application parts;
+- interactions between application components that a mounted feature boundary cannot faithfully reproduce;
+- browser state or browser-owned behavior whose contract depends on application startup or navigation;
 - a production-like network lifecycle whose result must be observed through the running application.
-
-Playwright component tests also run in a real browser and can exercise cookies, storage, downloads, popups, permissions, clipboard, URL state, and other browser-owned APIs through `mount()`. Their presence alone does not require a browser test. When a realistically mounted component or screen with its required dependencies can prove the case without the full application context, use a component integration test.
 
 ## Inspect the browser harness
 
@@ -36,13 +35,4 @@ Read the browser configuration, web-server or base-URL setup, authentication fix
 ## Setup and assertions
 
 - Keep network waiters and their triggering actions synchronized according to the async section of the shared conventions.
-- Assert the browser-owned outcome when it is the contract: URL, redirect destination, history, reload persistence, cookie or storage state, download, popup, permission, browser event, or a cross-page visible result.
-- Stub only the chosen external boundary; do not replace application behavior or its backend interaction when those are what the case proves.
-- For streaming, infinite scrolling, animation, or transforms, synchronize on the response, stream state, scroll-driven request, or observable DOM transition rather than elapsed time.
-- Avoid repeating component-level validation, masking, or local state cases already covered by the owning component test.
-
-Use direct browser evaluation only when no user-facing Playwright API can produce or observe the required state. Grant protected permissions explicitly and only for the relevant case.
-
-When analytics is part of the case, perform the user action and assert through the application's observable event sink, not the analytics library's private implementation. Use browser- or mobile-specific branches only for real capability or product-contract differences, never to suppress a flaky assertion.
-
-For visual checks, use the project's existing snapshot helper and preserve its configured projects, snapshot path, viewport, and comparison thresholds.
+- For visual checks, use the project's existing snapshot helper and preserve its configured projects, snapshot path, viewport, and comparison thresholds.

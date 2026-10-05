@@ -21,7 +21,9 @@ For filesystem-like documentation behavior, use a small realistic fixture tree o
 
 ## Preserve real orchestration
 
-Keep the handler and internal workflow under test real and replace only dependencies beyond that boundary.
+Keep the handler and internal workflow under test real and replace the first dependency beyond that boundary, such as a remote API, repository service, cache backend, framework-only module, logger, clock, or production environment value.
+
+Spy on the same adapter instance or module export used by production code. Fully mock a module only when importing or running it would cross the selected boundary.
 
 Assert response behavior plus a significant side effect when both belong to the contract, for example exact repository actions, selected adapter method, cache deletion, or absence of mutation in a no-op path. Do not assert every internal helper call.
 
@@ -34,7 +36,3 @@ Test rejected dependencies and malformed input when error mapping, status, loggi
 - Keep request and response fixtures immutable, or clone captured arguments before production mutation.
 - Reset mutable captures after each test and restore timers, globals, environment, and mock implementations at their owning scope.
 - Keep tests parallel-safe and independent of execution order, external services, real caches, and mutable shared fixture state.
-
-## Verification
-
-Confirm that the public entry point is real, external boundaries alone are replaced, request variants reflect the contract, status and body are asserted, important writes or no-op behavior are covered, and no environment, timer, spy, or mutable fixture leaks into another test.
