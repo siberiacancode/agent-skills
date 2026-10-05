@@ -57,8 +57,10 @@ Read [integration-test-conventions](rules/integration/integration-test-conventio
 
 - [integration-test-browser](rules/integration/integration-test-browser.md) - When a case requires navigation, browser-owned state, application bootstrap, or another full-browser boundary.
 - [integration-test-component](rules/integration/integration-test-component.md) - Realistic mounted feature boundaries, wrappers, providers, and observable component integration behavior.
+- [integration-test-server](rules/integration/integration-test-server.md) — Public server entry points and service orchestration.
 - [integration-test-mocks](rules/integration/integration-test-mocks.md) - Scenario-owned mock state, case IDs, handlers, and colocated file structure.
 - [integration-test-locator-testids](rules/integration/integration-test-locator-testids.md) - Semantic test-ID schema, reuse, generated constants, and conditional `@siberiacancode/testids` usage.
+- [integration-test-setup](rules/integration/integration-test-setup.md) — Test-case preconditions, component wrappers, router and query state, mounting, and readiness.
 - [integration-test-grill](rules/integration/integration-test-grill.md) - Test-case-driven automation planning, split into existing autotests to improve and new browser or component tests to create.
 
 Read [testcase-conventions](rules/testcase/testcase-conventions.md) before any subject-specific test-case rule.
