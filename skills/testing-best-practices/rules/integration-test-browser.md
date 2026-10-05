@@ -31,8 +31,3 @@ Read the browser configuration, web-server or base-URL setup, authentication fix
 - Keep credentials and authenticated storage containing secrets out of committed source.
 - Load the application through the established browser setup and wait for a stable page-level signal before interacting. Do not use network idle as a universal readiness condition when the application polls or makes background requests.
 - When server rendering or hydration matters, use the project's established hydration helper or another stable marker. Register bootstrap-response observers before navigation when their completion defines readiness.
-
-## Setup and assertions
-
-- Keep network waiters and their triggering actions synchronized according to the async section of the shared conventions.
-- For visual checks, use the project's existing snapshot helper and preserve its configured projects, snapshot path, viewport, and comparison thresholds.

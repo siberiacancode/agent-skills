@@ -30,16 +30,34 @@ Reference each selected case through the repository's established traceability f
 - Prefer the smallest integration boundary that faithfully proves the case: use a component test when a realistic mounted boundary is enough, and a browser test only when the full application context is part of the behavior.
 - Use [integration-test-browser](./integration-test-browser.md) or [integration-test-component](./integration-test-component.md) after choosing the boundary.
 - Use [integration-test-server](./integration-test-server.md) for a public server entry point or service orchestration.
+- Use [integration-test-setup](./integration-test-setup.md) when preparing test-case preconditions or component mount setup and wrappers.
 - Use [integration-test-mocks](./integration-test-mocks.md) when a browser or component scenario needs controlled backend state or responses.
 - Use [integration-test-locator-testids](./integration-test-locator-testids.md) when adding or reviewing semantic locators. Keep all test-ID naming and schema rules there.
+
+## File structure
+
+Follow the nearest established feature layout. A useful project pattern is:
+
+```text
+feature/
+├── (helpers)/
+│   ├── case-ids.ts
+│   └── constants.ts
+├── (mocks)/
+│   └── scenario-id/
+│       ├── constants.ts
+│       ├── requests.ts
+│       └── index.ts
+├── feature.browser.ts
+└── feature.component.tsx
+```
+
+Create only files the scenario needs. The example expresses ownership and separation, not a requirement to create every layer.
 
 ## Project testing utilities
 
 - First inspect the existing integration tests and their imports to determine which Playwright utilities the project already uses.
-- If existing tests use `@siberiacancode/playwright`, continue using its matching utilities, such as `waitRequest`, `waitResponse`, and `snapshot`; do not recreate them as local helpers or introduce a competing utility layer.
-- If existing tests use another established approach without `@siberiacancode/playwright`, preserve that approach and do not install the package merely to rewrite the project's testing style.
-- If the project has no established Playwright utility approach, add `@siberiacancode/playwright` and use it instead of creating local equivalents.
-- Import only the utilities required by the current test. Using `@siberiacancode/playwright` does not make snapshot coverage mandatory.
+- If existing tests use `@korona-core/playwright`, continue using its matching utilities, such as `waitRequest`, `waitResponse`, and `snapshot`; do not recreate them as local helpers or introduce a competing utility layer.
 - Inspect the chosen utility API and nearby usage before creating any helper that it does not provide.
 - Follow the project's existing locator infrastructure and the dedicated locator rule.
 

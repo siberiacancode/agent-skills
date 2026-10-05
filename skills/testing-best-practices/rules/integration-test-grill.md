@@ -18,6 +18,7 @@ Read [integration-test-conventions](./integration-test-conventions.md) first, th
 - use [integration-test-browser](./integration-test-browser.md) for scenarios that may require full application bootstrap or context;
 - use [integration-test-component](./integration-test-component.md) for scenarios that may fit a mounted feature boundary;
 - use [integration-test-server](./integration-test-server.md) for scenarios that exercise a public server entry point or service orchestration;
+- use [integration-test-setup](./integration-test-setup.md) when the plan needs test-case preconditions or component mount setup and wrappers;
 - use [integration-test-mocks](./integration-test-mocks.md) when a browser or component scenario requires deterministic backend behavior;
 - use [integration-test-locator-testids](./integration-test-locator-testids.md) only when locator work is required.
 

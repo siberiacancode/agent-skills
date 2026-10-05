@@ -11,34 +11,7 @@ Read [integration-test-conventions](integration-test-conventions.md) first. Use 
 
 ## Choose the mounted boundary
 
-Prefer a component integration test when an isolated component, screen, or feature mounted with its required dependencies can prove the scenario without starting the full application. This includes validation, input behavior, local transitions, conditional rendering, forms, overlays, tables, controlled requests, retry states, interaction with nearest application dependencies, and browser-owned APIs that the mounted environment can faithfully exercise.
-
-Move the scenario to a browser test when its contract requires application bootstrap, interaction between application parts, navigation across separately loaded pages, or another behavior that requires the full application context and cannot be represented faithfully through `mount()`.
-
-## Inspect the component harness
-
-Read the component-test configuration, mount template, global providers, application wrapper, fixtures, closest component test, and configured projects. Use the repository's established filename and component-test adapter; do not import from its browser-test entrypoint.
-
-Determine what the mount already supplies, such as providers, router, query client, localization, theme, global styles, animation disabling, or application configuration. Do not wrap the same infrastructure again.
-
-## Wrapper ideology
-
-- Mount the smallest realistic product boundary that owns the scenario, not an isolated JSX fragment stripped of dependencies.
-- Provide production-required contexts and dependencies through a thin feature wrapper.
-- Keep providers, routing state, query state, hooks, and request behavior as close to the real application as the test environment permits.
-- Replace only external boundaries or scenario-controlled state. Do not mock the component's internals or bypass the behavior the case is meant to prove.
-- Reuse the established wrapper and mount configuration when they can represent the scenario. Extend them only for a real missing capability.
-- Keep wrappers free of product behavior and case assertions. Use them only for required props, inert callbacks, deterministic context, layout, or surrounding feature markup.
-
-Do not use `page.goto()` in a component test. Choose browser integration when real application navigation or bootstrap is required.
-
-## Router, query state, and readiness
-
-- Use the project's typed router helpers and exact generated route identifiers. Supply required params and search fields with values consistent with the case and mocks; assert route effects through visible URL or UI state.
-- Seed query data only when the component normally consumes existing cache and the request lifecycle is not part of the case. Prefer a real request through the configured mock layer when network behavior matters.
-- Follow the nearest setup style. Shared setup prepares state and readiness; case-specific assertions remain in the test.
-- Wait for a stable feature root or another meaningful readiness signal after mount. When mount starts a request, register its waiter before mounting and await both together.
-- When one test mounts several variants, keep the component handle and await `unmount()` before the next mount.
+Prefer a component integration test when a component, screen, or feature mounted with its required dependencies can faithfully prove the scenario without starting the full application. Choose this boundary based on the context the scenario requires, not on the type of UI being tested.
 
 ## Assertions and controlled behavior
 

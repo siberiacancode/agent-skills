@@ -9,8 +9,6 @@ tags: testing, integration-tests, component-tests, locators, data-testid
 
 For semantic `data-testid` locators used by application integration tests.
 
-This rule is not an E2E-testing convention and does not define local test IDs for isolated UI-kit unit tests.
-
 ## Source of truth
 
 - **Current scenarios** — add IDs required by the integration behavior being tested, not for every JSX node or possible future scenario.
@@ -25,6 +23,10 @@ This rule is not an E2E-testing convention and does not define local test IDs fo
 - When the project has no generator, preserve the semantic grouping, naming, reuse, and change-together concepts through its existing locator infrastructure.
 
 ## When to add an ID
+
+Use role or label locators for accessible controls, portal content, and third-party UI when no stable project ID exists. Scope them through a stable parent.
+
+When an ID cannot be added to the target element, locate it through stable internal elements using ordinary semantic locators. Reserve raw CSS for a native sub-element or third-party boundary with neither a project ID nor a semantic locator; do not use long class or DOM-structure chains for primary elements.
 
 - **Interaction** — add an ID when a scenario must operate an element through a stable locator.
 - **Assertion** — add an ID when a scenario must observe an important result that has no sufficiently stable existing locator.
@@ -125,9 +127,3 @@ CLICKABLE.BUTTON.MODAL.SIGN_IN
 - **Preserve scope** — do not rename unrelated IDs or tests outside the requested feature.
 - **Validate** — run the schema generator or validator and the narrowest relevant integration checks.
 - **Report ambiguity** — surface semantic choices that cannot be determined consistently from the scenarios and UI.
-
-## Semantic and special locators
-
-Use role or label locators for accessible controls, portal content, and third-party UI when no stable project ID exists. Scope them through a stable parent.
-
-For iframe-hosted widgets, locate the stable iframe boundary, enter its content frame, and then use semantic locators inside it. Reserve raw CSS for a native sub-element or third-party boundary with no project locator; do not use long class or DOM-structure chains for primary elements.

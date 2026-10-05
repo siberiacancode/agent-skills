@@ -13,32 +13,12 @@ Use `mock-config-server` for mock-server scenarios. Follow the project's existin
 
 ## Scenario ownership
 
-- Model mock behavior from the selected test case, not from every branch present in the API client or component implementation.
+- Keep one mock scenario per test case and model only the behavior that case requires.
 - Give each distinct mock-server scenario a stable case ID when the project uses case IDs to select server behavior.
 - Configure the case ID before application bootstrap, navigation, or mount when those operations initiate requests.
 - Keep the case-ID registry and scenario mocks beside the owning autotest feature.
 - Name case IDs and mock folders after the product scenario rather than an endpoint or implementation branch.
 - Keep a confirmed case ID consistent across traceability metadata, setup, mock directory, scenario name, and handler matching. Match case-specific handlers narrowly enough that parallel workers cannot consume one another's responses.
-
-## File structure
-
-Follow the nearest established feature layout. A useful project pattern is:
-
-```text
-feature/
-├── (helpers)/
-│   ├── case-ids.ts
-│   └── constants.ts
-├── (mocks)/
-│   └── scenario-name/
-│       ├── constants.ts
-│       ├── requests.ts
-│       └── index.ts
-├── feature.browser.ts
-└── feature.component.tsx
-```
-
-Create only files the scenario needs. The example expresses ownership and separation, not a requirement to create every layer.
 
 ## Mock boundaries
 
