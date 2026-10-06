@@ -1,7 +1,7 @@
 interface:
   display_name: "Test Case Grill"
-  short_description: "Plan product test cases before catalog updates"
-  default_prompt: "Use $testcase-grill to plan the product test cases this page or feature needs."
+  short_description: "Plan improvements and new test cases"
+  default_prompt: "Use $testcase-grill to plan test-case coverage for this product change."
 
 policy:
   allow_implicit_invocation: false

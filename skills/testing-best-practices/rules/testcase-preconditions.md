@@ -13,25 +13,22 @@ For adding, moving, importing, and reorganizing test case preconditions.
 
 Use the narrowest reusable scope.
 
-## When a precondition is reusable
+Treat each case as independent of previously executed cases. Do not assume state left by another case; establish only the state required by the current case.
 
-- Add a reusable precondition only when several cases share the same preliminary setup, such as an opened page, an authenticated state, a viewport, or a repeated navigation path.
-- Assume each case starts independently with a clean context; do not restate this default. Specify prior actions or state only when required.
-- Require only setup needed for the checked behavior; omit item counts, pagination, or other data conditions unless the check depends on them.
-- Do not create reusable precondition constants for truly one-off setup used by a single case. Put those setup details in the case action.
-- Establish user and data states before opening dependent pages, tabs, or popups. Preserve this order when moving setup, and remove obsolete precondition keys and types.
-- Do not inline a reusable precondition inside a test case.
+## Reuse and required setup
+
+- Include only setup required by the checked behavior. Omit item counts, pagination, and other data conditions unless the result depends on them.
+- Keep single-use setup in the case action. Create a reusable precondition only when several cases share the same preliminary setup, such as an authenticated state, viewport, opened page, or repeated navigation path.
+- Do not inline or duplicate a reusable precondition inside a case.
+- Establish user and data state before opening dependent pages, tabs, or popups. Preserve this order when moving setup, and remove obsolete precondition references and definitions.
 
 ## Scope
 
-- **Case file** — if a precondition is reused only inside one case file, define it locally in that file and type it there.
-- **Folder** — if a precondition is reused across several files of one folder, define it in that folder's shared preconditions module and type it in the same place.
-- **Global** — keep the catalog's shared preconditions for setup reused across several case folders, and keep the shared precondition type aligned only with them.
-- When a case needs setup shared at different scopes, reference each precondition at its own reuse level. Keep conditions used by only one file local, without duplicating broader shared setup.
+- Reused within one file → file-level.
+- Reused across files in a folder → folder-level.
+- Reused across folders → global.
+- When a case uses setup from several scopes, reference each precondition at its own reuse level instead of duplicating broader setup locally.
 
-## Imports and updates
+## Definitions, types, and imports
 
-- Reference folder-level preconditions from the nearest folder module, and shared ones from the catalog's shared location.
-- Do not add folder-level keys to the shared type.
-- When adding a shared precondition, update the shared module and the shared type together.
-- When adding a folder-level precondition, update only that folder's module.
+Follow the catalog's existing precondition architecture. When it uses precondition modules, typed keys, or shared imports, update definitions, types, and imports at the locations required by that architecture. Preserve its ownership boundaries and remove obsolete keys, types, and imports when moving or deleting a precondition.

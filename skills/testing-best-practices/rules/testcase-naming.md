@@ -11,42 +11,25 @@ For writing and revising the `name` of a test case.
 
 > **First read [testcase-conventions](./testcase-conventions.md).** This rule adds only what is specific to naming.
 
-Name test cases with the existing dot-separated hierarchy and the most precise confirmed user-facing terms.
+Use the project's existing dot-separated hierarchy and its confirmed vocabulary. For a new catalog, or when the existing catalog has no established form, use the defaults below; preserve an established alternative when changing it would make the catalog inconsistent.
 
-## Vocabulary
+## Vocabulary and hierarchy
 
-- Match interface text exactly for pages, blocks, buttons, inputs, errors, links, and sections.
-- Use common frontend and QA terminology when the interface has no explicit element name, such as icon-only buttons or unnamed containers.
-
-## Hierarchy
-
-- Follow the existing dot-separated hierarchy style.
-- Avoid redundant hierarchy segments. If the file or parent segment already identifies the only target element, do not repeat it.
-- Set `name` to the concise hierarchy that identifies the owned page or block, the target element or scenario, and the checked state or outcome.
+- Match confirmed interface text exactly for named pages, blocks, controls, inputs, errors, links, and sections.
+- Use a precise common frontend or QA term when the interface has no explicit name, such as `Кнопка закрытия` for an icon-only control.
+- Build a concise hierarchy: owning page or block → target element or scenario → checked state or outcome.
+- Do not repeat information already encoded by the file or a parent segment.
 
 ## Fixed forms
 
 - Name loading design cases with the state before the check type: `Лоадер. Дизайн. Десктоп` or `Лоадер. Дизайн. Мобилка`.
-- Always use `Мобилка` for the mobile viewport segment.
-- Always name an empty-list state `Пустой список`, regardless of the empty-state text in the interface. Keep actual UI labels exact in actions and expected results.
-- Name checks comparing displayed values with request or API data `Данные`; do not add the redundant qualifier `Исходные`.
+- Use `Мобилка` for mobile viewport cases.
+- Use `Пустой список` for empty-list states regardless of the interface copy; keep the actual copy exact in actions and expected results.
+- Use `Данные` for checks that compare displayed values with request or API data; do not add the redundant qualifier `Исходные`.
+- Use `<concrete form>. Валидация` for form-wide linked validation cases.
 
 ## Controls
 
-For action cases that check a labeled button, link, or control, use the exact UI label in the final meaningful segment.
+For an action case that checks a labeled button, link, or control, use the exact interface label as the final meaningful segment instead of adding a redundant control-type prefix.
 
-**Incorrect (redundant control prefix):**
-
-```text
-Хэдер. Кнопка "Выйти"
-Пустой список. Ссылка "Вернуться в каталог игр"
-```
-
-**Correct (exact label as the final segment):**
-
-```text
-Хэдер. Выйти
-Пустой список. Вернуться в каталог игр
-```
-
-For unlabeled controls, use a precise control name such as `Кнопка закрытия`.
+For example, use `Хэдер. Выйти` instead of `Хэдер. Кнопка "Выйти"`, and `Пустой список. Вернуться в каталог игр` instead of `Пустой список. Ссылка "Вернуться в каталог игр"`.

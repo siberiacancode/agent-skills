@@ -1,6 +1,9 @@
 ---
 name: testcase-grill
-description: Use when planning which product test cases a page, feature, or reusable block needs before updating the test catalog.
+description: Use when planning test-case coverage for a product change and separating improvements to existing cases from new cases before executable cases are written.
+disable-model-invocation: true
+metadata:
+  opencode/autoinvoke: false
 ---
 
-Call the Skill tool with "testing-best-practices", then use its "testcase-grill" rule.
+Read [testing-best-practices](../testing-best-practices/SKILL.md), then follow its [testcase-grill](../testing-best-practices/rules/testcase/testcase-grill.md) rule.
