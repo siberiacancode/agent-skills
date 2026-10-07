@@ -7,22 +7,11 @@ tags: testing, test-cases, qa, planning, scenarios, grill
 
 # Test case grill
 
-Use this rule only when the user invokes `/testcase-grill` or explicitly requests grill mode. A request to list cases alone does not activate it.
+Use this rule when the user invokes `/testcase-grill`, writes `testcase-grill`, or asks to plan test-case coverage before writing cases.
 
-Describe the cases that should exist and where they belong. Separate changes to existing cases from cases that do not exist yet. This is planning output, not a full executable `steps` array or repository implementation; follow the authorization boundary in the skill entrypoint for any later file changes.
+Describe the cases that should exist and where they belong. Separate changes to existing cases from cases that do not exist yet. Do not write repository case files or produce a Test IT upload workbook unless the user explicitly asks for implementation afterward.
 
-## Build the case list
-
-Read [testcase-conventions](./testcase-conventions.md) first, then read the rules the subject actually needs:
-
-- Choosing or reorganizing owning folders and files → [testcase-file-structure](./testcase-file-structure.md)
-- Writing the `name` hierarchy → [testcase-naming](./testcase-naming.md)
-- Choosing case scope and the design/functional/data split → [testcase-content](./testcase-content.md)
-- Shared setup that several proposed cases would repeat → [testcase-preconditions](./testcase-preconditions.md)
-
-Inspect the existing catalog and relevant application evidence using the Project first order in [testcase conventions](./testcase-conventions.md). Use the routed rules to determine supported proposals and their owning files. Remove exact and semantic duplicates from the proposed list. Report unresolved requirements as open questions instead of inventing cases.
-
-Before proposing a separate case, apply the atomicity, proof-economy, and data-case rules from [testcase content](./testcase-content.md) and the ownership rules from [file structure](./testcase-file-structure.md). Propose a viewport variant only when the confirmed behavior, control availability, or layout is viewport-specific.
+Inspect the existing catalog before classifying coverage. When the catalog is a supplied Test IT export, parse it with [testcase-testit-xlsx-read](./testcase-testit-xlsx-read.md). Propose a viewport variant only when the confirmed behavior, control availability, or layout is viewport-specific.
 
 ## Classify the work
 

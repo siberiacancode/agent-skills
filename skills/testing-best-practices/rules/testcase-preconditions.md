@@ -9,8 +9,6 @@ tags: testing, test-cases, qa, preconditions, scope
 
 For adding, moving, importing, and reorganizing test case preconditions.
 
-> **First read [testcase-conventions](./testcase-conventions.md).** This rule adds only what is specific to preconditions.
-
 Use the narrowest reusable scope.
 
 Treat each case as independent of previously executed cases. Do not assume state left by another case; establish only the state required by the current case.

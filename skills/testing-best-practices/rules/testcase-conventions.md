@@ -1,13 +1,13 @@
 ---
 title: Test case conventions
 impact: HIGH
-impactDescription: the single source of truth for evidence, scope, workflow, and output shared by every written test case
+impactDescription: the single source of truth for evidence, scope, priority, and output shared by every written test case
 tags: testing, test-cases, qa, manual, conventions
 ---
 
 # Test case conventions
 
-These conventions apply to every structured test case, whether stored in a repository catalog or represented in a Test IT workbook. Read them before the subject-specific rule for [file structure](./testcase-file-structure.md), [naming](./testcase-naming.md), [content](./testcase-content.md), or [preconditions](./testcase-preconditions.md).
+These conventions apply to every structured test case, whether stored in a repository catalog or represented in a Test IT workbook.
 
 ## Project first
 
@@ -43,13 +43,6 @@ Assign every new case one product priority. Use the catalog's language: `Highest
 
 Priority reflects product risk, not positive/negative case type, execution order, or defect severity. Preserve an existing priority unless confirmed changes alter the risk. When uncertain, use the best-supported level and surface the uncertainty; ask before implementation only when no level is supportable.
 
-## Workflow
-
-1. Establish confirmed behavior, existing coverage, and ownership through [file structure](./testcase-file-structure.md).
-2. Apply [content](./testcase-content.md), [preconditions](./testcase-preconditions.md), and [naming](./testcase-naming.md).
-3. Assign product priority.
-4. Preserve unrelated cases and shared configuration; change existing cases only when requested or confirmed.
-
 ## Case shape
 
 - Repository cases live under the catalog root and conform to its shared case type.
@@ -61,7 +54,7 @@ Priority reflects product risk, not positive/negative case type, execution order
 
 Match the catalog's format, imports, status vocabulary, and precondition references. Include product priority for every new case.
 
-When proposing repository changes in chat, include the target folder and file, changed preconditions or statuses if any, and the case content. For Test IT cases, identify the catalog location and existing case ID when available. Follow the repository-write authorization boundary in the skill entrypoint; revising a proposal does not itself authorize file edits.
+When proposing repository changes in chat, include the target folder and file, changed preconditions or statuses if any, and the case content. For Test IT cases, identify the catalog location and existing case ID when available. A proposal or its revision does not authorize repository edits; edit case files only when the user asks for implementation.
 
 When editing files directly, run the repository's own verification commands when feasible.
 

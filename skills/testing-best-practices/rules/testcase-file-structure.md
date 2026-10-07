@@ -9,8 +9,6 @@ tags: testing, test-cases, qa, structure, ownership
 
 For choosing the folder and file that owns a test case.
 
-> **First read [testcase-conventions](./testcase-conventions.md).** This rule adds only what is specific to structure and ownership.
-
 Choose folders and files by user-facing interface structure and coverage ownership, not by internal implementation.
 
 ## Folder

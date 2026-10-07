@@ -9,8 +9,6 @@ tags: testing, test-cases, qa, naming, hierarchy
 
 For writing and revising the `name` of a test case.
 
-> **First read [testcase-conventions](./testcase-conventions.md).** This rule adds only what is specific to naming.
-
 Use the project's existing dot-separated hierarchy and its confirmed vocabulary. For a new catalog, or when the existing catalog has no established form, use the defaults below; preserve an established alternative when changing it would make the catalog inconsistent.
 
 ## Vocabulary and hierarchy

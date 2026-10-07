@@ -9,8 +9,6 @@ tags: testing, test-cases, qa, steps, atomicity, coverage
 
 For writing and revising `steps`, `action`, and `expected`, and for splitting design, functional, and data checks.
 
-> **First read [testcase-conventions](./testcase-conventions.md).** This rule adds only what is specific to case content.
-
 Write atomic test cases with focused setup, user-oriented actions, and concrete observable expected results.
 
 ## Atomicity
