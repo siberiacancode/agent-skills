@@ -13,7 +13,10 @@ For adding, moving, importing, and reorganizing test case preconditions.
 
 Use the narrowest reusable scope.
 
-## When a precondition is reusable
+- Single-use setup → case action.
+- Reused within one file → file-level.
+- Reused across files in a folder → folder-level.
+- Reused across folders → global.
 
 - Add a reusable precondition only when several cases share the same preliminary setup, such as an opened page, an authenticated state, a viewport, or a repeated navigation path.
 - Assume each case starts independently with a clean context; do not restate this default. Specify prior actions or state only when required.
@@ -22,7 +25,7 @@ Use the narrowest reusable scope.
 - Establish user and data states before opening dependent pages, tabs, or popups. Preserve this order when moving setup, and remove obsolete precondition keys and types.
 - Do not inline a reusable precondition inside a test case.
 
-## Scope
+Establish user and data state before opening dependent pages, tabs, or popups.
 
 - **Case file** — if a precondition is reused only inside one case file, define it locally in that file and type it there.
 - **Folder** — if a precondition is reused across several files of one folder, define it in that folder's shared preconditions module and type it in the same place.

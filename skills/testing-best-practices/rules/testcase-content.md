@@ -15,9 +15,9 @@ Write atomic test cases with focused setup, user-oriented actions, and concrete 
 
 ## Atomicity
 
-- Each case checks one behavior or scenario and fully covers the expectations stated by its name and scope. Atomicity does not mean one action: write sequential actions within one scenario as separate steps, each with its own expected results. Split independent scenarios into separate cases.
+- One independently testable behavior per case. Apply the coverage economy principle from [testcase conventions](./testcase-conventions.md) when deciding whether observable effects belong together or require separate cases.
 - Keep reusable setup in preconditions and one-off setup in the case action, following [testcase-preconditions](./testcase-preconditions.md). Keep steps focused on the checked behavior.
-- Check related conditions and results of one scenario within that case, establishing the required initial state. Create a separate case for independent behavior, a branch, or a distinct scope. Do not combine independent checks merely to reduce the number of cases.
+- Include transient control states in the action case when they are a consequence of the operation. Create a separate case only when the state itself is an independent requirement.
 - Prefer narrow checks over broad end-to-end flows.
 - Write for testers who understand IT and frontend terminology.
 
@@ -47,9 +47,9 @@ Write atomic test cases with focused setup, user-oriented actions, and concrete 
 - Phrase states as positive checks: disabled, readonly, hidden, active, selected, focused, loading, invalid.
 - Avoid negative phrasing such as "не отправляется", "не отображается", or "не изменилось" unless that absence is the primary state being tested. When absence is the requirement, state it directly, for example `Блок вкладок отсутствует на странице`. Do not replace this with a claim about the `hidden` attribute unless that mechanism is confirmed.
 - Do not add quantities such as "один запрос" unless request count or idempotency is the behavior under test.
-- Match interface text exactly for pages, blocks, buttons, inputs, errors, links, sections, and steps.
+- Match confirmed UI text exactly.
 
-## Do not double-check the same proof
+## Proof economy
 
 - Compare checks by the behavior they prove. Do not add a separate check when other cases already provide sufficient evidence for the same behavior, including evidence implicit in their result checks or in applying their actions or preconditions. Merely performing an action or listing it in preconditions does not prove that the behavior is correct.
 - If a click check proves link behavior, do not also check the link attribute unless it adds value.
@@ -69,6 +69,5 @@ Write atomic test cases with focused setup, user-oriented actions, and concrete 
 - Define data conditions through API fields and value relationships; derive expected values from the response. Avoid fixed amounts or IDs unless they define the scenario or boundary.
 - Split `Данные` cases only for mutually exclusive conditional content, with explicit, non-overlapping conditions: e.g. 0 < price < oldPrice, price = 0 without oldPrice, or price = 0 with oldPrice > 0.
 - Check list item count, order, and card data together in one `Данные` case. Check independent list behavior, such as pagination, in a separate case named for that behavior, for example `Список покупок. Пагинация`.
-- Do not create separate field-level cases for every displayed value unless the field has independent behavior, validation, formatting, visibility rules, or enough risk to justify a standalone case.
-- Do not duplicate design coverage in data or functional cases. In data cases, check values derived from request or API data, such as image `src`, `alt`, `title`, edition, localized API enum values, email, key, price, item count, and item order; omit static labels, headings, fixed text, icons, skeletons, and empty-state copy.
+- In data cases, check values derived from request or API data; static content and visual states belong to design cases.
 - Keep empty-list content and empty-list actions separate when the action has navigation behavior.
