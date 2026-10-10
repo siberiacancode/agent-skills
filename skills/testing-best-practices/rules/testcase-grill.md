@@ -22,7 +22,30 @@ Read [testcase-conventions](./testcase-conventions.md) first, then read the rule
 
 ## Build the case list
 
-Use the routed rules to determine supported proposals and their owning files. Remove exact and semantic duplicates from the proposed list. Report unresolved requirements as open questions instead of inventing cases.
+Inspect the existing catalog first, then the relevant application code: routes, components, labels, validation, API calls, redirects, permissions, links, UI states, and viewport-specific controls.
+
+Before proposing anything, compare the target coverage with existing `name`s, file ownership, confirmed planned cases, and the behavior those cases actually prove. Drop exact and semantic duplicates when the behavior already has sufficient coverage, including implicit coverage, following [Do not double-check the same proof](./testcase-content.md#do-not-double-check-the-same-proof).
+
+Include a case only when it is supported by confirmed behavior created through:
+
+- a distinct user-facing scenario on the owned page or block;
+- a conditional or mutually exclusive UI state, such as empty, loading, error, or permission state;
+- validation rules and their concrete messages;
+- navigation, requests, redirects, storage or cookie changes, and toasts;
+- values rendered from request or API data;
+- static composition that belongs to a design case.
+
+When requirements, labels, routes, API behavior, validation messages, or user states are unconfirmed, list the open question instead of inventing the case. A missing design link does not prevent proposing a design case with a defined scope; flag the missing link without inventing it.
+
+## Avoid a bloated list
+
+Before proposing a separate case, check whether the check belongs to an already proposed scenario, following [Atomicity](./testcase-content.md#atomicity).
+
+- Propose one `Данные` case per stable field set; split only for mutually exclusive conditional content.
+- Do not propose a case per displayed field unless the field has independent behavior, validation, formatting, visibility rules, or standalone risk.
+- Do not propose a viewport variant unless the control or layout is genuinely viewport-specific.
+- Do not propose both a click case and a link-attribute case, or both a navigation case and its request case, when one already proves the behavior.
+- Keep design coverage out of functional and data cases.
 
 ## Classify the work
 
@@ -64,6 +87,7 @@ Requirements:
 - For a parameterized proposal, list every confirmed iteration and all values referenced through `%parameter`; omit the iteration line for ordinary cases.
 - For every new validation case and every improvement that changes validation requirements, automatically add `Предлагаемый текст валидации:` with one concise paste-ready draft based only on confirmed constraints; no separate user request is required. Keep updating the external page outside the grill plan and require separate authorization.
 - Name the target file for every group, using the folder and file the case would actually own.
+- Number cases inside each owning-file group and section with `1.`, `2.`, `3.`, and so on.
 - For **Improvements**, identify improvements by the existing case name. When renaming is needed, include the proposed name and reason. State the exact catalog change.
 - List unconfirmed requirements as open questions after the case list.
 - Do not add an introduction, table, case code, or conclusion unless the user requests it.

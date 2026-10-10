@@ -25,8 +25,7 @@ Choose folders and files by user-facing interface structure and coverage ownersh
 - Prefer one file per user-facing page block or workflow; do not split files by internal React components.
 - Keep child elements and their validation, loading, empty, error, selected, and disabled states in the file of the block or form they belong to.
 - Create a separate file for a child element only when it is a major reusable block or has enough independent scenarios to justify its own file.
-- Keep design cases in the owning page/block file. Overall page layout
-  belongs in the page file and is not replaced by individual block checks.
+- Keep design cases in the owning page/block file. Overall page layout belongs in the page file and is not replaced by individual block checks.
 
 ## Ownership and duplication
 

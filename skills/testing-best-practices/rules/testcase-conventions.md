@@ -15,23 +15,24 @@ Use this group when generating, revising, reviewing, or reorganizing structured 
 
 Continue the project's existing case catalog. Before writing, inspect the closest cases and comparable flows, shared case configuration, relevant application behavior, and confirmed requirements.
 
-- Follow the catalog's established layout, naming, ownership, statuses, preconditions, step granularity, and language. If no catalog exists, agree on a layout with the user instead of inventing one.
-- Follow explicit user instructions. Report conflicts between requirements, existing cases, and code instead of resolving them silently.
-- Determine case count from distinct confirmed scenarios, not neighboring catalog size.
+Do not write abstractly ideal test cases. Continue the project's existing case catalog. Check the application within its intended area of responsibility. The scope and expected results of each case must stay within that boundary.
 
-## Confirmed behavior only
+Inspect sources in this order; this does not define conflict precedence:
 
 Write cases only from behavior confirmed by the project or by the user.
 
-- In planning or grill mode, report unresolved requirements as open questions.
-- When writing catalog cases, use the project's existing needs-rework status only if incomplete cases are explicitly allowed.
-- Use only user-provided or previously confirmed design and validation links. Treat missing links as unknown requirements.
+- Follow explicit user instructions. Flag conflicts between requirements, existing cases, and code instead of silently treating one as correct. Implementation confirms current behavior, but not necessarily its correctness. If you find a contradiction or behavior that appears incorrect, state it explicitly and ask the user to confirm the expected result before recording it in a case.
+
+Existing project conventions override generic preferences. Before writing, infer the naming hierarchy, folder ownership, status vocabulary, precondition scope, step granularity, and language.
+
+- Determine case count from distinct confirmed scenarios, not neighboring catalog size.
 
 Use existing statuses only, unless the user explicitly confirms a new one.
 
-## Coverage economy
+Write cases only from behavior confirmed by the project or by the user.
 
-Prefer the smallest set of cases that covers distinct behavior and meaningful risk.
+- Ask about missing or ambiguous requirements before writing, unless the user explicitly allows incomplete cases. For those cases, use the existing `needs-rework` status by default unless the user explicitly specifies another existing status, and record unknowns without inventing them.
+- Use only user-provided or previously confirmed design links. A missing design link does not prevent proposing a design case with a defined scope. When writing the case, do not invent a link: use the agreed placeholder and status, or ask for the missing details.
 
 - Do not split one behavior only because it has multiple observable effects.
 - Split when scenarios have different preconditions, outcomes, independent failure risk, or requirements.

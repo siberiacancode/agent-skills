@@ -18,8 +18,23 @@ Use the narrowest reusable scope.
 - Reused across files in a folder → folder-level.
 - Reused across folders → global.
 
-Only include setup required by the cases. Do not duplicate reusable preconditions inside cases.
+- Add a reusable precondition only when several cases share the same preliminary setup, such as an opened page, an authenticated state, a viewport, or a repeated navigation path.
+- Assume each case starts independently with a clean context; do not restate this default. Specify prior actions or state only when required.
+- Require only setup needed for the checked behavior; omit item counts, pagination, or other data conditions unless the check depends on them.
+- Do not create reusable precondition constants for truly one-off setup used by a single case. Put those setup details in the case action.
+- Establish user and data states before opening dependent pages, tabs, or popups. Preserve this order when moving setup, and remove obsolete precondition keys and types.
+- Do not inline a reusable precondition inside a test case.
 
 Establish user and data state before opening dependent pages, tabs, or popups.
 
-When adding a precondition, update its definition and type at the same scope.
+- **Case file** — if a precondition is reused only inside one case file, define it locally in that file and type it there.
+- **Folder** — if a precondition is reused across several files of one folder, define it in that folder's shared preconditions module and type it in the same place.
+- **Global** — keep the catalog's shared preconditions for setup reused across several case folders, and keep the shared precondition type aligned only with them.
+- When a case needs setup shared at different scopes, reference each precondition at its own reuse level. Keep conditions used by only one file local, without duplicating broader shared setup.
+
+## Imports and updates
+
+- Reference folder-level preconditions from the nearest folder module, and shared ones from the catalog's shared location.
+- Do not add folder-level keys to the shared type.
+- When adding a shared precondition, update the shared module and the shared type together.
+- When adding a folder-level precondition, update only that folder's module.
