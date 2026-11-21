@@ -35,11 +35,6 @@ export const Logger = () => {
 };
 ```
 
-## Notes
-
-- Call `batched.flush()` to send the current batch immediately.
-- Call `batched.cancel()` to clear pending calls.
-
 ## Type Declarations
 
 ```ts

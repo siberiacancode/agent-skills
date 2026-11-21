@@ -1,8 +1,8 @@
 # Reactuse
 
-**Version 1.0.16**
+**Version 1.0.22**
 Siberiacancode  
-September 2026
+November 2026
 
 > **Note:**  
 > This document is mainly for agents and LLMs to follow when maintaining,  
@@ -31,33 +31,37 @@ The upstream `Humor` category is intentionally blocked for this skill and should
    - 1.5 [createReactiveContext](#15-createreactivecontext)
    - 1.6 [createSharedHook](#16-createsharedhook)
    - 1.7 [createStore](#17-createstore)
-   - 1.8 [makeDestructurable](#18-makedestructurable)
-   - 1.9 [target](#19-target)
+   - 1.8 [createWebMCP](#18-createwebmcp)
+   - 1.9 [deepEqual](#19-deepequal)
+   - 1.10 [makeDestructurable](#110-makedestructurable)
+   - 1.11 [shallowEqual](#111-shallowequal)
+   - 1.12 [target](#112-target)
 
 2. [Elements](#2-elements)
 
    - 2.1 [useActiveElement](#21-useactiveelement)
    - 2.2 [useAutoScroll](#22-useautoscroll)
    - 2.3 [useClickOutside](#23-useclickoutside)
-   - 2.4 [useContextMenu](#24-usecontextmenu)
-   - 2.5 [useDoubleClick](#25-usedoubleclick)
-   - 2.6 [useDraggable](#26-usedraggable)
-   - 2.7 [useDropZone](#27-usedropzone)
-   - 2.8 [useFileDialog](#28-usefiledialog)
-   - 2.9 [useFocus](#29-usefocus)
-   - 2.10 [useFocusTrap](#210-usefocustrap)
-   - 2.11 [useHover](#211-usehover)
-   - 2.12 [useImage](#212-useimage)
-   - 2.13 [useLockScroll](#213-uselockscroll)
-   - 2.14 [useLongPress](#214-uselongpress)
-   - 2.15 [usePaint](#215-usepaint)
-   - 2.16 [useScript](#216-usescript)
-   - 2.17 [useSize](#217-usesize)
-   - 2.18 [useSticky](#218-usesticky)
-   - 2.19 [useTextareaAutosize](#219-usetextareaautosize)
-   - 2.20 [useTextDirection](#220-usetextdirection)
-   - 2.21 [useWindowFocus](#221-usewindowfocus)
-   - 2.22 [useWindowSize](#222-usewindowsize)
+   - 2.4 [useCollapse](#24-usecollapse)
+   - 2.5 [useContextMenu](#25-usecontextmenu)
+   - 2.6 [useDoubleClick](#26-usedoubleclick)
+   - 2.7 [useDraggable](#27-usedraggable)
+   - 2.8 [useDropZone](#28-usedropzone)
+   - 2.9 [useFileDialog](#29-usefiledialog)
+   - 2.10 [useFocus](#210-usefocus)
+   - 2.11 [useFocusTrap](#211-usefocustrap)
+   - 2.12 [useHover](#212-usehover)
+   - 2.13 [useImage](#213-useimage)
+   - 2.14 [useLockScroll](#214-uselockscroll)
+   - 2.15 [useLongPress](#215-uselongpress)
+   - 2.16 [usePaint](#216-usepaint)
+   - 2.17 [useScript](#217-usescript)
+   - 2.18 [useSize](#218-usesize)
+   - 2.19 [useSticky](#219-usesticky)
+   - 2.20 [useTextareaAutosize](#220-usetextareaautosize)
+   - 2.21 [useTextDirection](#221-usetextdirection)
+   - 2.22 [useWindowFocus](#222-usewindowfocus)
+   - 2.23 [useWindowSize](#223-usewindowsize)
 
 3. [Async](#3-async)
 
@@ -70,11 +74,11 @@ The upstream `Humor` category is intentionally blocked for this skill and should
 4. [Lifecycle](#4-lifecycle)
 
    - 4.1 [useAsyncEffect](#41-useasynceffect)
-   - 4.2 [useDidUpdate](#42-usedidupdate)
-   - 4.3 [useIsFirstRender](#43-useisfirstrender)
-   - 4.4 [useIsomorphicLayoutEffect](#44-useisomorphiclayouteffect)
-   - 4.5 [useMount](#45-usemount)
-   - 4.6 [useShallowEffect](#46-useshalloweffect)
+   - 4.2 [useCompareEffect](#42-usecompareeffect)
+   - 4.3 [useDidUpdate](#43-usedidupdate)
+   - 4.4 [useIsFirstRender](#44-useisfirstrender)
+   - 4.5 [useIsomorphicLayoutEffect](#45-useisomorphiclayouteffect)
+   - 4.6 [useMount](#46-usemount)
    - 4.7 [useUnmount](#47-useunmount)
 
 5. [Browser](#5-browser)
@@ -123,9 +127,10 @@ The upstream `Humor` category is intentionally blocked for this skill and should
    - 5.42 [useVibrate](#542-usevibrate)
    - 5.43 [useVirtualKeyboard](#543-usevirtualkeyboard)
    - 5.44 [useWakeLock](#544-usewakelock)
-   - 5.45 [useWebSocket](#545-usewebsocket)
-   - 5.46 [useWebWorker](#546-usewebworker)
-   - 5.47 [useWebWorkerCallback](#547-usewebworkercallback)
+   - 5.45 [useWebMCP](#545-usewebmcp)
+   - 5.46 [useWebSocket](#546-usewebsocket)
+   - 5.47 [useWebWorker](#547-usewebworker)
+   - 5.48 [useWebWorkerCallback](#548-usewebworkercallback)
 
 6. [Utilities](#6-utilities)
 
@@ -304,7 +309,6 @@ export declare const cn: (...values: ClassValue[]) => string;
 
 ### 1.2 createContext
 
-
 Creates a typed context with provider and selector hook.
 
 #### Usage
@@ -461,7 +465,6 @@ export declare const createContextHook: <
 
 ### 1.4 createEventEmitter
 
-
 Creates a type-safe event emitter with a subscription hook.
 
 #### Usage
@@ -511,7 +514,6 @@ export declare const createEventEmitter: <
 ```
 
 ### 1.5 createReactiveContext
-
 
 Creates a typed context selector with optimized updates.
 
@@ -650,7 +652,6 @@ export declare const createSharedHook: <
 
 ### 1.7 createStore
 
-
 Creates a external store with state, subscriptions, and a hook.
 
 #### Usage
@@ -718,7 +719,93 @@ export declare const createStore: <Value>(
 ) => StoreApi<Value>;
 ```
 
-### 1.8 makeDestructurable
+### 1.8 createWebMCP
+
+Creates an imperative registry for WebMCP tools exposed by the current document.
+
+#### Usage
+
+```ts
+import { createWebMCP } from "@siberiacancode/reactuse";
+
+const webMCP = createWebMCP();
+await webMCP.register({
+  name: "get-theme",
+  description: "Returns the current color theme",
+  execute: () => ({ theme: "dark" })
+});
+```
+
+#### Example
+
+```tsx
+const [webMCP] = useState(createWebMCP);
+
+useEffect(() => {
+  if (!webMCP.supported) return;
+  void webMCP.register({
+    name: "get-status",
+    description: "Returns the current application status",
+    annotations: { readOnlyHint: true },
+    execute: () => ({ status: "ready" })
+  });
+  return webMCP.clear;
+}, [webMCP]);
+```
+
+#### Notes
+
+- Helper uses the experimental [WebMCP API](https://github.com/webmachinelearning/webmcp).
+
+#### Type Declarations
+
+```ts
+export interface RegisterWebMCPTool {
+  (
+    tool: WebMCPModelContextTool,
+    options?: WebMCPModelContextRegisterToolOptions
+  ): Promise<boolean>;
+}
+export interface createWebMCPReturn {
+  register: RegisterWebMCPTool;
+  readonly supported: boolean;
+  clear: () => void;
+  unregister: (name: string) => void;
+}
+export declare const createWebMCP: () => createWebMCPReturn;
+```
+
+### 1.9 deepEqual
+
+Compares values recursively, including arrays, plain objects, dates, regular expressions, errors, maps, sets, symbol keys, and cyclic references.
+
+#### Usage
+
+```ts
+import { deepEqual } from "@siberiacancode/reactuse";
+
+const unchanged = deepEqual(
+  { name: "Alex", profile: { status: "online" } },
+  { name: "Alex", profile: { status: "online" } }
+);
+```
+
+#### Example
+
+```tsx
+const saved = { filters: { role: "admin", active: true } };
+const current = { filters: { role: "admin", active: true } };
+
+return <span>{deepEqual(saved, current) ? "Saved" : "Unsaved"}</span>;
+```
+
+#### Type Declarations
+
+```ts
+export declare const deepEqual: (a: any, b: any) => boolean;
+```
+
+### 1.10 makeDestructurable
 
 Returns one value that can be consumed both as a named object and as a tuple, useful for hook APIs that support both styles.
 
@@ -768,7 +855,37 @@ export declare const makeDestructurable: <
 ) => Obj & Arr;
 ```
 
-### 1.9 target
+### 1.11 shallowEqual
+
+Compares top-level values with `Object.is`, with dedicated handling for arrays, plain objects, dates, regular expressions, errors, maps, sets, and symbol keys.
+
+#### Usage
+
+```ts
+import { shallowEqual } from "@siberiacancode/reactuse";
+
+const unchanged = shallowEqual(
+  { name: "Alex", status: "online" },
+  { name: "Alex", status: "online" }
+);
+```
+
+#### Example
+
+```tsx
+const previous = { page: 1, query: "react" };
+const current = { page: 1, query };
+
+return <span>{shallowEqual(previous, current) ? "Unchanged" : "Changed"}</span>;
+```
+
+#### Type Declarations
+
+```ts
+export declare const shallowEqual: (a: any, b: any) => boolean;
+```
+
+### 1.12 target
 
 Wraps DOM target references in the shape Reactuse hooks understand, especially when the target is not a React ref.
 
@@ -844,8 +961,9 @@ export declare const target: (target: Target) => {
 };
 ```
 
-### 2.1 useActiveElement
+## 2. Elements
 
+### 2.1 useActiveElement
 
 Tracks the currently focused element.
 
@@ -903,7 +1021,6 @@ export declare const useActiveElement: UseActiveElement;
 ```
 
 ### 2.2 useAutoScroll
-
 
 Automatically scrolls a container to the bottom.
 
@@ -965,7 +1082,6 @@ export declare const useAutoScroll: UseAutoScroll;
 
 ### 2.3 useClickOutside
 
-
 Calls a callback when clicking outside the target element.
 
 #### Usage
@@ -977,14 +1093,17 @@ const clickOutsideRef = useClickOutside<HTMLDivElement>(() =>
   console.log("outside")
 );
 // or
-useClickOutside(ref, () => console.log("outside"));
+useClickOutside(ref, () => console.log("outside"), { enabled: open });
 ```
 
 #### Example
 
 ```tsx
 const [open, setOpen] = useState(true);
-const clickOutsideRef = useClickOutside<HTMLDivElement>(() => setOpen(false));
+const clickOutsideRef = useClickOutside<HTMLDivElement>(
+  () => setOpen(false),
+  { enabled: open }
+);
 
 if (!open) return <button onClick={() => setOpen(true)}>Open</button>;
 
@@ -997,14 +1116,84 @@ return <div ref={clickOutsideRef}>Modal</div>;
 import type { HookTarget } from "@siberiacancode/reactuse";
 import type { StateRef } from "@siberiacancode/reactuse";
 
+export interface UseClickOutsideOptions {
+  enabled?: boolean;
+}
 export interface UseClickOutside {
-  (target: HookTarget, callback: (event: Event) => void): void;
-  <Target extends Element>(callback: (event: Event) => void, target?: never): StateRef<Target>;
+  (
+    target: HookTarget,
+    callback: (event: Event) => void,
+    options?: UseClickOutsideOptions
+  ): void;
+  <Target extends Element>(
+    callback: (event: Event) => void,
+    options?: UseClickOutsideOptions,
+    target?: never
+  ): StateRef<Target>;
 }
 export declare const useClickOutside: UseClickOutside;
 ```
 
-### 2.4 useContextMenu
+### 2.4 useCollapse
+
+Animates an element between collapsed and expanded states and exposes open, close, and toggle controls.
+
+#### Usage
+
+```ts
+import { useCollapse } from "@siberiacancode/reactuse";
+
+const collapse = useCollapse<HTMLDivElement>(false, { duration: 200 });
+// or
+const collapse = useCollapse(targetRef, false, { easing: "ease-out" });
+```
+
+#### Example
+
+```tsx
+const collapse = useCollapse<HTMLDivElement>();
+
+return (
+  <section>
+    <button aria-expanded={collapse.expanded} onClick={() => collapse.toggle()}>
+      Details
+    </button>
+    <div ref={collapse.ref} inert={!collapse.expanded}>
+      Collapsible content
+    </div>
+  </section>
+);
+```
+
+#### Type Declarations
+
+```ts
+import type { HookTarget, StateRef } from "@siberiacancode/reactuse";
+
+export interface UseCollapseOptions {
+  duration?: number;
+  easing?: string;
+  onEnd?: () => void;
+  onStart?: () => void;
+}
+export interface UseCollapseReturn {
+  expanded: boolean;
+  close: () => void;
+  open: () => void;
+  toggle: (value?: boolean) => void;
+}
+export interface UseCollapse {
+  (target: HookTarget, initialValue?: boolean, options?: UseCollapseOptions): UseCollapseReturn;
+  <Target extends HTMLElement = HTMLDivElement>(
+    initialValue?: boolean,
+    options?: UseCollapseOptions,
+    target?: never
+  ): UseCollapseReturn & { ref: StateRef<Target> };
+}
+export declare const useCollapse: UseCollapse;
+```
+
+### 2.5 useContextMenu
 
 Turns secondary-click and touch long-press gestures into menu state that can be rendered near the pointer position.
 
@@ -1144,8 +1333,7 @@ export interface UseContextMenu {
 export declare const useContextMenu: UseContextMenu;
 ```
 
-### 2.5 useDoubleClick
-
+### 2.6 useDoubleClick
 
 Detects double-clicks with optional single-click handler.
 
@@ -1224,7 +1412,7 @@ export interface UseDoubleClick {
 export declare const useDoubleClick: UseDoubleClick;
 ```
 
-### 2.6 useDraggable
+### 2.7 useDraggable
 
 Turns pointer movement on an element into reusable drag state that can drive transforms, canvas tools, and movable panels.
 
@@ -1347,8 +1535,7 @@ export interface UseDraggable {
 export declare const useDraggable: UseDraggable;
 ```
 
-### 2.7 useDropZone
-
+### 2.8 useDropZone
 
 Creates a drag-and-drop area with file state.
 
@@ -1477,8 +1664,7 @@ export interface UseDropZone {
 export declare const useDropZone: UseDropZone;
 ```
 
-### 2.8 useFileDialog
-
+### 2.9 useFileDialog
 
 Opens a file picker and returns selected files.
 
@@ -1551,8 +1737,7 @@ export interface UseFileDialog {
 export declare const useFileDialog: UseFileDialog;
 ```
 
-### 2.9 useFocus
-
+### 2.10 useFocus
 
 Tracks focus state and provides focus/blur controls.
 
@@ -1650,8 +1835,7 @@ export interface UseFocus {
 export declare const useFocus: UseFocus;
 ```
 
-### 2.10 useFocusTrap
-
+### 2.11 useFocusTrap
 
 Traps focus within a given element.
 
@@ -1712,8 +1896,7 @@ export interface UseFocusTrap {
 export declare const useFocusTrap: UseFocusTrap;
 ```
 
-### 2.11 useHover
-
+### 2.12 useHover
 
 Tracks hover state for an element.
 
@@ -1790,8 +1973,7 @@ export interface UseHover {
 export declare const useHover: UseHover;
 ```
 
-### 2.12 useImage
-
+### 2.13 useImage
 
 Loads an image in the browser and returns image-specific loading state.
 
@@ -1914,8 +2096,7 @@ export declare const useImage: (
 ) => UseImageReturn;
 ```
 
-### 2.13 useLockScroll
-
+### 2.14 useLockScroll
 
 Locks scrolling on an element or the document body.
 
@@ -1984,8 +2165,7 @@ export interface UseLockScroll {
 export declare const useLockScroll: UseLockScroll;
 ```
 
-### 2.14 useLongPress
-
+### 2.15 useLongPress
 
 Detects long press interactions.
 
@@ -2084,8 +2264,7 @@ export interface UseLongPress {
 export declare const useLongPress: UseLongPress;
 ```
 
-### 2.15 usePaint
-
+### 2.16 usePaint
 
 Draws on a canvas and exposes drawing controls.
 
@@ -2234,8 +2413,7 @@ export interface UsePaint {
 export declare const usePaint: UsePaint;
 ```
 
-### 2.16 useScript
-
+### 2.17 useScript
 
 Loads a script and returns its status.
 
@@ -2285,8 +2463,7 @@ export declare const useScript: (
 ) => UseScriptStatus;
 ```
 
-### 2.17 useSize
-
+### 2.18 useSize
 
 Observes element width and height.
 
@@ -2336,8 +2513,7 @@ export interface UseSize {
 export declare const useSize: UseSize;
 ```
 
-### 2.18 useSticky
-
+### 2.19 useSticky
 
 Detects whether a sticky element is stuck.
 
@@ -2397,8 +2573,7 @@ export interface UseSticky {
 export declare const useSticky: UseSticky;
 ```
 
-### 2.19 useTextareaAutosize
-
+### 2.20 useTextareaAutosize
 
 Auto-resizes a textarea based on content.
 
@@ -2484,8 +2659,7 @@ export interface UseTextareaAutosize {
 export declare const useTextareaAutosize: UseTextareaAutosize;
 ```
 
-### 2.20 useTextDirection
-
+### 2.21 useTextDirection
 
 Gets and sets the text direction of an element.
 
@@ -2551,8 +2725,7 @@ export interface UseTextDirection {
 export declare const useTextDirection: UseTextDirection;
 ```
 
-### 2.21 useWindowFocus
-
+### 2.22 useWindowFocus
 
 Returns the current focus state of the window.
 
@@ -2587,8 +2760,7 @@ export const FocusState = () => {
 export declare const useWindowFocus: () => boolean;
 ```
 
-### 2.22 useWindowSize
-
+### 2.23 useWindowSize
 
 Returns current window width and height.
 
@@ -2642,7 +2814,6 @@ export declare const useWindowSize: (
 
 ### 3.1 useAsync
 
-
 Tracks loading, error, and data state for a promise-returning callback.
 
 #### Usage
@@ -2689,7 +2860,6 @@ export declare const useAsync: <Data>(
 
 ### 3.2 useLockCallback
 
-
 Prevents a callback from running multiple times simultaneously.
 
 #### Usage
@@ -2727,7 +2897,6 @@ export declare const useLockCallback: <
 ```
 
 ### 3.3 useMutation
-
 
 Defines mutation logic with loading, error, and success state.
 
@@ -2799,7 +2968,6 @@ export declare const useMutation: <Body, Data>(
 ```
 
 ### 3.4 useOptimistic
-
 
 Allows showing an optimistic value before the async update resolves.
 
@@ -2995,8 +3163,9 @@ export declare const useQuery: <QueryData, Data = QueryData>(
 ) => UseQueryReturn<Data>;
 ```
 
-### 4.1 useAsyncEffect
+## 4. Lifecycle
 
+### 4.1 useAsyncEffect
 
 Runs async side effects.
 
@@ -3032,8 +3201,43 @@ export declare const useAsyncEffect: (
 ) => void;
 ```
 
-### 4.2 useDidUpdate
+### 4.2 useCompareEffect
 
+Runs an effect when a configurable comparator reports that a dependency changed.
+
+#### Usage
+
+```ts
+import { shallowEqual, useCompareEffect } from "@siberiacancode/reactuse";
+
+useCompareEffect(() => syncFilters(filters), [filters]);
+useCompareEffect(() => syncLayout(layout), [layout], shallowEqual);
+```
+
+#### Example
+
+```tsx
+const filter = { role, range: { from: 0, to: 10 } };
+
+useCompareEffect(() => {
+  void loadUsers(filter);
+}, [filter]);
+```
+
+#### Type Declarations
+
+```ts
+import type { DependencyList, EffectCallback } from "react";
+
+export type CompareFunction = (current: any, previous: any) => boolean;
+export declare const useCompareEffect: (
+  effect: EffectCallback,
+  deps?: DependencyList,
+  compare?: CompareFunction
+) => void;
+```
+
+### 4.3 useDidUpdate
 
 Runs an effect only on updates (not on initial mount).
 
@@ -3074,8 +3278,7 @@ export declare const useDidUpdate: (
 ) => void;
 ```
 
-### 4.3 useIsFirstRender
-
+### 4.4 useIsFirstRender
 
 Returns `true` only on the first render.
 
@@ -3104,8 +3307,7 @@ export const Banner = () => {
 export declare const useIsFirstRender: () => boolean;
 ```
 
-### 4.4 useIsomorphicLayoutEffect
-
+### 4.5 useIsomorphicLayoutEffect
 
 Uses `useLayoutEffect` on the client and `useEffect` on the server.
 
@@ -3131,8 +3333,7 @@ import type { useEffect } from "react";
 export declare const useIsomorphicLayoutEffect: typeof useEffect;
 ```
 
-### 4.5 useMount
-
+### 4.6 useMount
 
 Runs a callback once when the component mounts.
 
@@ -3166,56 +3367,7 @@ import type { EffectCallback } from "react";
 export declare const useMount: (effect: EffectCallback) => void;
 ```
 
-### 4.6 useShallowEffect
-
-
-Runs an effect only when dependencies change shallowly or deeply.
-
-#### Usage
-
-```ts
-import { useShallowEffect } from "@siberiacancode/reactuse";
-
-useShallowEffect(() => console.log("effect"), [user]);
-```
-
-#### Example
-
-```tsx
-import { useShallowEffect } from "@siberiacancode/reactuse";
-
-interface UserCardProps {
-  user: {
-    id: string;
-    name: string;
-  };
-}
-
-export const UserCard = ({ user }: UserCardProps) => {
-  useShallowEffect(() => console.log("effect"), [user]);
-
-  return <div>{user.name}</div>;
-};
-```
-
-#### Notes
-
-- Uses a deep comparison helper to decide if dependencies changed.
-
-#### Type Declarations
-
-```ts
-import type { DependencyList, EffectCallback } from "react";
-
-export declare const deepEqual: (a: any, b: any) => boolean;
-export declare const useShallowEffect: (
-  effect: EffectCallback,
-  deps?: DependencyList
-) => void;
-```
-
 ### 4.7 useUnmount
-
 
 Runs a callback when the component unmounts.
 
@@ -3250,7 +3402,6 @@ export declare const useUnmount: (callback: () => void) => void;
 ## 5. Browser
 
 ### 5.1 useAudio
-
 
 Manages audio playback (play/pause/stop), volume, rate, and sprite segments.
 
@@ -3377,7 +3528,6 @@ export declare const useAudio: (
 
 ### 5.2 useBattery
 
-
 Returns battery status and support state.
 
 #### Usage
@@ -3406,15 +3556,6 @@ export const BatteryStatus = () => {
 };
 ```
 
-#### Use cases
-
-Our applications normally are not empathetic to battery level, we can make a few adjustments to our applications that will be more friendly to low battery users.
-
-- Trigger a special "dark-mode" battery saver theme settings.
-- Stop auto playing videos in news feeds.
-- Disable some background workers that are not critical.
-- Limit network calls and reduce CPU/Memory consumption.
-
 #### Notes
 
 - Hook uses the [navigator.getBattery API](https://developer.mozilla.org/en-US/docs/Web/API/Navigator/getBattery).
@@ -3437,7 +3578,6 @@ export declare const useBattery: () => UseBatteryReturn;
 ```
 
 ### 5.3 useBluetooth
-
 
 Requests and connects to Bluetooth devices.
 
@@ -3590,7 +3730,6 @@ export declare const useBluetooth: (
 
 ### 5.4 useBreakpoints
 
-
 Manages responsive breakpoints and helper predicates.
 
 #### Usage
@@ -3689,7 +3828,6 @@ export declare const useBreakpoints: <Breakpoint extends string>(
 
 ### 5.5 useBroadcastChannel
 
-
 Enables cross-tab/window messaging.
 
 #### Usage
@@ -3737,7 +3875,6 @@ export declare const useBroadcastChannel: <Data = unknown>(
 ```
 
 ### 5.6 useBrowserLocation
-
 
 Returns reactive browser location state with navigation controls.
 
@@ -3808,7 +3945,6 @@ export declare const useBrowserLocation: () => UseBrowserLocationReturn;
 
 ### 5.7 useClipboard
 
-
 Reads and copies text from the clipboard.
 
 #### Usage
@@ -3860,7 +3996,6 @@ export declare const useClipboard: (
 
 ### 5.8 useCopy
 
-
 Copies text and resets status after a delay.
 
 #### Usage
@@ -3905,7 +4040,6 @@ export declare const useCopy: (delay?: number) => UseCopyReturn;
 ```
 
 ### 5.9 useCssVar
-
 
 Reads and writes a CSS custom property.
 
@@ -4165,7 +4299,6 @@ export declare const useDisplayMedia: UseDisplayMedia;
 
 ### 5.12 useDocumentEvent
 
-
 Attaches an event listener to the document.
 
 #### Usage
@@ -4203,7 +4336,6 @@ export declare const useDocumentEvent: <Event extends keyof DocumentEventMap>(
 ```
 
 ### 5.13 useDocumentTitle
-
 
 Reads and updates the document title.
 
@@ -4266,7 +4398,6 @@ export declare function useDocumentTitle(
 
 ### 5.14 useDocumentVisibility
 
-
 Returns the document visibility state.
 
 #### Usage
@@ -4301,7 +4432,6 @@ export declare const useDocumentVisibility: (
 ```
 
 ### 5.15 useEventListener
-
 
 Attaches an event listener to a target.
 
@@ -4391,7 +4521,6 @@ export declare const useEventListener: UseEventListener;
 ```
 
 ### 5.16 useEventSource
-
 
 Provides a reactive wrapper around EventSource.
 
@@ -4512,7 +4641,6 @@ export declare const useEventSource: <QueryData = any, Data = QueryData>(
 
 ### 5.17 useEyeDropper
 
-
 Provides access to the EyeDropper API.
 
 #### Usage
@@ -4564,7 +4692,6 @@ export declare const useEyeDropper: (
 
 ### 5.18 useFavicon
 
-
 Reads and updates the current favicon.
 
 #### Usage
@@ -4606,7 +4733,6 @@ export declare const useFavicon: (initialHref?: string) => {
 ```
 
 ### 5.19 useFileSystemAccess
-
 
 Hook for reading and writing local files via the File System Access API.
 
@@ -4713,7 +4839,6 @@ export declare const useFileSystemAccess: UseFileSystemAccess;
 
 ### 5.20 useFps
 
-
 Measures frames per second.
 
 #### Usage
@@ -4748,7 +4873,6 @@ export declare const useFps: (callback?: (fps: number) => void) => number;
 ```
 
 ### 5.21 useFullscreen
-
 
 Controls fullscreen state for an element.
 
@@ -4815,9 +4939,9 @@ export interface UseFullScreenOptions {
 }
 export interface UseFullScreenReturn {
   value: boolean;
-  enter: () => void;
-  exit: () => void;
-  toggle: () => void;
+  enter: () => Promise<void>;
+  exit: () => Promise<void>;
+  toggle: () => Promise<void>;
 }
 export interface UseFullScreen {
   (target: HookTarget, options?: UseFullScreenOptions): UseFullScreenReturn;
@@ -4830,7 +4954,6 @@ export declare const useFullscreen: UseFullScreen;
 ```
 
 ### 5.22 useGamepad
-
 
 Returns connected gamepads and active status.
 
@@ -5013,7 +5136,6 @@ export declare const useGeolocation: UseGeolocation;
 
 ### 5.24 useMeasure
 
-
 Measures an element's size and position.
 
 #### Usage
@@ -5059,7 +5181,6 @@ export declare const useMeasure: UseMeasure;
 ```
 
 ### 5.25 useMediaControls
-
 
 Provides controls and state for audio/video elements.
 
@@ -5162,7 +5283,6 @@ export declare const useMediaControls: UseMediaControls;
 ```
 
 ### 5.26 useMediaQuery
-
 
 Returns whether a media query matches.
 
@@ -5306,7 +5426,6 @@ export declare const useMediaStream: UseMediaStream;
 
 ### 5.28 useMemory
 
-
 Returns the current JS heap memory usage.
 
 #### Usage
@@ -5359,7 +5478,6 @@ export declare const useMemory: (
 ```
 
 ### 5.29 useNetwork
-
 
 Tracks online status and connection information.
 
@@ -5533,7 +5651,6 @@ export declare const useNotification: () => UseNotificationReturn;
 
 ### 5.31 useObjectUrl
 
-
 Hook that creates and revokes an object URL for a Blob or MediaSource.
 
 #### Usage
@@ -5580,7 +5697,6 @@ export declare const useObjectUrl: <
 
 ### 5.32 useOnline
 
-
 Returns whether the user is online.
 
 #### Usage
@@ -5618,7 +5734,6 @@ export declare const useOnline: () => boolean;
 ```
 
 ### 5.33 useOtpCredential
-
 
 Requests an OTP credential from the user agent.
 
@@ -5763,7 +5878,6 @@ export declare const usePermission: UsePermission;
 
 ### 5.35 usePictureInPicture
 
-
 Controls Picture-in-Picture mode for video elements.
 
 #### Usage
@@ -5847,7 +5961,6 @@ export declare const usePictureInPicture: UsePictureInPicture;
 
 ### 5.36 usePointerLock
 
-
 Provides reactive pointer lock controls.
 
 #### Usage
@@ -5889,7 +6002,6 @@ export declare const usePointerLock: () => UsePointerLockReturn;
 
 ### 5.37 usePostMessage
 
-
 Receives and posts messages between windows/frames.
 
 #### Usage
@@ -5922,7 +6034,6 @@ export declare const usePostMessage: <Message>(
 ```
 
 ### 5.38 useRaf
-
 
 Runs a callback on each animation frame.
 
@@ -5983,7 +6094,6 @@ export declare const useRaf: (
 ```
 
 ### 5.39 useShare
-
 
 Triggers the native share dialog.
 
@@ -6302,7 +6412,6 @@ export declare const useSpeechSynthesis: (
 
 ### 5.42 useVibrate
 
-
 Triggers vibration with optional intervals.
 
 #### Usage
@@ -6361,7 +6470,6 @@ export declare const useVibrate: (
 
 ### 5.43 useVirtualKeyboard
 
-
 Tracks virtual keyboard state and exposes controls.
 
 #### Usage
@@ -6399,7 +6507,6 @@ const keyboard = useVirtualKeyboard(true);
 #### Notes
 
 - Hook uses the [VirtualKeyboard API](https://developer.mozilla.org/en-US/docs/Web/API/VirtualKeyboard).
-- Includes a fallback; methods are no-ops when unsupported.
 
 #### Type Declarations
 
@@ -6417,7 +6524,6 @@ export declare const useVirtualKeyboard: (
 ```
 
 ### 5.44 useWakeLock
-
 
 Controls the Wake Lock API state.
 
@@ -6479,7 +6585,84 @@ export declare const useWakeLock: (
 ) => UseWakeLockReturn;
 ```
 
-### 5.45 useWebSocket
+### 5.45 useWebMCP
+
+Registers a browser WebMCP tool for a component's lifecycle.
+
+#### Usage
+
+```ts
+import { useWebMCP } from "@siberiacancode/reactuse";
+
+const webMCP = useWebMCP({
+  name: "get-theme",
+  description: "Returns the current color theme",
+  inputSchema: { type: "object", properties: {} },
+  annotations: { readOnlyHint: true },
+  execute: () => ({ theme })
+});
+```
+
+#### Example
+
+```tsx
+const { supported, registered, error, register, unregister } = useWebMCP({
+  name: "add-todo",
+  description: "Adds a todo item",
+  inputSchema: {
+    type: "object",
+    properties: { text: { type: "string" } },
+    required: ["text"]
+  },
+  execute: ({ text }) => addTodo(String(text))
+});
+
+if (!supported) return <p>WebMCP is not supported.</p>;
+if (error) return <button onClick={() => void register()}>Retry</button>;
+return <button onClick={registered ? unregister : () => void register()}>{registered ? "Disable" : "Enable"}</button>;
+```
+
+#### Notes
+
+- Hook uses the experimental [WebMCP API](https://github.com/webmachinelearning/webmcp).
+
+#### Type Declarations
+
+```ts
+export interface WebMCPToolExecuteOptions { signal: AbortSignal }
+export type WebMCPToolExecuteCallback = (
+  input: Record<string, unknown>,
+  options: WebMCPToolExecuteOptions
+) => unknown | Promise<unknown>;
+export interface WebMCPToolAnnotations {
+  consequentialHint?: boolean;
+  debugging?: boolean;
+  readOnlyHint?: boolean;
+  untrustedContentHint?: boolean;
+}
+export interface WebMCPModelContextTool {
+  annotations?: WebMCPToolAnnotations;
+  description: string;
+  execute: WebMCPToolExecuteCallback;
+  inputSchema?: object;
+  name: string;
+  title?: string;
+}
+export type UseWebMCPOptions = WebMCPModelContextTool & {
+  exposedTo?: string[];
+  immediately?: boolean;
+};
+export interface UseWebMCPReturn {
+  error?: Error;
+  registered: boolean;
+  supported: boolean;
+  register: () => Promise<void>;
+  unregister: () => void;
+}
+export declare const useWebMCP: (options: UseWebMCPOptions) => UseWebMCPReturn;
+```
+
+### 5.46 useWebSocket
 
 Keeps a component connected to a WebSocket endpoint while exposing a small control surface for manual open/close, message sending, retries, and connection lifecycle reactions.
 
@@ -6624,7 +6807,7 @@ export declare const useWebSocket: (
 ) => UseWebSocketReturn;
 ```
 
-### 5.46 useWebWorker
+### 5.47 useWebWorker
 
 Keeps a Web Worker connected to React state so components can post messages, restart work, terminate it, and render the latest result or error.
 
@@ -6714,7 +6897,7 @@ export declare const useWebWorker: <Data = unknown>(
 ) => UseWebWorkerReturn<Data>;
 ```
 
-### 5.47 useWebWorkerCallback
+### 5.48 useWebWorkerCallback
 
 Runs a self-contained function off the main thread and returns a promise-based runner for component code.
 
@@ -6782,8 +6965,9 @@ export declare const useWebWorkerCallback: <
 ) => UseWebWorkerCallbackReturn<Callback>;
 ```
 
-### 6.1 useBatchedCallback
+## 6. Utilities
 
+### 6.1 useBatchedCallback
 
 Batches calls and forwards them to a callback.
 
@@ -6814,11 +6998,6 @@ export const Logger = () => {
 };
 ```
 
-#### Notes
-
-- Call `batched.flush()` to send the current batch immediately.
-- Call `batched.cancel()` to clear pending calls.
-
 #### Type Declarations
 
 ```ts
@@ -6839,7 +7018,6 @@ export declare const useBatchedCallback: <Params extends unknown[]>(
 ```
 
 ### 6.2 useConst
-
 
 Returns a constant value initialized once.
 
@@ -6872,7 +7050,6 @@ export declare const useConst: <Value>(
 ```
 
 ### 6.3 useDebounceCallback
-
 
 Creates a debounced callback with a cancel method.
 
@@ -6915,7 +7092,6 @@ export declare const useDebounceCallback: <Params extends unknown[], Return>(
 
 ### 6.4 useDebounceEffect
 
-
 Runs an effect after a delay when dependencies change.
 
 #### Usage
@@ -6955,7 +7131,6 @@ export declare const useDebounceEffect: (
 ```
 
 ### 6.5 useDebounceState
-
 
 Creates a debounced state setter.
 
@@ -7003,7 +7178,6 @@ export declare const useDebounceState: <Value>(
 
 ### 6.6 useDebounceValue
 
-
 Returns a debounced version of a value.
 
 #### Usage
@@ -7044,7 +7218,6 @@ export declare const useDebounceValue: <Value>(
 
 ### 6.7 useDevicePixelRatio
 
-
 Returns the current device pixel ratio.
 
 #### Usage
@@ -7083,7 +7256,6 @@ export declare const useDevicePixelRatio: (
 
 ### 6.8 useEvent
 
-
 Returns a stable callback reference that always calls the latest handler.
 
 #### Usage
@@ -7120,7 +7292,6 @@ export declare const useEvent: <Params extends unknown[], Return>(
 
 ### 6.9 useLastChanged
 
-
 Records the timestamp of the last change.
 
 #### Usage
@@ -7156,7 +7327,6 @@ export declare const useLastChanged: (
 
 ### 6.10 useLatest
 
-
 Returns a stable ref that always points to the latest value.
 
 #### Usage
@@ -7186,7 +7356,6 @@ export declare const useLatest: <Value>(value: Value) => UseLatestReturn<Value>;
 ```
 
 ### 6.11 usePrevious
-
 
 Returns the previous value.
 
@@ -7224,7 +7393,6 @@ export declare const usePrevious: <Value>(
 ```
 
 ### 6.12 useThrottleCallback
-
 
 Creates a throttled callback with a cancel method.
 
@@ -7269,7 +7437,6 @@ export declare const useThrottleCallback: <Params extends unknown[], Return>(
 
 ### 6.13 useThrottleEffect
 
-
 Runs an effect at most once per delay period when dependencies change.
 
 #### Usage
@@ -7311,7 +7478,6 @@ export declare const useThrottleEffect: (
 ```
 
 ### 6.14 useThrottleState
-
 
 Creates a throttled state setter.
 
@@ -7359,7 +7525,6 @@ export declare const useThrottleState: <Value>(
 
 ### 6.15 useThrottleValue
 
-
 Returns a throttled version of a value.
 
 #### Usage
@@ -7402,7 +7567,6 @@ export declare const useThrottleValue: <Value>(
 
 ### 7.1 useBoolean
 
-
 Manages a boolean state with a toggle helper.
 
 #### Usage
@@ -7441,7 +7605,6 @@ export declare const useBoolean: (initialValue?: boolean) => UseBooleanReturn;
 ```
 
 ### 7.2 useControllableState
-
 
 Supports controlled and uncontrolled state patterns.
 
@@ -7519,7 +7682,6 @@ export declare function useControllableState<Value>(
 ```
 
 ### 7.3 useCookie
-
 
 Reads and writes a cookie value.
 
@@ -7672,7 +7834,6 @@ export declare const useCookie: UseCookie;
 
 ### 7.4 useCookies
 
-
 Manages all cookies as a single object.
 
 #### Usage
@@ -7738,7 +7899,6 @@ export declare const useCookies: <Value extends CookieParams>(
 ```
 
 ### 7.5 useCounter
-
 
 Manages a numeric counter with bounds.
 
@@ -7886,7 +8046,6 @@ export declare const useCycleList: <Value>(
 
 ### 7.7 useDefault
 
-
 Returns a value or a provided default when nullish.
 
 #### Usage
@@ -7934,7 +8093,6 @@ export declare const useDefault: <Value>(
 ```
 
 ### 7.8 useDisclosure
-
 
 Manages open/close state with helpers.
 
@@ -8430,7 +8588,6 @@ export declare const useForm: <Values extends Record<string, any>>(
 
 ### 7.11 useHash
 
-
 Manages URL hash value.
 
 #### Usage
@@ -8495,7 +8652,6 @@ export declare const useHash: UseHash;
 
 ### 7.12 useList
 
-
 Manages an array with helper methods.
 
 #### Usage
@@ -8554,7 +8710,6 @@ export declare const useList: <Item>(initialList?: Item[]) => {
 ```
 
 ### 7.13 useLocalStorage
-
 
 Manages a value in localStorage.
 
@@ -8641,7 +8796,6 @@ export declare const useLocalStorage: <Value>(
 ```
 
 ### 7.14 useMap
-
 
 Manages a Map with helper methods.
 
@@ -8912,7 +9066,6 @@ export declare const useMask: (
 
 ### 7.16 useMergedRef
 
-
 Merges multiple refs into a single ref callback.
 
 #### Usage
@@ -8953,7 +9106,6 @@ export declare const useMergedRef: <Element>(
 ```
 
 ### 7.17 useObject
-
 
 Manages object state with helper methods for updates and key operations.
 
@@ -9007,7 +9159,6 @@ export declare function useObject<Value extends object>(
 ```
 
 ### 7.18 useOffsetPagination
-
 
 Manages pagination state for offset-based lists.
 
@@ -9090,7 +9241,6 @@ export declare const useOffsetPagination: (
 
 ### 7.19 useQueue
 
-
 Manages a queue with add/remove helpers.
 
 #### Usage
@@ -9140,7 +9290,6 @@ export declare const useQueue: <Value>(
 
 ### 7.20 useRafState
 
-
 Updates state inside `requestAnimationFrame`.
 
 #### Usage
@@ -9179,7 +9328,6 @@ export declare const useRafState: <Value>(
 
 ### 7.21 useRefState
 
-
 Creates a ref-like state that updates on assignment.
 
 #### Usage
@@ -9214,7 +9362,6 @@ export declare const useRefState: <Value>(
 ```
 
 ### 7.22 useSessionStorage
-
 
 Manages a value in sessionStorage.
 
@@ -9298,7 +9445,6 @@ export declare const useSessionStorage: <Value>(
 
 ### 7.23 useSet
 
-
 Manages a Set with helper methods.
 
 #### Usage
@@ -9343,7 +9489,6 @@ export declare const useSet: <Value>(values?: Value[]) => UseSetReturn<Value>;
 ```
 
 ### 7.24 useStateHistory
-
 
 Keeps state with undo/redo history.
 
@@ -9409,7 +9554,6 @@ export declare const useStateHistory: <Value>(
 
 ### 7.25 useStep
 
-
 Creates a stepper with next/back helpers.
 
 #### Usage
@@ -9471,7 +9615,6 @@ export declare const useStep: (params: number | UseStepParams) => UseStepReturn;
 ```
 
 ### 7.26 useStorage
-
 
 Manages a value in Web Storage.
 
@@ -9560,7 +9703,6 @@ export declare const useStorage: UseStorage;
 
 ### 7.27 useToggle
 
-
 A boolean switcher with utility functions.
 
 #### Usage
@@ -9604,7 +9746,6 @@ export declare const useToggle: (initialValue?: boolean): UseToggleReturn;
 ```
 
 ### 7.28 useUrlSearchParam
-
 
 Syncs a single URL search param with state.
 
@@ -9703,7 +9844,6 @@ export declare const useUrlSearchParam: UseUrlSearchParam;
 ```
 
 ### 7.29 useUrlSearchParams
-
 
 Syncs multiple URL search params with state.
 
@@ -9812,13 +9952,13 @@ export interface UseUrlSearchParams {
   <Value>(
     options: UseUrlSearchParamsOptions<Value> & {
       initialValue: UseUrlSearchParamsInitialValue<Value>;
-    }
+    },
   ): UseUrlSearchParamsReturn<Value>;
-  <Value>(options?: UseUrlSearchParamsOptions<Value>): UseUrlSearchParamsReturn<
-    Value | undefined
-  >;
   <Value>(
-    initialValue: UseUrlSearchParamsInitialValue<Value>
+    options?: UseUrlSearchParamsOptions<Value>,
+  ): UseUrlSearchParamsReturn<Value | undefined>;
+  <Value>(
+    initialValue: UseUrlSearchParamsInitialValue<Value>,
   ): UseUrlSearchParamsReturn<Value>;
 }
 export declare const useUrlSearchParams: UseUrlSearchParams;
@@ -9895,7 +10035,6 @@ export declare const useValidatedState: <Value>(
 ```
 
 ### 7.31 useWizard
-
 
 Manages wizard steps and history.
 
@@ -9977,7 +10116,6 @@ export declare const useWizard: <WizardStepId extends string>(
 
 ### 8.1 useBrowserLanguage
 
-
 Returns the current browser language.
 
 #### Usage
@@ -10006,7 +10144,6 @@ export declare const useBrowserLanguage: () => string;
 ```
 
 ### 8.2 useOperatingSystem
-
 
 Returns the user's operating system based on the user agent.
 
@@ -10044,7 +10181,6 @@ export declare const useOperatingSystem: () => OperatingSystem;
 
 ### 8.3 usePreferredColorScheme
 
-
 Returns the user's preferred color scheme.
 
 #### Usage
@@ -10070,7 +10206,6 @@ export declare const usePreferredColorScheme: () => UsePreferredColorSchemeRetur
 ```
 
 ### 8.4 usePreferredContrast
-
 
 Returns the user's contrast preference.
 
@@ -10104,7 +10239,6 @@ export declare const usePreferredContrast: () => UsePreferredContrastReturn;
 
 ### 8.5 usePreferredDark
 
-
 Returns whether the user prefers dark mode.
 
 #### Usage
@@ -10129,7 +10263,6 @@ export declare const usePreferredDark: () => boolean;
 ```
 
 ### 8.6 usePreferredLanguages
-
 
 Returns the user's preferred languages.
 
@@ -10159,7 +10292,6 @@ export declare const usePreferredLanguages: () => readonly string[];
 ```
 
 ### 8.7 usePreferredReducedMotion
-
 
 Returns the reduced motion preference.
 
@@ -10256,7 +10388,6 @@ export declare const useDeviceMotion: UseDeviceMotion;
 ```
 
 ### 9.2 useDeviceOrientation
-
 
 Provides the current device orientation.
 
@@ -10399,7 +10530,6 @@ export declare const useHotkeys: UseHotkeys;
 ```
 
 ### 9.4 useIdle
-
 
 Tracks whether the user is idle and last active time.
 
@@ -10577,7 +10707,6 @@ export declare const useInfiniteScroll: UseInfiniteScroll;
 
 ### 9.6 useIntersectionObserver
 
-
 Tracks intersection state for an element.
 
 #### Usage
@@ -10696,7 +10825,6 @@ export declare const useIntersectionObserver: UseIntersectionObserver;
 
 ### 9.7 useKeyboard
 
-
 Registers keydown/keyup listeners on a target.
 
 #### Usage
@@ -10769,7 +10897,6 @@ export declare const useKeyboard: UseKeyboard;
 
 ### 9.8 useKeyPress
 
-
 Tracks whether specific keys are pressed.
 
 #### Usage
@@ -10841,7 +10968,6 @@ export declare const useKeyPress: UseKeyPress;
 ```
 
 ### 9.9 useKeysPressed
-
 
 Tracks all currently pressed keys.
 
@@ -10993,7 +11119,6 @@ export declare const useMouse: UseMouse;
 
 ### 9.11 useMutationObserver
 
-
 Observes DOM mutations on an element.
 
 #### Usage
@@ -11121,7 +11246,6 @@ export declare const useMutationObserver: UseMutationObserver;
 
 ### 9.12 useOrientation
 
-
 Returns the current screen orientation and lock controls.
 
 #### Usage
@@ -11192,7 +11316,6 @@ export declare const useOrientation: (
 
 ### 9.13 usePageLeave
 
-
 Detects when the mouse leaves the page.
 
 #### Usage
@@ -11217,7 +11340,6 @@ export declare const usePageLeave: (callback?: () => void) => boolean;
 ```
 
 ### 9.14 useParallax
-
 
 Creates a parallax effect based on mouse or device orientation.
 
@@ -11323,7 +11445,6 @@ export declare const useParallax: UseParallax;
 
 ### 9.15 usePerformanceObserver
 
-
 Observes performance entries.
 
 #### Usage
@@ -11387,7 +11508,6 @@ export declare const usePerformanceObserver: (
 ```
 
 ### 9.16 useResizeObserver
-
 
 Observes size changes for an element.
 
@@ -11614,7 +11734,6 @@ export declare const useScroll: UseScroll;
 
 ### 9.18 useScrollIntoView
 
-
 Scrolls an element into view and exposes a trigger.
 
 #### Usage
@@ -11712,7 +11831,6 @@ export declare const useScrollIntoView: UseScrollIntoView;
 ```
 
 ### 9.19 useScrollTo
-
 
 Scrolls to a specific position with a trigger.
 
@@ -11923,7 +12041,6 @@ export declare const useSwipe: UseSwipe;
 
 ### 9.21 useTextSelection
 
-
 Tracks text selection details.
 
 #### Usage
@@ -11966,7 +12083,6 @@ export declare const useTextSelection: () => UseTextSelectionReturn;
 ```
 
 ### 9.22 useVisibility
-
 
 Tracks whether an element is visible in the viewport.
 
@@ -12070,7 +12186,6 @@ export declare const useVisibility: UseVisibility;
 
 ### 9.23 useWindowEvent
 
-
 Attaches an event listener to the window object.
 
 #### Usage
@@ -12114,7 +12229,6 @@ export declare const useWindowEvent: <Event extends keyof WindowEventMap>(
 ```
 
 ### 9.24 useWindowScroll
-
 
 Tracks window scroll position and exposes scrollTo.
 
@@ -12160,7 +12274,6 @@ export declare const useWindowScroll: () => {
 ## 10. Time
 
 ### 10.1 useInterval
-
 
 Creates an interval with controls to pause and resume it.
 
@@ -12232,7 +12345,6 @@ export declare const useInterval: UseInterval;
 ```
 
 ### 10.2 useProgress
-
 
 Creates a lightweight progress state with auto-increment behavior.
 
@@ -12331,10 +12443,6 @@ Additional random increment amount per tick.
 const progress = useProgress(0, { rate: 0.03 });
 ```
 
-#### Use cases
-
-- Top-page loading bars for route/data transitions.
-
 #### Notes
 
 - `value` is expected in the `0..1` range.
@@ -12364,7 +12472,6 @@ export declare const useProgress: (
 ```
 
 ### 10.3 useStopwatch
-
 
 Creates a stopwatch with start, pause, and reset controls.
 
@@ -12441,7 +12548,6 @@ export declare const useStopwatch: UseStopwatch;
 
 ### 10.4 useTime
 
-
 Provides the current time split into multiple fields.
 
 #### Usage
@@ -12487,7 +12593,6 @@ export declare const useTime: () => UseTimeReturn;
 
 ### 10.5 useTimeout
 
-
 Runs a callback after a delay and returns a `ready` flag.
 
 #### Usage
@@ -12496,7 +12601,6 @@ Runs a callback after a delay and returns a `ready` flag.
 import { useTimeout } from "@siberiacancode/reactuse";
 
 const timeout = useTimeout(() => {}, 5000);
-const paused = useTimeout(() => {}, undefined);
 ```
 
 #### Example
@@ -12527,12 +12631,11 @@ interface UseTimeoutReturn {
 }
 export declare function useTimeout(
   callback: () => void,
-  delay?: number
+  delay?: number,
 ): UseTimeoutReturn;
 ```
 
 ### 10.6 useTimer
-
 
 Creates a countdown timer with controls and callbacks.
 
@@ -12651,7 +12754,6 @@ export declare const useTimer: UseTimer;
 
 ### 11.1 useLogger
 
-
 Logs mount, update, and unmount for a component.
 
 #### Usage
@@ -12686,7 +12788,6 @@ export declare const useLogger: (name: string, params: unknown[]) => void;
 ```
 
 ### 11.2 useRenderCount
-
 
 Returns how many times a component has rendered.
 
@@ -12723,7 +12824,6 @@ export declare const useRenderCount: () => number;
 ```
 
 ### 11.3 useRenderInfo
-
 
 Provides render count and timing info, with optional logging.
 
@@ -12770,7 +12870,6 @@ export declare const useRenderInfo: (
 ```
 
 ### 11.4 useRerender
-
 
 Forces a component rerender on demand.
 

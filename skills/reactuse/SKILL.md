@@ -4,7 +4,7 @@ description: Practical playbook for React teams to choose and apply reactuse hoo
 license: MIT
 metadata:
   author: siberiacancode
-  version: "1.0.16"
+  version: "1.0.22"
 ---
 
 # Reactuse
@@ -27,7 +27,7 @@ This skill is a decision-and-implementation guide for reactuse library for react
 
 All hooks listed below are part of the [reactuse](https://reactuse.org/) library. Each section categorizes hooks based on their functionality.
 
-IMPORTANT: Each hook entry includes a short `Description` and a detailed `Reference`. When using any hook, always consult the corresponding document in `./references` for usage details and type declarations.
+IMPORTANT: Each hook entry includes a short `Description` and a detailed rule. When using any hook or helper, always consult the corresponding document in `./rules` for usage details and type declarations.
 
 Blocked upstream category: Reactuse also exports `Humor` hooks (`useFul`, `useLess`, `useOnce`) in recent releases. This skill intentionally does not support or recommend them because upstream marks them as jokes or non-production utilities.
 
@@ -42,7 +42,10 @@ Blocked upstream category: Reactuse also exports `Humor` hooks (`useFul`, `useLe
 | createReactiveContext | Creates a typed context selector with optimized updates.        | LOW        |
 | createSharedHook | Shares one hook instance across consumers. | LOW |
 | createStore           | Creates a external store with state, subscriptions, and a hook. | MEDIUM     |
+| createWebMCP | Creates an imperative registry for document-level WebMCP tools. | LOW |
+| deepEqual | Compares nested values recursively across common built-in types. | LOW |
 | makeDestructurable | Supports object and tuple consumption from one value. | LOW |
+| shallowEqual | Compares top-level values across common built-in types. | LOW |
 | target | Wraps DOM targets in the shape Reactuse hooks expect. | MEDIUM |
 
 ### Elements
@@ -52,6 +55,7 @@ Blocked upstream category: Reactuse also exports `Humor` hooks (`useFul`, `useLe
 | useActiveElement    | Tracks the currently focused element.                      | LOW        |
 | useAutoScroll       | Automatically scrolls a container to the bottom.           | LOW        |
 | useClickOutside     | Calls a callback when clicking outside the target element. | HIGH       |
+| useCollapse | Animates an element between collapsed and expanded states. | MEDIUM |
 | useContextMenu | Converts secondary-click and long-press gestures to menu state. | LOW |
 | useDoubleClick      | Detects double-clicks with optional single-click handler.  | MEDIUM     |
 | useDraggable | Converts pointer movement into drag position state. | LOW |
@@ -91,7 +95,7 @@ Blocked upstream category: Reactuse also exports `Humor` hooks (`useFul`, `useLe
 | useIsFirstRender          | Returns `true` only on the first render.                            | LOW        |
 | useIsomorphicLayoutEffect | Uses `useLayoutEffect` on the client and `useEffect` on the server. | HIGH       |
 | useMount                  | Runs a callback once when the component mounts.                     | HIGH       |
-| useShallowEffect          | Runs an effect only when dependencies change shallowly or deeply.   | LOW        |
+| useCompareEffect          | Runs an effect when a configurable dependency comparator detects change. | LOW |
 | useUnmount                | Runs a callback when the component unmounts.                        | HIGH       |
 
 ### Browser
@@ -142,6 +146,7 @@ Blocked upstream category: Reactuse also exports `Humor` hooks (`useFul`, `useLe
 | useVibrate            | Triggers vibration with optional intervals.                                  | LOW        |
 | useVirtualKeyboard    | Tracks virtual keyboard state and exposes controls.                          | LOW        |
 | useWakeLock           | Controls the Wake Lock API state.                                            | LOW        |
+| useWebMCP | Registers a browser WebMCP tool for the component lifecycle. | LOW |
 | useWebSocket | Keeps a component connected to a WebSocket endpoint. | MEDIUM |
 | useWebWorker | Connects a Web Worker to React data and lifecycle state. | LOW |
 | useWebWorkerCallback | Runs a self-contained function off the main thread. | LOW |

@@ -16,16 +16,9 @@ Describe the basic import and the minimal usage example. Always show destructure
 
 Provide a concise component example that demonstrates a real UI use case and how the hook’s return values are used in JSX.
 
-## Use cases
-
-List 2-4 concise, real UI scenarios where the hook is useful. Keep each bullet short and practical (ex: tracking visibility for lazy loading, reacting to page focus changes).
-
 ## Notes
 
-List important caveats and edge cases:
-
-- uses browser APIs (if applicable)
-- any usage specifics or gotchas to be aware of
+Link the browser API used by the hook. Omit this section when no browser API is involved.
 
 ## Type Declarations
 

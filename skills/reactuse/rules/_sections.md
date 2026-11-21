@@ -8,12 +8,12 @@ The section ID (in parentheses) is the filename prefix used to group rules.
 ## 1. Helpers
 
 **Impact:** AUTO  
-**Description:** Helper factories for contexts, stores, event emitters, target utilities, class names, and destructurable values.
+**Description:** Helper factories for contexts, stores, event emitters, WebMCP registries, equality checks, target utilities, class names, and destructurable values.
 
 ## 2. Elements
 
 **Impact:** AUTO  
-**Description:** Hooks for interacting with DOM elements, focus, layout, and element-based behaviors.
+**Description:** Hooks for interacting with DOM elements, focus, layout, collapse transitions, and element-based behaviors.
 
 ## 3. Async
 
@@ -23,12 +23,12 @@ The section ID (in parentheses) is the filename prefix used to group rules.
 ## 4. Lifecycle
 
 **Impact:** AUTO  
-**Description:** Hooks for managing effects, mount/unmount, and lifecycle side effects.
+**Description:** Hooks for managing effects, configurable dependency comparison, mount/unmount, and lifecycle side effects.
 
 ## 5. Browser
 
 **Impact:** AUTO  
-**Description:** Hooks for browser APIs, media, storage, navigation, and environment signals.
+**Description:** Hooks for browser APIs, WebMCP tools, media, storage, navigation, and environment signals.
 
 ## 6. Utilities
 

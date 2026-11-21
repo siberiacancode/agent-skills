@@ -103,10 +103,6 @@ Additional random increment amount per tick.
 const progress = useProgress(0, { rate: 0.03 });
 ```
 
-## Use cases
-
-- Top-page loading bars for route/data transitions.
-
 ## Notes
 
 - `value` is expected in the `0..1` range.

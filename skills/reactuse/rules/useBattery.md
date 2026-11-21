@@ -34,15 +34,6 @@ export const BatteryStatus = () => {
 };
 ```
 
-## Use cases
-
-Our applications normally are not empathetic to battery level, we can make a few adjustments to our applications that will be more friendly to low battery users.
-
-- Trigger a special "dark-mode" battery saver theme settings.
-- Stop auto playing videos in news feeds.
-- Disable some background workers that are not critical.
-- Limit network calls and reduce CPU/Memory consumption.
-
 ## Notes
 
 - Hook uses the [navigator.getBattery API](https://developer.mozilla.org/en-US/docs/Web/API/Navigator/getBattery).

@@ -71,9 +71,9 @@ export interface UseFullScreenOptions {
 }
 export interface UseFullScreenReturn {
   value: boolean;
-  enter: () => void;
-  exit: () => void;
-  toggle: () => void;
+  enter: () => Promise<void>;
+  exit: () => Promise<void>;
+  toggle: () => Promise<void>;
 }
 export interface UseFullScreen {
   (target: HookTarget, options?: UseFullScreenOptions): UseFullScreenReturn;

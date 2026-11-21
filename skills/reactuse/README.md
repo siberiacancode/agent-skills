@@ -1,8 +1,8 @@
 # Reactuse
 
-**Version 1.0.16**
+**Version 1.0.22**
 Siberiacancode  
-September 2026
+November 2026
 
 This repository contains Reactuse guidance for agents and LLMs. It is optimized for automated code generation, refactoring, and consistency in React and Next.js projects.
 
@@ -27,6 +27,8 @@ The rules are organized into the following sections (as in `_sections.md`):
 11. Debug
 
 The upstream `Humor` category is intentionally blocked for this skill and should not be added to the supported hook set.
+
+The current skill tracks ReactUse `1.0.22`, including WebMCP helpers, equality helpers, `useCollapse`, and `useCompareEffect`. The removed upstream `useShallowEffect` API is intentionally absent; use `useCompareEffect` with `shallowEqual` when shallow comparison is required.
 
 ## Structure
 
@@ -64,11 +66,21 @@ The upstream `Humor` category is intentionally blocked for this skill and should
    pnpm extract-tests
    ```
 
+## Installation
+
+For Claude Code, copy the skill directory into the local skills folder:
+
+```bash
+cp -r skills/reactuse ~/.claude/skills/
+```
+
+For claude.ai, add the skill to project knowledge or paste the contents of `SKILL.md` into the conversation.
+
 ## Creating a New Rule
 
 1. Copy `rules/_template.md` to `rules/useSomething.md`
 2. Set `name`, `category`, and `usage` in the frontmatter
-3. Follow the template structure (Usage, Example, Use cases, Notes, Type Declarations)
+3. Follow the template structure (Usage, Example, Notes, Type Declarations)
 4. Ensure you have clear examples with explanations
 5. Run `pnpm build` to regenerate AGENTS.md and test-cases.json
 
@@ -95,13 +107,9 @@ Describe the basic import and minimal usage example. Show destructured return va
 
 Provide a concise component example that demonstrates a real UI use case.
 
-## Use cases
-
-List 2-4 practical UI scenarios where the hook is useful.
-
 ## Notes
 
-List important caveats and edge cases.
+Link the browser API used by the hook. Omit this section when no browser API is involved.
 
 ## Type Declarations
 

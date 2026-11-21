@@ -43,7 +43,6 @@ const keyboard = useVirtualKeyboard(true);
 ## Notes
 
 - Hook uses the [VirtualKeyboard API](https://developer.mozilla.org/en-US/docs/Web/API/VirtualKeyboard).
-- Includes a fallback; methods are no-ops when unsupported.
 
 ## Type Declarations
 
