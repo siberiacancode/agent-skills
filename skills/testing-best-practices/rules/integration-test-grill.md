@@ -1,7 +1,7 @@
 ---
 title: Integration test grill
 impact: HIGH
-impactDescription: separates improvements to existing automation from new browser or component tests mapped to confirmed product cases
+impactDescription: separates improvements to existing automation from new browser, component, or server tests mapped to confirmed product cases
 tags: testing, integration-tests, planning, scenarios, grill
 ---
 
@@ -15,22 +15,24 @@ Describe the automation that should exist and where it belongs. Separate changes
 
 Read [integration-test-conventions](./integration-test-conventions.md) first, then:
 
-- use [integration-test-browser](./integration-test-browser.md) for scenarios that may require the full browser boundary;
+- use [integration-test-browser](./integration-test-browser.md) for scenarios that may require full application bootstrap or context;
 - use [integration-test-component](./integration-test-component.md) for scenarios that may fit a mounted feature boundary;
-- use [integration-test-mocks](./integration-test-mocks.md) when deterministic server behavior is required;
+- use [integration-test-server](./integration-test-server.md) for scenarios that exercise a public server entry point or service orchestration;
+- use [integration-test-setup](./integration-test-setup.md) when the plan needs test-case preconditions or component mount setup and wrappers;
+- use [integration-test-mocks](./integration-test-mocks.md) when a browser or component scenario requires deterministic backend behavior;
 - use [integration-test-locator-testids](./integration-test-locator-testids.md) only when locator work is required.
 
 ## Build the automation list
 
 1. Inspect the feature's existing test cases and autotests first.
 2. Deduplicate cases already automated adequately at the appropriate boundary.
-3. If a required scenario has no suitable case, design it through the test-case conventions before proposing automation.
-4. Choose `component` when a realistic mounted feature boundary proves the case; choose `browser` only when browser-owned or full-application behavior is necessary.
+3. If a required scenario has no suitable confirmed test case, stop the automation flow, report that the case is missing, and request it from the user.
+4. Choose `server` when the case proves a public server entry point or service orchestration, `component` when a realistic mounted feature boundary proves the case, and `browser` only when full application bootstrap or context is necessary.
 5. Identify required scenario state, mocks, and case ID when the project's mock architecture uses one.
 6. Identify the trigger, async events that must be observed, and final user-visible result.
 7. Reuse existing locators. Route missing semantic locators through the locator rule instead of inventing strings in the plan.
 
-Do not derive extra scenarios solely from implementation branches, split one test case into multiple technical checks, or propose both browser and component tests for the same proof without distinct ownership.
+Do not derive extra scenarios solely from implementation branches, split one test case into multiple technical checks, or propose more than one boundary for the same proof without distinct ownership.
 
 ## Classify the work
 
@@ -58,7 +60,7 @@ Return one title, then `### Improvements` and `### New Tests`. Inside each secti
 
 **`tests/autotests/authorization/phone/phone-step.browser.ts`**
 
-1. **Continue successfully** — Source: `Authentication.Phone.Continue.Success`; boundary: browser, because the case crosses the application step through a real request; mocks: `PHONE_SUBMIT_SUCCESS`; async: observe OTP request and response around submit; result: OTP input is visible.
+1. **Continue successfully** — Source: `Authentication.Phone.Continue.Success`; boundary: browser, because the case requires full application navigation from the phone step to the OTP route; mocks: `PHONE_SUBMIT_SUCCESS`; async: observe OTP request and response around submit; result: the application opens the OTP route and its input is visible.
 ```
 
 Requirements:
@@ -66,7 +68,7 @@ Requirements:
 - Name the source test case for every proposed autotest.
 - Number scenarios inside each owning-file group and section with `1.`, `2.`, `3.`, and so on.
 - For **Improvements**, identify the existing autotest or file and the exact automation change.
-- State `browser` or `component` and give the behavior-based reason.
+- State `browser`, `component`, or `server` and give the behavior-based reason.
 - Name mocks and case IDs only when needed and confirmed by project structure.
 - State meaningful async synchronization when the scenario has side effects.
 - List missing or ambiguous product cases as open questions rather than inventing behavior.

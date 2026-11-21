@@ -11,42 +11,13 @@ For writing and revising the `name` of a test case.
 
 > **First read [testcase-conventions](./testcase-conventions.md).** This rule adds only what is specific to naming.
 
-Name test cases with the existing dot-separated hierarchy and the most precise confirmed user-facing terms.
+Use the project's existing dot-separated hierarchy.
 
-## Vocabulary
-
-- Match interface text exactly for pages, blocks, buttons, inputs, errors, links, and sections.
-- Use common frontend and QA terminology when the interface has no explicit element name, such as icon-only buttons or unnamed containers.
-
-## Hierarchy
-
-- Follow the existing dot-separated hierarchy style.
-- Avoid redundant hierarchy segments. If the file or parent segment already identifies the only target element, do not repeat it.
-- Set `name` to the concise hierarchy that identifies the owned page or block, the target element or scenario, and the checked state or outcome.
-
-## Fixed forms
-
-- Name loading design cases with the state before the check type: `Лоадер. Дизайн. Десктоп` or `Лоадер. Дизайн. Мобилка`.
-- Always use `Мобилка` for the mobile viewport segment.
-- Always name an empty-list state `Пустой список`, regardless of the empty-state text in the interface. Keep actual UI labels exact in actions and expected results.
-- Name checks comparing displayed values with request or API data `Данные`; do not add the redundant qualifier `Исходные`.
-
-## Controls
-
-For action cases that check a labeled button, link, or control, use the exact UI label in the final meaningful segment.
-
-**Incorrect (redundant control prefix):**
-
-```text
-Хэдер. Кнопка "Выйти"
-Пустой список. Ссылка "Вернуться в каталог игр"
-```
-
-**Correct (exact label as the final segment):**
-
-```text
-Хэдер. Выйти
-Пустой список. Вернуться в каталог игр
-```
-
-For unlabeled controls, use a precise control name such as `Кнопка закрытия`.
+- Match confirmed UI text exactly for named elements.
+- Use a concise hierarchy: owning block or page → target scenario or state.
+- Do not repeat information already encoded by the file or parent segment.
+- For unnamed controls, use a precise semantic name, such as `Кнопка закрытия`.
+- Use `Данные` for API-derived value checks.
+- Use `Пустой список` for empty-list states regardless of UI copy.
+- Use `Мобилка` for mobile viewport cases.
+- Use `<concrete form>. Валидация` for form-wide linked validation cases.

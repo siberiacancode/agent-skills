@@ -9,8 +9,6 @@ tags: testing, integration-tests, component-tests, locators, data-testid
 
 For semantic `data-testid` locators used by application integration tests.
 
-This rule is not an E2E-testing convention and does not define local test IDs for isolated UI-kit unit tests.
-
 ## Source of truth
 
 - **Current scenarios** — add IDs required by the integration behavior being tested, not for every JSX node or possible future scenario.
@@ -19,12 +17,16 @@ This rule is not an E2E-testing convention and does not define local test IDs fo
 
 ## Project test ID utilities
 
-- When the project already installs and configures `@siberiacancode/testids`, use it for the test-ID schema, generation, and exported constants instead of building overlapping local infrastructure.
+- Use the project's existing test-ID schema, generator, and exported constants instead of building overlapping local infrastructure.
 - Change the source schema and run the project's configured generator; do not hand-edit generated test-ID files.
 - Use generated `TESTIDS` constants in application code and tests instead of repeating string literals.
-- Do not install `@siberiacancode/testids` solely to satisfy this rule. When it is absent, preserve the semantic grouping, naming, reuse, and change-together concepts through the project's existing locator infrastructure.
+- When the project has no generator, preserve the semantic grouping, naming, reuse, and change-together concepts through its existing locator infrastructure.
 
 ## When to add an ID
+
+Use role or label locators for accessible controls, portal content, and third-party UI when no stable project ID exists. Scope them through a stable parent.
+
+When an ID cannot be added to the target element, locate it through stable internal elements using ordinary semantic locators. Reserve raw CSS for a native sub-element or third-party boundary with neither a project ID nor a semantic locator; do not use long class or DOM-structure chains for primary elements.
 
 - **Interaction** — add an ID when a scenario must operate an element through a stable locator.
 - **Assertion** — add an ID when a scenario must observe an important result that has no sufficiently stable existing locator.

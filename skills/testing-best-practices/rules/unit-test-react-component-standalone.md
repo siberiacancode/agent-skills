@@ -1,22 +1,21 @@
 ---
-title: Unit test standalone UI components
+title: Unit test standalone React components
 impact: HIGH
 impactDescription: guards a component's public DOM, state, interactions, and accessibility contracts
 tags: testing, unit, react, components, accessibility, testids
 ---
 
-# Unit test standalone UI components
+# Unit test standalone React components
 
-For a component that can be tested independently. For a public family of components sharing state or context, use [unit-test-ui-component-compound](./unit-test-ui-component-compound.md).
+For a React component that can be tested independently. For a public family of components sharing state or context, use [unit-test-react-component-compound](./unit-test-react-component-compound.md).
 
-> **First read [unit-test-conventions](./unit-test-conventions.md).** This rule adds only what is specific to standalone UI components.
-
-**Related tests** — inspect tests for components with a similar public contract to reuse project helpers, test-ID conventions, render setup, naming, assertions, and scenario count. Follow the closest pattern unless the current component exposes a different contract.
+> **First read [unit-test-conventions](./unit-test-conventions.md).** This rule adds only what is specific to standalone React components.
 
 ## Test order
 
 - **Baseline contract** — verify the shared component contracts supported by the subject.
 - **Default render** — assert the default public DOM and state.
+- **SSR** — verify the server result when the component is expected to be server-safe.
 - **Props and variants** — cover meaningful visual and behavioral inputs.
 - **State** — cover each state the component exposes.
 - **Interaction** — cover callbacks and user-driven transitions.
@@ -36,6 +35,5 @@ Cover only baseline contracts the component supports, such as its element, slot,
 
 ## Props, interactions, and accessibility
 
-- Cover defaults and every behaviorally meaningful prop value. Parametrize repeated value lists with `forEach`.
 - Assert positive and negative interaction behavior only when both are part of the component contract.
 - Add focused accessibility checks when a prop or state changes markup, roles, names, relationships, or interactive behavior beyond the baseline.
