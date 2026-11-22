@@ -1,0 +1,11 @@
+{
+  "version": "1.0.0",
+  "organization": "siberiacancode",
+  "date": "September 2026",
+  "abstract": "Testing best practices for covering application quality through Vitest unit tests, application integration-test conventions, semantic data-testid locators, and repository-stored product test cases. Includes /unit-test-analyze and /testcase-analyze modes for implementation-grounded scenario planning.",
+  "references": [
+    "https://vitest.dev",
+    "https://testing-library.com",
+    "https://reactuse.org"
+  ]
+}

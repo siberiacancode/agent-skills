@@ -8,7 +8,7 @@ import {
   rmSync,
   writeFileSync,
 } from "node:fs";
-import { dirname, join } from "node:path";
+import { dirname, join, relative } from "node:path";
 import process from "node:process";
 import { fileURLToPath } from "node:url";
 import * as p from "@clack/prompts";
@@ -352,11 +352,6 @@ async function checkUpdates() {
 function getExpectedSkillNames(): Set<string> {
   const expected = new Set<string>();
 
-  // Skills from submodules (generated skills use same name as submodule key)
-  for (const name of Object.keys(submodules)) {
-    expected.add(name);
-  }
-
   // Skills from vendors (use the output skill name)
   for (const config of Object.values(vendors)) {
     const vendorConfig = config as VendorConfig;
@@ -377,9 +372,23 @@ function getExistingSkillNames(): string[] {
   const skillsDir = join(root, "skills");
   if (!existsSync(skillsDir)) return [];
 
-  return readdirSync(skillsDir, { withFileTypes: true })
-    .filter((entry) => entry.isDirectory())
-    .map((entry) => entry.name);
+  const skills: string[] = [];
+
+  function visit(directory: string): void {
+    for (const entry of readdirSync(directory, { withFileTypes: true })) {
+      if (!entry.isDirectory()) continue;
+
+      const path = join(directory, entry.name);
+      if (existsSync(join(path, "SKILL.md"))) {
+        skills.push(relative(skillsDir, path).replaceAll("\\", "/"));
+      } else {
+        visit(path);
+      }
+    }
+  }
+
+  visit(skillsDir);
+  return skills;
 }
 
 async function cleanup(skipPrompt = false) {

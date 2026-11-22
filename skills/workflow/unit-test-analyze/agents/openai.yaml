@@ -1,0 +1,7 @@
+interface:
+  display_name: "Unit Test Analysis"
+  short_description: "Plan unit-test coverage before writing tests"
+  default_prompt: "Use $unit-test-analyze to plan the unit-test coverage this implementation needs."
+
+policy:
+  allow_implicit_invocation: false

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Documentation Init"
+  short_description: "Initialize technical docs from the codebase"
+  default_prompt: "Use $docs-init to initialize technical documentation from this repository."

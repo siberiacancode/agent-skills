@@ -1,0 +1,7 @@
+interface:
+  display_name: "Test Case Analysis"
+  short_description: "Plan product test cases before catalog updates"
+  default_prompt: "Use $testcase-analyze to plan the product test cases this page or feature needs."
+
+policy:
+  allow_implicit_invocation: false

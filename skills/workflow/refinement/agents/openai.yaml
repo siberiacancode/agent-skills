@@ -1,0 +1,4 @@
+interface:
+  display_name: "Feature Refinement"
+  short_description: "Turn inputs into an approved feature specification"
+  default_prompt: "Use $refinement to refine the supplied materials into a feature specification."

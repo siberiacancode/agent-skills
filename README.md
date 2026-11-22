@@ -4,43 +4,30 @@ A collection of skills for AI coding agents. Skills are packaged instructions an
 
 Skills follow the [Agent Skills](https://agentskills.io/) format.
 
-## Available Skills
+## Skill Groups
 
-### react-hooks-best-practices
+### `skills/workflow/`
 
-React hooks best practices for React application code and custom hook design across DX, optimization, and logic.
+User-facing workflows that drive a task from analysis to an artifact:
 
-**Use when:**
+- `setup`, `refinement`, `grill`, `docs-init`, `docs`, and `tickets`
+- `testcase-analyze`, `unit-test-analyze`, and `integration-test-analyze`
 
-- Writing React application code that uses hooks
-- Creating or refactoring custom React hooks
-- Reviewing hook usage, dependencies, effects, state, refs, and callbacks
-- Designing hook APIs that should be clear, reusable, and hard to misuse
-- Checking hook code for DX, optimization, and logic issues
+Every workflow skill includes `agents/openai.yaml` with its UI metadata and default prompt.
 
-**Categories covered:**
+### `skills/shared/`
 
-- DX: ergonomic hook APIs, naming, typing, and composition
-- Optimization: render boundaries, subscriptions, memoization, and unnecessary updates
-- Logic: lifecycle correctness, cleanup, SSR, and stale-closure boundaries
+Reusable building blocks consumed by workflows:
 
-### reactuse
+- language, grilling, documentation, and testing conventions
+- Reactuse implementation guidance
 
-Reactuse delivers production-ready hooks that solve real-world problems. Built with a TypeScript-first approach, SSR compatibility, and tree-shaking optimization for modern React applications.
+### `skills/practices/`
 
-**Use when:**
+Engineering and quality practices used during implementation and review:
 
-- Adding or reviewing hooks in React apps
-- Building SSR-safe components
-- Optimizing bundle size via tree-shaking-friendly usage
-- Standardizing hook usage across projects
-
-**Categories covered:**
-
-- Hook categories (Elements, Async, Lifecycle, Browser, Utilities, State)
-- SSR compatibility patterns
-- TypeScript-first usage conventions
-- Performance and tree-shaking considerations
+- junior engineering, React, and React hooks best practices
+- web-design guidelines
 
 ## Installation
 
@@ -68,7 +55,7 @@ Help me optimize this Next.js page
 
 ## Skill Structure
 
-Each skill contains:
+Each skill directory contains:
 
 - `SKILL.md` - Instructions for the agent
 - `scripts/` - Helper scripts for automation (optional)

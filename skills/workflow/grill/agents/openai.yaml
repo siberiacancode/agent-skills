@@ -1,0 +1,4 @@
+interface:
+  display_name: "Decision Grill"
+  short_description: "Resolve important decisions through an interview"
+  default_prompt: "Use $grill to interview me about this topic and resolve the important decisions."

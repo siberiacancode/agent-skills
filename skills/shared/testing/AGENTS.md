@@ -1,0 +1,144 @@
+# Testing Best Practices
+
+**Version 1.0.0**
+siberiacancode  
+September 2026
+
+> **Note:**  
+> This document is optimized for agents and LLMs writing and reviewing Vitest unit tests, Playwright application integration tests, and repository-stored product test cases.
+
+---
+
+## Abstract
+
+Testing best practices for covering application quality through Vitest unit tests, Playwright browser and component integration tests, semantic `data-testid` locators, and repository-stored product test cases. Includes `/unit-test-analyze`, `/integration-test-analyze`, and `/testcase-analyze` modes for grounded scenario planning.
+
+---
+
+## Table of Contents
+
+1. [Unit Test](#1-unit-test)
+   - 1.1 [Unit test conventions](#11-unit-test-conventions)
+   - 1.2 [Unit test plain functions](#12-unit-test-plain-functions)
+   - 1.3 [Unit test React hooks](#13-unit-test-react-hooks)
+   - 1.4 [Unit test standalone React components](#14-unit-test-standalone-react-components)
+   - 1.5 [Unit test compound React components](#15-unit-test-compound-react-components)
+   - 1.6 [Analyze unit tests](#16-unit-test-analyze)
+2. [Integration Test](#2-integration-test)
+   - 2.1 [Integration test conventions](#21-integration-test-conventions)
+   - 2.2 [Browser integration tests](#22-browser-integration-tests)
+   - 2.3 [Component integration tests](#23-component-integration-tests)
+   - 2.4 [Integration test mocks](#24-integration-test-mocks)
+   - 2.5 [Integration locator test IDs](#25-integration-locator-test-ids)
+   - 2.6 [Analyze integration tests](#26-integration-test-analyze)
+3. [Test Cases](#3-test-cases)
+   - 3.1 [Test case conventions](#31-test-case-conventions)
+   - 3.2 [Test case file structure](#32-test-case-file-structure)
+   - 3.3 [Test case naming](#33-test-case-naming)
+   - 3.4 [Test case content](#34-test-case-content)
+   - 3.5 [Test case preconditions](#35-test-case-preconditions)
+   - 3.6 [Analyze test cases](#36-analyze-test-cases)
+
+---
+
+## 1. Unit Test
+
+### 1.1 Unit test conventions
+
+The single source of truth shared by every unit test; the subject rules build on it.
+
+- **Repository first:** do not write abstractly ideal unit tests. Continue the repository's existing test culture. Source order is same-module tests → closest similar tests → neighboring layer/type tests → existing helpers/fixtures/utils → implementation → generic unit-testing preferences.
+- **Minimal structural difference:** infer naming, `describe` structure, setup/cleanup, fixtures, data creation, initialization, assertion style, spies/mocks, lifecycle/error/async style, import structure, verbosity, and scenario count from comparable tests. Adapt the closest pattern with the smallest necessary change; do not redesign the suite or refactor tests while adding coverage.
+- **No invented contract:** add scenarios only from public behavior, an implementation branch this project normally covers, an analogous existing test, an explicit contract, a user request, a regression, or the coverage pattern for comparable subjects. Do not add cases just because they are possible, comprehensive, or generally considered best practice.
+- **Naming fallback:** when no project convention exists, place the test next to its source as `name.test.ts` or `name.test.tsx`, preserving the source extension. Every test title is `Should <observable behavior>` in plain English. One behavior per `it`. Do not wrap the file in a `describe` named after the subject; `describe` is only for real grouping.
+- **Ordering fallback:** shape/default → SSR → inputs (params/props) → behavior → react-to-changing-args → edge/error/cleanup.
+- **Coverage fallback:** cover the behavior expected by existing conventions and stop when the expected contract is represented. Test independent dimensions separately, and add a combined case only when their interaction creates distinct behavior. Do not force unreachable branches or arbitrary values that only retest the language, runtime, or platform.
+- **Assertion style:** follow comparable tests. If no project convention exists, assert observable results through output, state, DOM, callbacks, events, or errors; use infrastructure spies only when they are contract, have no reliable behavioral substitute, or match the closest related tests.
+- **SSR/import/parametrization fallback:** use the project's SSR helper when server behavior is conventionally tested, import test primitives explicitly unless the project relies on globals, and use value tables only when setup and assertions are genuinely the same.
+- **No new abstractions:** do not introduce helpers, factories, wrapper functions, fixture builders, aliases, extra types, setup abstractions, custom render functions, or new parametrization styles unless comparable tests already use them or correctness requires it.
+
+### 1.2 Unit test plain functions
+
+Pure functions and utils with no React. Inspect tests for functions with a similar contract to reuse project-specific forms, helpers, naming, setup, assertion style, and scenario count. Follow the closest pattern unless the current function's contract requires a clear deviation. Keep tests flat and direct unless comparable tests already abstract setup. Cover branches, errors, overloads, and transformations only to the depth this repository normally expects for similar functions. Add boundary values only when they switch a branch, trigger a guard/error, belong to the documented contract, or match an existing coverage pattern. Use the repository's matcher style; when no pattern exists, prefer exact matchers (`toBe`/`toEqual`/`toMatchObject`).
+
+### 1.3 Unit test React hooks
+
+Inspect tests for hooks with a similar public API to reuse project-specific forms, helpers, naming, setup, assertion style, lifecycle checks, and scenario count. Follow the closest pattern unless the current hook's contract requires a clear deviation. Order hook tests as: initial public contract → SSR when supported → arguments and overloads → behavior and conditionals → reaction to changing arguments → async and lifecycle, unless nearby hook tests order them differently. Use `initialProps` + `rerender` only for arguments whose later changes are part of the contract or are normally covered in comparable tests. Test meaningful input forms and overloads without creating a Cartesian product. Mock and spy in the same style as nearby tests, restore shared mutations, and prefer public effects unless comparable tests assert lifecycle/infrastructure directly. Open the matching reference for browser-API or listener hooks.
+
+### 1.4 Unit test standalone React components
+
+A component tested independently. Inspect related component tests for project helpers, test-ID conventions, render setup, naming, assertions, and scenario count. Follow the closest pattern unless the current component exposes a different contract. Order: supported baseline contract → default render → meaningful props and variants → state → interaction → accessibility, unless nearby component tests order them differently. Use the repository's locator and assertion style; when no pattern exists, give the component a module-level local `data-testid` and assert public DOM, state, and interactions.
+
+### 1.5 Unit test compound React components
+
+A public family of parts sharing state, behavior, or context. Inspect related compound tests for project helpers, part ordering, test-ID conventions, render setup, assertions, and scenario count. Follow the closest pattern while testing only relationships exposed by the current component. Give every public part its own stable `describe` when that matches local structure, cover its supported independent contract, then test context inheritance, explicit overrides, cross-part behavior, and composed accessibility that the component actually exposes. Use one canonical composition per relationship instead of multiplying parts, props, and variants.
+
+### 1.6 Analyze unit tests
+
+Invoke with `/unit-test-analyze` to describe checks without writing test code. Read the shared conventions, the analysis rule, and the matching function, hook, standalone-component, or compound-component rule. Return one title in the form `🐛 **Unit Test Analysis: \`<subject>\`**`, then `### Improvements` for existing tests that need a concrete coverage change and `### New Tests` for behavior with no owning test. Keep both sections visible and write `_No suggestions._` when one is empty. Use numbered items in the form `1. **Should <behavior>\*\* — <description>`, with an empty line between items, and identify the existing test or file for every improvement. Classify by whether a test already owns the behavior, not by whether the destination file exists, and omit adequate coverage. Put the emoji only in the title. Derive scenarios from existing suite conventions first, then from branches, guards, overloads, input forms, state transitions, owned transformations, errors, and lifecycle behavior. Exclude arbitrary edge values that only retest native behavior, and never create a Cartesian product of independent input dimensions.
+
+## 2. Integration Test
+
+### 2.1 Integration test conventions
+
+Start automation from the feature's confirmed test cases, then inspect existing autotests, helpers, mocks, locators, runner configuration, and relevant product code. If a suitable case does not exist, design it through the test-case conventions before implementing automation. Follow the nearest project structure and choose the smallest boundary that faithfully proves the case: component when a realistic mount is enough, browser only for browser-owned or full-application behavior.
+
+Prefer project utilities already installed and configured. When available, use `@siberiacancode/playwright` helpers such as `waitRequest`, `waitResponse`, `snapshot`, and `cookie`; do not install the package solely for this convention. Await Playwright operations, keep dependent actions sequential, and use `Promise.all` when request, response, navigation, or transient-state waits must be active before the action that triggers them. Do not use floating promises, `forEach(async ...)`, or arbitrary timeout-based synchronization.
+
+### 2.2 Browser integration tests
+
+Use a browser test for navigation, redirects, URL and history state, reload behavior, browser storage or cookies, downloads and permissions, application bootstrap, cross-page flows, and production-like network behavior that a mounted boundary cannot represent faithfully. Configure startup state before navigation, wait for a stable page signal, synchronize side-effect waiters with their trigger, and assert the browser-owned or cross-page outcome. Keep local validation and component state in component tests when that boundary is sufficient.
+
+### 2.3 Component integration tests
+
+Use a component integration test for behavior owned by one realistically mounted screen or feature boundary. Mount the smallest product boundary that owns the scenario, provide required production-like contexts and dependencies through a feature wrapper, and replace only external boundaries or scenario-controlled state. Exact router, query client, hook, and provider setup remains project-specific. Interact through the rendered interface and assert observable behavior rather than wrapper internals.
+
+### 2.4 Integration test mocks
+
+Build deterministic mock behavior from the selected test case. When the project's mock server selects scenarios through case IDs, give each distinct scenario a stable product-oriented case ID and configure it before navigation or mount. Keep case IDs, constants, request handlers, and scenario data beside the owning autotest feature; create only the files actually needed. Prefer explicit scenario handlers over hidden branches for unrelated cases, and reuse generated routes, types, fakers, and existing mock helpers.
+
+### 2.5 Integration locator test IDs
+
+For application integration tests, treat `data-testid` values as a small semantic API required by current scenarios.
+
+- Use `GROUP -> ELEMENT -> SEMANTIC_NAME` with `CLICKABLE`, `CHANGEABLE`, or `STATIC`.
+- Do not add a page, feature, modal, form, sidebar, or layout merely as a namespace.
+- Reuse base IDs such as `CLICKABLE.BUTTON.SIGN_IN` across pages and visual contexts.
+- When duplicate instances coexist, append a stable runtime suffix: `${baseId}-${stableIdentifier}`.
+- When one JSX node changes its logical action, switch the base ID; keep it when only visual/loading/disabled state changes.
+- Give fields and errors independent semantic paths instead of deriving `-field` or `-error` from an input ID.
+- Avoid `$ID`, `SELF_ID`, and branch-and-leaf collisions by placing each target under its actual semantic element type.
+- Add IDs only for interaction, observable assertions, or stable scoping required by current integration tests.
+- When `@siberiacancode/testids` is already installed and configured, use it for schema, generation, and exported `TESTIDS`; change the source schema rather than generated files. When absent, preserve these semantic concepts through the project's existing locator infrastructure, and do not install the package solely for this rule.
+
+This rule does not define E2E locators and does not replace module-level IDs in isolated UI-kit unit tests. Read [integration-test-locator-testids](rules/integration-test-locator-testids.md) for the complete rule.
+
+### 2.6 Analyze integration tests
+
+Invoke with `/integration-test-analyze` to plan automation without writing test code. Inspect existing test cases and autotests, omit adequate existing coverage, and design a missing scenario through the test-case conventions before proposing automation. Return `### Improvements` for existing autotests that need a concrete change and `### New Tests` for source cases with no autotest at the appropriate boundary; keep both sections visible and write `_No suggestions._` when one is empty. Classify by whether an autotest already owns the source case, not by whether the destination file exists. Inside each section, group proposals by owning file and number scenarios inside each group. For every item, name the source test case, choose `browser` or `component` with a behavior-based reason, identify required mocks and case ID when applicable, and state the trigger, meaningful async observations, and final user-visible result. For improvements, identify the existing autotest or file and the exact delta. Route missing semantic locators through the locator rule and list ambiguous product behavior as open questions.
+
+## 3. Test Cases
+
+### 3.1 Test case conventions
+
+Shared rules for generating, revising, reviewing, and reorganizing structured product test cases stored in the repository's case catalog. Do not assume a layout: locate the catalog root, shared case type, statuses, and precondition modules before writing, and agree a layout with the user when no catalog exists. Continue the project's existing catalog instead of writing abstractly ideal cases: read the closest existing cases, the shared types, statuses, and preconditions, comparable pages or blocks, and then the relevant application code. Check the application within its intended area of responsibility; case scope and expected results must stay within that boundary. Write only behavior confirmed by the project or the user. Implementation confirms current behavior, but not necessarily its correctness: flag contradictions or behavior that appears incorrect and ask the user to confirm the expected result before recording it in a case. Ask when requirements, labels, routes, API behavior, validation messages, or user states are missing. A missing design link does not prevent proposing a design case with a defined scope; when writing it, use the agreed placeholder and status or ask for the missing details instead of inventing a link. When incomplete cases are explicitly allowed, use the catalog’s existing status for cases requiring revision unless the user specifies another existing status. Use existing statuses only. Deduplicate against existing names and file ownership before writing. Write `steps` as `{ action, expected }` with `expected` as an array of concrete results, and write internal URLs without the domain or base path. Match the catalog's own format and imports. Preserve unrelated cases and configuration.
+
+### 3.2 Test case file structure
+
+Choose folders and files by user-facing interface structure and coverage ownership, not by internal components. Folders follow root pages or reusable major system blocks; files follow the main semantic element such as a step, header, or footer. Keep child elements, validation, loading, empty, error, selected, and disabled states in the file of their block or form. Put child screens inside the parent feature folder when reached only through that feature. Navigation checks belong to layout and navigation files; page files cover behavior inside the page. Opening a popup and checking the opened popup are different scenarios. Design cases belong in the relevant page or block file.
+
+### 3.3 Test case naming
+
+Use the existing dot-separated hierarchy with the most precise confirmed user-facing terms, matching interface text exactly. Drop redundant segments already implied by the file or parent segment, and drop control-type prefixes such as `Кнопка "..."` in favor of the exact label. Use precise names for unlabeled controls. Fixed forms: loading design cases put the state before the check type (`Лоадер. Дизайн. Мобилка`), the mobile viewport segment is always `Мобилка`, an empty list state is always `Пустой список`, and value-vs-API checks are always `Данные`.
+
+### 3.4 Test case content
+
+Write atomic cases: one behavior or scenario each, fully covering the expectations stated by its name and scope. Sequential actions within one scenario belong in separate steps, each with its own expected results; split independent scenarios. Check related conditions and results within the case, establishing the required initial state. Create separate cases for independent behavior, branches, or distinct scopes; do not combine independent checks merely to reduce case count. Keep reusable setup in preconditions and one-off setup in the action. Phrase actions as user or tester actions rather than implementation setup. Check all direct results needed to confirm the stated behavior, including the final outcome when it is in scope; omit adjacent behavior and detailed checks owned by other cases. State concrete observable effects with positive state phrasing; avoid vague outcomes, negative phrasing, and quantities unless that absence or count is the behavior under test. Compare checks by the behavior they prove, and omit separate checks when other cases already provide sufficient evidence, including implicit evidence from checked outcomes in other cases. Merely performing an action or listing it in preconditions does not prove correctness. Avoid duplicate proofs such as checking both a click and its link attribute, or both navigation and its request. Design cases are single-step content checks; use a confirmed design link when available, or the agreed placeholder and status when it is missing. Data cases check values derived from request or API data and omit static content. Prefer one `Данные` case per stable field set, and split only for mutually exclusive conditional content.
+
+### 3.5 Test case preconditions
+
+Use the narrowest reusable scope. Add reusable preconditions only for setup shared by several cases; keep one-off setup in the action, preserving setup order and removing obsolete keys. Define file-local preconditions in the case file, folder-level ones in that folder's shared preconditions module, and catalog-wide ones in the shared location with the shared type. Do not add folder-level keys to the shared type, and do not inline a reusable precondition inside a case.
+
+### 3.6 Analyze test cases
+
+Invoke with `/testcase-analyze` to list the cases that should exist without writing them into the catalog. Read the test-case conventions, then the structure, naming, content, and precondition rules the subject needs. Inspect the existing catalog and the relevant application code first, omit adequate existing coverage, and compare against existing names, file ownership, and confirmed planned cases. Return one title in the form `🐛 **Test Case Analysis: \`<subject>\`**`, then `### Improvements` for existing cases that need a concrete change and `### New Test Cases` for scenarios with no owning case. Keep both sections visible and write `_No suggestions._` when one is empty. Classify by whether a case already owns the scenario, not by whether the destination file exists. Inside each section, group cases under their owning file; use `1. **<dot-separated name>** — <setup, action, observable result>` with an empty line between items, and identify the exact catalog delta for every improvement. Put the emoji only in the title. Propose cases only from confirmed scenarios, conditional states, validation, navigation and requests, API-derived values, and design composition; list unconfirmed requirements as open questions instead of inventing cases. Avoid per-field cases and unnecessary viewport variants. Compare proposals by the behavior they prove, including sufficient implicit coverage as defined in section 3.4. Before adding a separate case, determine whether the check belongs within an existing scenario. A missing design link alone does not prevent proposing a design case with a defined scope; record the link as missing.

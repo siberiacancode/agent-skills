@@ -1,0 +1,4 @@
+interface:
+  display_name: "Documentation Update"
+  short_description: "Plan and update feature documentation"
+  default_prompt: "Use $docs to plan the documentation changes for this approved feature specification."

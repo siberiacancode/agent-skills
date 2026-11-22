@@ -1,0 +1,4 @@
+interface:
+  display_name: "Workflow Setup"
+  short_description: "Configure feature docs and ticket publishing"
+  default_prompt: "Use $setup to configure the feature documentation and ticket workflow for this repository."

@@ -26,13 +26,13 @@ export const vendors: Record<string, VendorSkillMeta> = {
     official: true,
     source: "https://github.com/vercel-labs/agent-skills",
     skills: {
-      "react-best-practices": "react-best-practices",
+      "react-best-practices": "practices/react-best-practices",
     },
   },
   "web-design-guidelines": {
     source: "https://github.com/vercel-labs/agent-skills",
     skills: {
-      "web-design-guidelines": "web-design-guidelines",
+      "web-design-guidelines": "practices/web-design-guidelines",
     },
   },
 };
@@ -40,4 +40,21 @@ export const vendors: Record<string, VendorSkillMeta> = {
 /**
  * Hand-written skills with siberiacancode preferences/tastes/recommendations
  */
-export const manual = ["siberiacancode", "react-hooks-best-pratcies"];
+export const manual = [
+  "shared/docs",
+  "shared/grilling",
+  "shared/language",
+  "shared/reactuse",
+  "shared/testing",
+  "practices/juniors-best-practice",
+  "practices/react-hooks-best-practices",
+  "workflow/integration-test-analyze",
+  "workflow/testcase-analyze",
+  "workflow/unit-test-analyze",
+  "workflow/docs",
+  "workflow/docs-init",
+  "workflow/grill",
+  "workflow/refinement",
+  "workflow/setup",
+  "workflow/tickets",
+];

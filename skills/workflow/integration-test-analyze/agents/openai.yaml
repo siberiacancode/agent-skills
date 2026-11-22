@@ -1,0 +1,7 @@
+interface:
+  display_name: "Integration Test Analysis"
+  short_description: "Plan browser and component integration coverage"
+  default_prompt: "Use $integration-test-analyze to plan the integration-test coverage for this product flow."
+
+policy:
+  allow_implicit_invocation: false

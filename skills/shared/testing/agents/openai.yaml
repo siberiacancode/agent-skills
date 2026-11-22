@@ -1,0 +1,4 @@
+interface:
+  display_name: "Testing"
+  short_description: "Plan, write, and review product and automated tests"
+  default_prompt: "Use $testing to help with testing strategy, coverage, test cases, or automated tests."

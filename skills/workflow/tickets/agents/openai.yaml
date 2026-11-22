@@ -1,0 +1,4 @@
+interface:
+  display_name: "Feature Tickets"
+  short_description: "Create implementation tasks and a dependency roadmap"
+  default_prompt: "Use $tickets to turn this feature specification into implementation-ready tasks."
