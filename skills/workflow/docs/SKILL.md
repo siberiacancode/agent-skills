@@ -1,14 +1,37 @@
 ---
 name: docs
-description: Update technical documentation for an approved feature specification, with a human-reviewed file change plan before writing.
+description: Plan and update project documentation for a feature, with user approval before changing files.
 ---
 
 # Docs
 
-Read and apply `../../shared/language/SKILL.md` and `../../shared/docs/SKILL.md`.
+Locate and read the installed `language`, `documentation`, and `testing` skills.
 
-Read the selected `ai/features/NN-feature-name/spec.md`, relevant code, and existing documentation. Identify the documentation affected by the feature and apply the corresponding rules in `../../shared/docs/rules/`.
+## Process
 
-Present proposed file changes as the main result of the analysis. Group them by artifact type in compact tables without column headers, showing each path, create or update action, and brief purpose. Show only relevant groups, invite free-form corrections, and wait for explicit approval before writing.
+### 1. Gather context
 
-After approval, create or update only the approved files under `documentations/`, preserving unrelated content. For test cases, read `../../shared/testing/SKILL.md` and its applicable testcase conventions, using `testcase-analyze` to evaluate coverage. Ground the work in agreed requirements and verified code, return unresolved product decisions to refinement, and validate the resulting artifacts.
+Read the selected `.ai/features/NN-feature-name/spec.md`, relevant code, and existing documentation. 
+
+### 2. Plan documentation
+
+Determine which artifacts the feature requires based on its behavior, independently of whether their files or supporting infrastructure already exist. Locate and read the applicable rules before proposing files:
+
+- `documentations/architecture.md` — `documentation/rules/architecture.md`
+- `documentations/openapi.yaml` — `documentation/rules/openapi.md`
+- `documentations/asyncapi.yaml` — `documentation/rules/asyncapi.md`
+- `documentations/scenarios/<area>/<scenario>.puml` — `documentation/rules/sequence.md`
+- `documentations/validations/<form-name>.md` — `documentation/rules/validation.md`
+- `documentations/cases/<area>/<file>.ts` — `testing/rules/testcase-conventions.md`, `testing/rules/testcase-file-structure.md`, `testing/rules/testcase-naming.md`, `testing/rules/testcase-content.md`, `testing/rules/testcase-preconditions.md`, `testing/rules/testcase-analyze.md`
+
+Strictly follow the applicable rules when deciding artifact coverage, paths, and structure. Treat them as requirements, not recommendations; do not substitute your own conventions. If a required rule cannot be found, report it rather than guessing. If a required artifact cannot yet be created, include it in the plan and identify the blocker instead of omitting it.
+
+### 3. Review the plan
+
+Present proposed file changes grouped by artifact type in compact tables without headers. Show the path, create or update action, and brief purpose for each file. Include only needed artifacts.
+
+Ask for approval or free-form corrections. Do not write files before approval.
+
+### 4. Write documentation
+
+Create or update only approved files under `documentations/`, following the same rules. Preserve unrelated content. Ground the work in agreed requirements and verified code, return unresolved product decisions to refinement, and validate the results.

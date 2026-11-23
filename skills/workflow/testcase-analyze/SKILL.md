@@ -1,6 +1,8 @@
 ---
 name: testcase-analyze
-description: Use when planning which product test cases a page, feature, or reusable block needs before updating the test catalog.
+description: Analyze existing and missing product test-case coverage without writing case files.
 ---
 
-Read `../../shared/testing/SKILL.md`, then apply its `rules/testcase-analyze.md` workflow. Analyze the required catalog coverage without writing test-case files unless the user separately requests that change.
+# Test Case Analyze
+
+Locate and read the installed `documentation` skill, then apply `rules/testcases/analyze.md` and the rules it references. Analyze coverage without writing test-case files unless separately requested.

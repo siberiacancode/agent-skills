@@ -22,12 +22,12 @@ UI-kit component tests use explicit module-level `data-testid` constants with `g
   - [Locator semantic test IDs](rules/integration-test-locator-testids.md)
   - [Analyze integration tests](rules/integration-test-analyze.md)
 - Test case rules:
-  - [Test case conventions](rules/testcase-conventions.md) - Shared rules that every test-case rule links back to
-  - [File structure](rules/testcase-file-structure.md)
-  - [Naming](rules/testcase-naming.md)
-  - [Content](rules/testcase-content.md)
-  - [Preconditions](rules/testcase-preconditions.md)
-  - [Analyze test cases](rules/testcase-analyze.md)
+  - [Test case conventions](../documentation/rules/testcases/conventions.md) - Shared rules that every test-case rule links back to
+  - [File structure](../documentation/rules/testcases/file-structure.md)
+  - [Naming](../documentation/rules/testcases/naming.md)
+  - [Content](../documentation/rules/testcases/content.md)
+  - [Preconditions](../documentation/rules/testcases/preconditions.md)
+  - [Analyze test cases](../documentation/rules/testcases/analyze.md)
 - Hook references:
   - [Browser APIs](rules/references/hook-web-api.md)
   - [Listeners and multiple targets](rules/references/hook-listeners.md)
@@ -48,7 +48,7 @@ UI-kit component tests use explicit module-level `data-testid` constants with `g
 2. Choose the appropriate category prefix:
    - `unit-test-` for unit tests (functions, hooks, components)
    - `integration-test-` for integration-test rules
-   - `testcase-` for repository-stored product test cases
+   - `documentation/rules/testcases/` for repository-stored product test cases
 3. Fill in the frontmatter and guide content
 4. Include Incorrect/Correct examples where they clarify the pattern
 

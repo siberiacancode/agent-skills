@@ -63,13 +63,7 @@ Read [integration-test-conventions](rules/integration-test-conventions.md) befor
 - [integration-test-setup](rules/integration-test-setup.md) — Test-case preconditions, component wrappers, router and query state, mounting, and readiness.
 - [integration-test-analyze](rules/integration-test-analyze.md) - Test-case-driven automation planning, split into existing autotests to improve and new browser or component tests to create.
 
-Read [testcase-conventions](rules/testcase-conventions.md) before any subject-specific test-case rule.
-
-- [testcase-file-structure](rules/testcase-file-structure.md) - Folder and file ownership, coverage duplication, and where child screens and reusable blocks live.
-- [testcase-naming](rules/testcase-naming.md) - Dot-separated hierarchy, exact interface labels, and fixed forms for loading, empty-list, and data cases.
-- [testcase-content](rules/testcase-content.md) - Atomic cases, user-oriented actions, concrete expected results, and the split between design, functional, and data checks.
-- [testcase-preconditions](rules/testcase-preconditions.md) - Case-file, folder, and global precondition scope.
-- [testcase-analyze](rules/testcase-analyze.md) - Case-planning mode for `/testcase-analyze`, split into existing cases to improve and new cases to create.
+For repository-stored product test cases, use the installed `documentation` skill and its `rules/testcases/` rules.
 
 ## How to Use
 
@@ -79,7 +73,7 @@ Read [testcase-conventions](rules/testcase-conventions.md) before any subject-sp
 4. For unit tests, read the shared conventions and then exactly the subject rule that matches the code under test.
 5. For browser-API or listener hooks, read the linked reference from the hook rule only when that behavior is present.
 6. For integration tests, read the shared conventions, then exactly the rules needed for the chosen browser or component boundary, mocks, locators, or analysis mode.
-7. For repository-stored test cases, read the test-case conventions and then exactly the rule that matches the task: structure when choosing or reorganizing files, naming when writing `name`, content when writing steps and expected results, preconditions when adding or moving setup, and the analysis rule when listing cases before writing them.
+7. For repository-stored product test cases, follow the installed `documentation` skill.
 
 ## Automated Test Defaults
 

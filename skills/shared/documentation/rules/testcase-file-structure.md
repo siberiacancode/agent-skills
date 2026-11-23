@@ -13,6 +13,8 @@ For choosing the folder and file that owns a test case.
 
 Choose folders and files by user-facing interface structure and coverage ownership, not by internal implementation.
 
+Name semantic folder segments and `.ts` case files in Russian lowercase kebab-case (e.g. `documentations/cases/проекты/страница-проектов.ts`). Keep the fixed catalog root and technical identifiers unchanged.
+
 ## Folder
 
 - Choose the target folder by interface structure: a root page or a reusable major system block.
@@ -21,7 +23,7 @@ Choose folders and files by user-facing interface structure and coverage ownersh
 
 ## File
 
-- Choose the target file by the main semantic element, for example `Шаг Телефон`, `Шаг Проверочный код`, `Хэдер`, or `Футер`.
+- Choose the target file by the main semantic element, for example `шаг-телефон.ts`, `шаг-проверочный-код.ts`, `хэдер.ts`, or `футер.ts`.
 - Prefer one file per user-facing page block or workflow; do not split files by internal React components.
 - Keep child elements and their validation, loading, empty, error, selected, and disabled states in the file of the block or form they belong to.
 - Create a separate file for a child element only when it is a major reusable block or has enough independent scenarios to justify its own file.
