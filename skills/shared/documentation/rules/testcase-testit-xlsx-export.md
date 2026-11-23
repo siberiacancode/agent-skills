@@ -28,7 +28,7 @@ If compatibility is unknown, produce a draft workbook and state what must be ver
 - Preserve confirmed formula-backed hyperlinks and their displayed labels. For existing cases, keep the `Наименование` label and its confirmed Test IT work-item URL aligned; do not invent a URL for a new case without an assigned ID.
 - Write the complete final form of every selected case, not analysis deltas.
 - Preserve the confirmed `ID` for an existing case. Leave a new case ID empty unless the import format explicitly requires another value.
-- Populate every new case's product priority from [testcase conventions](./testcase-conventions.md). For a Russian-language catalog, write exactly `Самый высокий`, `Высокий`, `Средний`, `Низкий`, or `Самый низкий`.
+- Use priorities from [testcase conventions](./testcase-conventions.md). Map them to Test IT values only when the import template confirms the mapping.
 - Put case metadata on its starting row. Write additional step rows without repeating the ID when the template uses continuation rows.
 - Keep each action and its expected result on the same row. Preserve multiline values and the catalog's vocabulary for location, status, priority, duration, tags, and automation state.
 - Keep a parameterized case as one work item. Preserve `%parameter` references and write its ordered value sets to `Итерации` using the syntax confirmed by the import template; do not expand iterations into duplicate cases.
@@ -36,7 +36,7 @@ If compatibility is unknown, produce a draft workbook and state what must be ver
 
 ## Validate and report
 
-- Verify headers, sheet names, case count, non-empty displayed names including formula-backed names, unique existing IDs, localized new-case priorities, continuation-row ownership, action/expected alignment, and required cells.
+- Verify headers, sheet names, case count, non-empty displayed names including formula-backed names, unique existing IDs, template-compatible new-case priorities, continuation-row ownership, action/expected alignment, and required cells.
 - For parameterized cases, verify that every `%parameter` is declared and populated in every iteration, no declared parameter is unused, and no iteration set is duplicated.
 - Compare the generated workbook with the approved refined cases and report created versus updated case counts.
 - Return the output path and any compatibility warning. Keep external upload as a separate, explicitly authorized action.

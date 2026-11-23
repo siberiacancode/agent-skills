@@ -1,11 +1,14 @@
 ---
 name: grill
 description: Start a standalone decision-making interview about a topic, idea, design, or attached reference without creating project artifacts.
+disable-model-invocation: true
 ---
 
 # Grill
 
-Read and apply `../../shared/language/SKILL.md` and `../../shared/grilling/SKILL.md`.
+> Before starting, locate, read, and apply these skills:
+> - `language`
+> - `grilling`
 
 Use the user's request, prior conversation, and supplied materials as the starting context. If no topic is available, ask what to discuss. Investigate relevant facts, then conduct the interview using the rounds and question format defined by `shared/grilling`.
 

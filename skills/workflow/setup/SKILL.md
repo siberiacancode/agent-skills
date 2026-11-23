@@ -1,11 +1,13 @@
 ---
 name: setup
 description: Configure feature documentation and ticket publishing for the current repository, keeping project-specific settings outside shared skills.
+disable-model-invocation: true
 ---
 
 # Setup
 
-Read and apply `../../shared/language/SKILL.md`.
+> Before starting, locate, read, and apply these skills:
+> - `language`
 
 Inspect the repository, its Git remote, agent instructions, and existing `ai/` conventions. Propose the project-specific ticket workflow, including the target repository or tracker, whether publishing is enabled, and where ZIP artifacts should be stored. Prefer the repository's established conventions and ask only about decisions that cannot be inferred. Present the proposed settings for approval before saving them.
 

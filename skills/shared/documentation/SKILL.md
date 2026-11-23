@@ -1,17 +1,24 @@
 ---
 name: documentation
-description: Shared rules for architecture, API contracts, PlantUML user scenarios, validation, and product test-case documentation.
+description: Shared rules for architecture, API contracts, user scenarios, validations, and test cases.
 ---
 
 # Documentation
 
-Use the relevant rules for each artifact:
+Read and apply the relevant rules before working:
 
-- Architecture: `rules/architecture.md`
-- OpenAPI: `rules/openapi.md`
-- AsyncAPI: `rules/asyncapi.md`
-- PlantUML: `rules/plantuml-conventions.md`, `rules/plantuml-file-structure.md`, `rules/plantuml-sequence.md`
-- Validation: `rules/validation.md`
-- Test cases: `rules/testcase-conventions.md`, then the applicable files in `rules/testcase-`
-
-Use agreed specifications for requirements, verified code for existing behavior, and existing documentation for project context. Apply the relevant rules before planning or writing artifacts.
+- `rules/architecture.md`
+- `rules/asyncapi.md`
+- `rules/openapi.md`
+- `rules/plantuml-conventions.md`
+- `rules/plantuml-file-structure.md`
+- `rules/plantuml-sequence.md`
+- `rules/testcase-analyze.md`
+- `rules/testcase-content.md`
+- `rules/testcase-conventions.md`
+- `rules/testcase-file-structure.md`
+- `rules/testcase-naming.md`
+- `rules/testcase-preconditions.md`
+- `rules/testcase-testit-xlsx-export.md`
+- `rules/testcase-testit-xlsx-read.md`
+- `rules/validation.md`

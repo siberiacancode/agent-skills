@@ -1,48 +1,48 @@
 ---
 name: grilling
-description: Interview the user to uncover decisions, challenge assumptions, and reach shared understanding. Reusable by other workflow skills.
+description: Challenge assumptions, expose gaps, and resolve decisions through structured grilling.
 ---
 
 # Grilling
 
-Interview the user until the important decisions are resolved. Model the topic as a **decision tree**: some decisions depend on others.
+Grill the user until the important decisions are resolved. Challenge assumptions, expose contradictions, and push back on weak decisions. Model the topic as a **decision tree**: some decisions depend on others.
 
 ## Rounds and frontier
 
 - The **frontier** is the set of unanswered decisions whose prerequisites are already resolved.
 - Ask the whole actionable frontier in one round, but never place dependent questions in the same round.
-- Number questions continuously across rounds. Give concise recommendations only for decisions where guidance adds value.
-- After the user's answers, update the decision tree, identify contradictions and move to the next frontier.
-- Do not ask questions that become irrelevant after earlier answers.
-- Keep rounds focused; avoid padding with trivial questions.
+- Number questions continuously across rounds. Recommend an approach when a meaningful trade-off exists.
+- After each round, update the decision tree, challenge contradictions, and move to the next frontier.
+- Skip questions that become irrelevant after earlier answers.
+- Avoid trivial questions and decisions already established by the codebase or documentation.
 
 ## Question format
 
-Use this compact Markdown format for Russian conversations:
+Use this compact Markdown format:
 
-### R1 · Основные решения
+### R1 · Core decisions
 
-**1. Кто может публиковать проекты?**
-> 💡 Авторизованные пользователи — проект можно связать с автором.
+**1. Who can publish projects?**
+> 💡 Authenticated users — each project can be linked to its author.
 
-**2. Как должна работать модерация?**
-> 💡 Публикация сразу, с возможностью скрыть проект.
+**2. How should moderation work?**
+> 💡 Publish immediately with the ability to hide projects later. This avoids blocking submissions.
 
 Rules:
 - Start rounds with `### R1 · <short topic>`, `### R2 · <short topic>`, etc.
 - Number questions continuously across rounds (`1.`, `2.`, ...); do not use `Q1`.
-- Ask **open questions**. Do not generate `A/B/C` or other multiple-choice options unless the user explicitly requests them.
-- Render questions in **bold** and recommendations immediately below as Markdown blockquotes beginning `> 💡`.
-- Recommendations should be concise and explain the main reason or trade-off; omit them if they add no value.
+- Ask **open questions**. Do not generate multiple-choice options unless requested.
+- Render questions in **bold** and recommendations immediately below as blockquotes beginning `> 💡`.
+- Keep recommendations concise and explain the main trade-off. Omit them when unnecessary.
 - No horizontal separators, ornamental badges, or verbose preambles.
-- Ask only the independent frontier; prefer 2–4 consequential questions per round, without artificial limits.
-- Accept terse answers such as `1 — только ученики, 2 — сразу`; update decisions without repeating accepted answers unless needed for clarification.
+- Prefer 2–4 consequential questions per round without artificial limits.
+- Accept terse answers and do not repeat resolved decisions.
 
 ## Responsibilities
 
-- **Facts are the agent's job.** Examine supplied files, screenshots, existing code, and accessible environment before asking factual questions. If facts are unavailable, label them unknown rather than inventing them.
-- **Decisions belong to the user.** Recommend, but do not silently settle material product or architectural trade-offs.
-- Distinguish observed facts, inferences and open decisions.
-- Respect answers, challenge contradictions, and adapt question depth to complexity.
-- Do not write code or create files unless the invoking workflow explicitly requires it.
-- Finish briefly once material decisions are resolved. The calling workflow determines when to write artifacts or request approval.
+- **Facts are the agent's job.** Inspect available code, documentation, and supplied materials before asking factual questions. Never invent missing facts.
+- **Decisions belong to the user.** Challenge weak assumptions and recommend alternatives, but never silently resolve material trade-offs.
+- Distinguish observed facts, assumptions, and unresolved decisions.
+- Push back on contradictions, unnecessary complexity, and solutions that conflict with existing architecture.
+- Do not write code or create files unless the invoking workflow requires it.
+- Stop when material decisions are resolved. The calling workflow controls artifact creation and approval.

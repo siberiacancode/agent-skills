@@ -1,11 +1,15 @@
 ---
 name: docs
 description: Plan and update project documentation for a feature, with user approval before changing files.
+disable-model-invocation: true
 ---
 
 # Docs
 
-Locate and read the installed `language`, `documentation`, and `testing` skills.
+> Before starting, locate, read, and apply these skills:
+> - `language`
+> - `documentation`
+> - `testing`
 
 ## Process
 
@@ -17,7 +21,9 @@ Read the selected `.ai/features/NN-feature-name/spec.md`, relevant code, and exi
 
 Determine which artifacts the feature requires based on its behavior, independently of whether their files or supporting infrastructure already exist. Locate and read the applicable rules before proposing files:
 
+<!-- TODO: Enable architecture documentation when `documentation/rules/architecture.md` is configured.
 - `documentations/architecture.md` — `documentation/rules/architecture.md`
+-->
 - `documentations/openapi.yaml` — `documentation/rules/openapi.md`
 - `documentations/asyncapi.yaml` — `documentation/rules/asyncapi.md`
 - `documentations/scenarios/<area>/<scenario>.puml` — `documentation/rules/sequence.md`

@@ -1,6 +1,6 @@
 ---
 name: language
-description: Shared language convention for all workflow skills. Use English for agent-facing work and Russian for user-facing communication and generated prose artifacts.
+description: Shared conventions for agent-facing and user-facing language.
 ---
 
 # Language

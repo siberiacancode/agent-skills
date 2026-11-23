@@ -73,17 +73,17 @@ Return one title, then `### Improvements` and `### New Test Cases`. Inside each 
 
 **`<owning folder>/<owning file>`**
 
-1. **<new dot-separated case name>** — `Приоритет: <Самый высокий | Высокий | Средний | Низкий | Самый низкий>` — <setup, action, and observable expected result>.
+1. **<new dot-separated case name>** — `Приоритет: <High | Medium | Low>` — <setup, action, and observable expected result>.
 
    Итерации: `<parameter>: <value>; ...`.
 
-2. **<new dot-separated case name>** — `Приоритет: <Самый высокий | Высокий | Средний | Низкий | Самый низкий>` — <setup, action, and observable expected result>.
+2. **<new dot-separated case name>** — `Приоритет: <High | Medium | Low>` — <setup, action, and observable expected result>.
 ```
 
 Requirements:
 
 - Follow each name with one concise description of the setup, action, and observable expected result.
-- Assign and show the product priority from [testcase conventions](./testcase-conventions.md) for every new case. List uncertain assignments as open questions.
+- Use the package-compatible priority defined in [testcase conventions](./testcase-conventions.md) for new cases; flag uncertain priorities.
 - For a parameterized proposal, list every confirmed iteration and all values referenced through `%parameter`; omit the iteration line for ordinary cases.
 - For every new validation case and every improvement that changes validation requirements, automatically add `Предлагаемый текст валидации:` with one concise paste-ready draft based only on confirmed constraints; no separate user request is required. Keep updating the external page outside the analysis plan and require separate authorization.
 - Name the target file for every group, using the folder and file the case would actually own.

@@ -1,11 +1,14 @@
 ---
 name: refinement
 description: Turn materials in ai/inputs and the existing codebase into a concise feature specification.
+disable-model-invocation: true
 ---
 
 # Refinement
 
-Locate and apply the installed language and grilling skills from the skill catalog. Resolve them by skill name rather than assuming a shared filesystem layout.
+> Before starting, locate, read, and apply these skills:
+> - `language`
+> - `grilling`
 
 Read relevant materials in .ai/inputs/, including text, images, documents, and links. Explore the codebase and project conventions, and account for decisions already made in the conversation. Use grilling to resolve meaningful differences between inputs, agreed requirements, and existing implementation.
 
