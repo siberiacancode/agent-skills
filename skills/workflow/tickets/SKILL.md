@@ -30,6 +30,8 @@ Break the feature into **tracer-bullet** tickets: each delivers a narrow but com
 - A ticket must not rely on a different ticket to satisfy its own acceptance checks, except for explicitly approved blocking prerequisites.
 </ticket-boundaries>
 
+Keep ticket titles short and outcome-focused, ideally 2–6 words. Name the deliverable or capability, not the implementation steps; put details in the ticket body. Avoid long titles, multiple clauses, and redundant prefixes.
+
 Present the complete numbered plan with each ticket’s **title**, **what it delivers** (observable end-to-end behavior), and **blocked by** (real dependencies). Ask whether the granularity is right, blockers are genuine, and any items should merge or split. Check coverage against the specification and keep independent work independent. Ask for explicit approval or corrections. **Do not create or update any task files before the decomposition is approved.** If the plan changes, present the revised plan and obtain approval again.
 
 ### 3. Grill, review, and write one task at a time
@@ -38,7 +40,7 @@ Process tasks **strictly one at a time**, in the approved order. For each task:
 
 1. **Investigate.** Re-read the task's scope and relevant specification, code, contracts, scenarios, test cases, and decisions already agreed for earlier tasks. Do not repeat questions that existing evidence or prior answers already resolve.
 2. **Grill.** Apply `grilling/rules/interview.md` to clarify material unresolved decisions about the task's behavior, implementation boundaries, integrations, dependencies, and verification. Ask the actionable questions in rounds, following that rule. Do not ask questions just to prolong the interview; if no material decisions remain, proceed directly to the draft.
-3. **Draft.** Show the **complete proposed task** in the conversation, with a descriptive Russian title and these sections:
+3. **Draft.** Show the **complete proposed task** in the conversation, with a short title following the naming rule above and these sections:
    - **Описание** — the outcome and relevant behavior, without repeating the full specification.
    - **Реализация** — the agreed **technical concept**: architecture, data flow, integration contracts, and how the main parts interact. Name concrete technologies and important implementation decisions established by the codebase or grilling, but **not** a file-by-file plan, component inventory, or step-by-step coding instructions.
    - **Тестирование** — observable, falsifiable acceptance checks owned by this ticket, plus relevant automated or manual verification; reference existing test cases when available.
