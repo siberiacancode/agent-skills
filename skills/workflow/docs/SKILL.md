@@ -15,7 +15,7 @@ disable-model-invocation: true
 
 ### 1. Gather context
 
-Read the selected `.ai/features/NN-feature-name/spec.md`, relevant code, and existing documentation. 
+Read the selected `.ai/features/NN-feature-name/spec.md`, relevant code, and existing documentation.
 
 ### 2. Plan documentation
 
@@ -34,7 +34,7 @@ Strictly follow the applicable rules when deciding artifact coverage, paths, and
 
 ### 3. Review the plan
 
-Present proposed file changes grouped by artifact type in compact tables without headers. Show the path, create or update action, and brief purpose for each file. Include only needed artifacts. For each proposed test-case file, also list the preliminary names of the individual test cases it should contain, grouped under that file. Derive these scenarios from confirmed requirements, existing coverage, and the applicable test-case rules. Include only names at this stage; do not write steps, expected results, priorities, preconditions, or full case definitions. Make the list specific enough for the user to review coverage, and do not invent unsupported scenarios.
+Present only necessary file changes in compact tables grouped by artifact type, without headers. For each file, show its path, action, and purpose. For test-case files, replace the general description with a numbered list of proposed test-case names directly in the Content column. Base the list on confirmed requirements and existing coverage, without inventing scenarios or detailing steps, expectations, or metadata.
 
 Ask for approval or free-form corrections, including additions, removals, or renames to the proposed test-case list. Do not write files before approval.
 

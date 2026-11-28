@@ -1,6 +1,6 @@
 ---
 name: refinement
-description: Turn materials in ai/inputs and the existing codebase into a concise feature specification.
+description: Turn materials in .ai/inputs/ and the codebase into a concise feature specification.
 disable-model-invocation: true
 ---
 
@@ -10,10 +10,10 @@ disable-model-invocation: true
 > - `language`
 > - `grilling`
 
-Read relevant materials in .ai/inputs/, including text, images, documents, and links. Explore the codebase and project conventions, and account for decisions already made in the conversation. Use grilling to resolve meaningful differences between inputs, agreed requirements, and existing implementation.
+Read relevant materials in `.ai/inputs/`, explore the codebase, and account for existing conventions and agreed decisions. Use grilling to resolve meaningful gaps and contradictions. Check SEO, analytics, mocks, testing, design assets, responsiveness, themes, and interactions without inventing requirements.
 
-Before drafting, investigate overlooked scope in SEO and analytics, mocks and development data, automated and manual testing, design assets, responsive layout, themes, and interactions. Use discovery to identify unresolved decisions for grilling, not as requirements to add on your own. Complete the interview before writing.
+During grilling, offer three viable options and allow a custom answer. Mark one as `💡 Recommended` when justified. Preserve grilling rounds, frontier, and numbering; do not invent alternatives or assume approval.
 
-Write a concise, natural feature specification grounded in supplied requirements and agreed decisions. Start with the feature title and a brief introduction, then organize the specification around cohesive parts of the feature rather than technical concerns. Describe related behavior, appearance, responsiveness, analytics, accessibility, and SEO together where they belong, without creating separate sections for cross-cutting details. State concrete behavior and decisions in plain prose, using real project names and links where helpful. Use tables for data contracts and short lists for checks or other naturally enumerable details. Include essential architectural constraints without turning the specification into an implementation walkthrough, and avoid repeating requirements in verification.
+Write a concise specification organized by cohesive feature parts rather than technical categories. Describe agreed behavior, appearance, interactions, and relevant constraints together. Use plain prose, tables for data contracts, and lists where useful. Avoid implementation walkthroughs and repeated requirements.
 
-Save the result to .ai/features/NN-feature-name/spec.md, using the next available two-digit number from 01 and a descriptive kebab-case name, or update the existing specification for that feature. Report the path briefly.
+Save to `.ai/features/NN-feature-name/spec.md`, using the next available two-digit number and a short kebab-case name, or update the existing specification. Report the path.
